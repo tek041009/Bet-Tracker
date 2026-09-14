@@ -23,12 +23,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Rebuild exact Bet Tracker HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cat deploy/index.xz.b64.part* | base64 --decode > /tmp/index.html.xz
+          xz --decompress --stdout /tmp/index.html.xz > _site/index.html
+          touch _site/.nojekyll
+          test "$(sha256sum _site/index.html | awk '{print $1}')" = "99b5473dc34adc11d20a0974e10a512ee09a9a3fbcbd8d36fa79aa11197e937b"
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: '.'
+          path: '_site'
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
