@@ -34,6 +34,9 @@ jobs:
           touch _site/.nojekyll
           test "$(sha256sum _site/index.html | awk '{print $1}')" = "99b5473dc34adc11d20a0974e10a512ee09a9a3fbcbd8d36fa79aa11197e937b"
 
+      - name: Apply cloud sync safety patch
+        run: python deploy/cloud-safety-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

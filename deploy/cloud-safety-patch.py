@@ -17,7 +17,13 @@ replacements.append((
       ? { ...localTracker, bets: localTracker.bets.map(bet => { const copy = { ...bet }; delete copy.receiptImage; return copy; }) }
       : localTracker;
     const curves = safeParse(localStorage.getItem(CURVE_KEY), null);
-    return { cloudVersion: 1, tracker, curves, syncedAt: new Date().toISOString() };
+    return {
+      cloudVersion: 1,
+      tracker,
+      curves,
+      allowEmptyReset: !!window.__BT_ALLOW_EMPTY_CLOUD_SAVE__,
+      syncedAt: new Date().toISOString()
+    };
   }'''))
 
 replacements.append((
@@ -40,14 +46,16 @@ replacements.append((
     const payload = readLocalEnvelope();
     const userId = currentUser.id;
     const localTracker = payload.tracker || BLANK;
-    const localHasData = (Array.isArray(localTracker.bets) ? localTracker.bets.length : 0) + (Array.isArray(localTracker.transactions) ? localTracker.transactions.length : 0) > 0;
+    const localCount = (Array.isArray(localTracker.bets) ? localTracker.bets.length : 0) +
+      (Array.isArray(localTracker.transactions) ? localTracker.transactions.length : 0);
 
-    if (!localHasData && !window.__BT_ALLOW_EMPTY_CLOUD_SAVE__) {
+    if (localCount === 0 && !window.__BT_ALLOW_EMPTY_CLOUD_SAVE__) {
       const remoteRes = await client.from("tracker_data").select("data").eq("user_id", userId).maybeSingle();
       if (!remoteRes.error && remoteRes.data?.data) {
         const remoteTracker = unpackCloudData(remoteRes.data.data).tracker || BLANK;
-        const remoteHasData = (Array.isArray(remoteTracker.bets) ? remoteTracker.bets.length : 0) + (Array.isArray(remoteTracker.transactions) ? remoteTracker.transactions.length : 0) > 0;
-        if (remoteHasData) {
+        const remoteCount = (Array.isArray(remoteTracker.bets) ? remoteTracker.bets.length : 0) +
+          (Array.isArray(remoteTracker.transactions) ? remoteTracker.transactions.length : 0);
+        if (remoteCount > 0) {
           console.warn("Blocked blank Bet Tracker overwrite; keeping cloud data.");
           applyCloudData(remoteRes.data.data);
           showAccountState("Synced", false);
@@ -56,7 +64,6 @@ replacements.append((
       }
     }
 
-    window.__BT_ALLOW_EMPTY_CLOUD_SAVE__ = false;
     syncInFlight = client.from("tracker_data").upsert({ user_id: userId, data: payload }, { onConflict: "user_id" });
     const { error } = await syncInFlight;
     syncInFlight = null;
@@ -65,13 +72,17 @@ replacements.append((
       showAccountState("Save issue", true);
       return false;
     }
+    window.__BT_ALLOW_EMPTY_CLOUD_SAVE__ = false;
     showAccountState("Saved", false);
     return true;
   }'''))
 
 replacements.append((
 '''          showAccountState("Saving…", false); await flushCloud(); location.reload();''',
-'''          showAccountState("Saving…", false); const saved = await flushCloud(); if (saved) location.reload(); else window.alert("Could not save this backup to your account.");'''))
+'''          showAccountState("Saving…", false);
+          const saved = await flushCloud();
+          if (saved) location.reload();
+          else window.alert("Could not save this backup to your account.");'''))
 
 replacements.append((
 '''      console.error("Bet Tracker cloud startup failed", err);
@@ -88,7 +99,7 @@ replacements.append((
 '''    document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") flushCloud();
     });''',
-'''    // Changes already schedule their own cloud sync. Never write stale local data merely because the tab is hidden.'''))
+'''    // Local changes already schedule their own save; tab switching must never force a stale cloud write.'''))
 
 replacements.append((
 '''y=()=>{window.confirm("Reset all tracker data? This will clear your bets, transactions and starting balance.")&&(t.clear(),a(si))}''',
