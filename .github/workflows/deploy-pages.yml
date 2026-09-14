@@ -37,6 +37,9 @@ jobs:
       - name: Apply cloud sync safety patch
         run: python deploy/cloud-safety-patch.py
 
+      - name: Apply clipboard paste patch
+        run: python deploy/clipboard-paste-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
