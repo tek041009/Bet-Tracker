@@ -3,6 +3,30 @@ from pathlib import Path
 path = Path("_site/index.html")
 html = path.read_text(encoding="utf-8")
 
+# Bet Builder event handling must be block-based. A selection-row OCR pass is allowed to
+# discover an event only when the block header failed; it must never overwrite a fixture
+# that was already read from the event header above the block.
+replacements = [
+    (
+        'const useful=[];for(const l of ls){if(isHeader(l)||isDateLine(l)||isFooter(l))continue;const f=fixture(l);if(f){event=f;continue}useful.push(l)}',
+        'const useful=[];for(const l of ls){if(isHeader(l)||isDateLine(l)||isFooter(l))continue;const f=fixture(l);if(f){if(format!=="Bet Builder"||!event)event=f;continue}useful.push(l)}'
+    ),
+    (
+        'if(format==="Bet Builder"&&(i===0||b.y-prev.y>50)){',
+        'if(format==="Bet Builder"&&(i===0||b.y-prev.y>50)){currentEvent="";'
+    ),
+    (
+        'let p=parseRowText(rt,currentEvent,format);if(format==="Accumulator")currentEvent=p.event;',
+        'let p=parseRowText(rt,currentEvent,format);if(format==="Bet Builder"&&currentEvent)p.event=currentEvent;if(format==="Accumulator")currentEvent=p.event;'
+    ),
+]
+
+for old, new in replacements:
+    count = html.count(old)
+    if count != 1:
+        raise SystemExit(f"Expected exactly one Bet Builder event patch target, found {count}: {old[:90]!r}")
+    html = html.replace(old, new, 1)
+
 script = r'''
 <script id="bt-scanner-quality-patch">
 (() => {
