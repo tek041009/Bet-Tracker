@@ -46,6 +46,9 @@ jobs:
       - name: Apply scanner quality patch
         run: python deploy/scanner-quality-patch.py
 
+      - name: Apply audited scanner regression patch
+        run: python deploy/scanner-regression-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
