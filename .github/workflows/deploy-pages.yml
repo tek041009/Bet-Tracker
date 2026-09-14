@@ -40,6 +40,12 @@ jobs:
       - name: Apply clipboard paste patch
         run: python deploy/clipboard-paste-patch.py
 
+      - name: Apply Import Screenshot paste patch
+        run: python deploy/import-screenshot-paste-patch.py
+
+      - name: Apply scanner quality patch
+        run: python deploy/scanner-quality-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
