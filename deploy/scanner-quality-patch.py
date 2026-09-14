@@ -42,11 +42,23 @@ script = r'''
     const original = window.__btOCRReceiptData;
 
     const cleanText = value => String(value || "").replace(/\s+/g, " ").trim();
+    const compact = value => cleanText(value).toLowerCase().replace(/[^a-z0-9]/g, "");
+    const wordish = value => cleanText(value).toLowerCase().replace(/[^a-z0-9.]+/g, " ").trim();
     const splitTeams = event => {
       const p = cleanText(event).split(/\s+v\s+/i);
       return p.length === 2 ? p : ["", ""];
     };
-    const norm = value => cleanText(value).toLowerCase().replace(/[^a-z0-9]/g, "");
+
+    function similarity(a,b){
+      a=compact(a);b=compact(b);if(!a||!b)return 0;
+      const m=a.length,n=b.length;let prev=Array.from({length:n+1},(_,i)=>i),cur=new Array(n+1);
+      for(let i=1;i<=m;i++){
+        cur[0]=i;
+        for(let j=1;j<=n;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+        [prev,cur]=[cur,prev];
+      }
+      return 1-prev[n]/Math.max(m,n,1);
+    }
 
     function fixEvent(event) {
       let s = cleanText(event);
@@ -61,22 +73,86 @@ script = r'''
     function stripSubReplacement(selection, market) {
       let s = cleanText(selection);
       if (!/^Player\s+To\s+/i.test(cleanText(market))) return s;
-      const parts = s.split(/\s*(?:↔|→|->|=>|⇄|⇆)\s*/);
-      if (parts.length > 1 && parts[0]) return cleanText(parts[0]);
-      return s;
+
+      // Paddy Power's Super Sub arrow is tiny and OCR commonly reads it as £, €, 2, = or another symbol.
+      // The selected player is always the name on the LEFT; the replacement player is metadata only.
+      const marker = /\s+(?:↔|→|->|=>|⇄|⇆|£|€|¥|§|¤|=|~|\||2)\s+/;
+      const parts = s.split(marker);
+      if (parts.length > 1 && /[A-Za-z]/.test(parts[0])) return cleanText(parts[0]);
+
+      // Catch a single OCR punctuation glyph between two name-like groups without touching normal names.
+      const m = s.match(/^([A-Za-zÀ-ÿ'’.-]+(?:\s+[A-Za-zÀ-ÿ'’.-]+){1,3})\s+[^A-Za-z0-9\s]{1,3}\s+([A-Za-zÀ-ÿ'’.-]+(?:\s+[A-Za-zÀ-ÿ'’.-]+){1,3})$/);
+      return m ? cleanText(m[1]) : s;
     }
 
-    function fixMarket(market, selection, event) {
+    function extractThreshold(text) {
+      const m = cleanText(text).replace(/,/g,".").match(/\b(\d+(?:\.5)?)\b/);
+      return m ? m[1] : "";
+    }
+
+    function canonicalMarket(market, selection, event) {
       let m = cleanText(market);
+      const low = wordish(m);
+      const c = compact(m);
+      const sel = cleanText(selection);
+      const selLow = sel.toLowerCase();
       const [home, away] = splitTeams(event);
-      const sel = norm(selection);
-      const teamSelection = sel && (sel === norm(home) || sel === norm(away));
+      const teamSelection = compact(sel) && (compact(sel) === compact(home) || compact(sel) === compact(away));
+
+      // Yes/No is a structural clue on Paddy receipts. A short garbled "Team To" line above Yes/No
+      // is BTTS, not a generic Team To market.
+      if (/^(?:yes|no)$/i.test(sel) && !/\b(?:over|under|qualify|draw|winner|odds)\b/i.test(low)) {
+        return "Both Teams To Score";
+      }
+      if (/both.*team.*score|btts/i.test(low) || similarity(m,"Both Teams To Score") >= .62) {
+        return "Both Teams To Score";
+      }
+
+      // WDW & O/U is particularly hostile to OCR because &, / and the decimal are tiny.
+      // Accept common OCR forms such as WOW/W0W and Coals, then rebuild a legal canonical market.
+      const ouLike = /o\s*\/?\s*u|over\s*\/?\s*under|overunder/i.test(m);
+      const wdwLike = /\b(?:wdw|wow|w0w|wwd)\b/i.test(m) || similarity((m.match(/^\S+/)||[""])[0],"WDW") >= .55;
+      if (ouLike && (wdwLike || /\bgoals?\b|\bcoals?\b/i.test(low))) {
+        const line = extractThreshold(m) || "1.5";
+        return `WDW & O/U ${line} Goals`;
+      }
+
+      if (/match\s*odds?/i.test(low) || /(?:maach|mach|macth|matoh)\s*odds?/i.test(low) || similarity(m,"Match Odds") >= .68) {
+        return "Match Odds";
+      }
+
+      const num = extractThreshold(m);
+      const playerLike = /player|p1ayer|plaver|mayer|nayer/i.test(low);
+      const teamLike = /\bteam\b|tearn|tean/i.test(low);
+      const shotsLike = /shot/i.test(low);
+      const targetLike = /target|woodw|includ|inchad|woodv/i.test(low);
+      const fouledLike = /foul/i.test(low);
+
+      if (playerLike && shotsLike && targetLike) {
+        return `Player To Have ${num || "1"} Or More Shots On Target Including Woodwork`;
+      }
+      if (playerLike && shotsLike && num) {
+        return `Player To Have ${num} Or More Shots`;
+      }
+      if (playerLike && fouledLike) {
+        return `Player To Be Fouled ${num || "1"} Or More Times`;
+      }
+      if (teamLike && shotsLike && num) {
+        return `Team To Have ${num} Or More Shots`;
+      }
 
       if (/^means$/i.test(m)) return "Match Odds";
-      if (teamSelection && (!m || (m.length <= 10 && !/\d/.test(m) && !/(shots?|fouls?|goals?|corners?|cards?|odds|chance|qualify|draw|team|player)/i.test(m)))) {
+      if (teamSelection && (!m || (m.length <= 12 && !/\d/.test(m) && !/(shots?|fouls?|goals?|corners?|cards?|odds|chance|qualify|draw|team|player)/i.test(m)))) {
         return "Match Odds";
       }
       return m;
+    }
+
+    function tidySelection(selection, market) {
+      let s = stripSubReplacement(selection, market);
+      // Safe character-level OCR repairs that don't invent a different player.
+      s = s.replace(/!/g,"l").replace(/\s{2,}/g," ").trim();
+      return s;
     }
 
     function fixMoney(out) {
@@ -117,16 +193,19 @@ script = r'''
           const event = fixEvent(leg?.event);
           let market = cleanText(leg?.market);
           let selection = cleanText(leg?.selection);
-          selection = stripSubReplacement(selection, market);
-          market = fixMarket(market, selection, event);
+          market = canonicalMarket(market, selection, event);
+          selection = tidySelection(selection, market);
+          // Re-run market inference after selection cleanup (important for team/Yes-No structural clues).
+          market = canonicalMarket(market, selection, event);
           return { ...leg, event, market, selection };
         });
       }
 
       if (out.event) out.event = fixEvent(out.event);
       if (out.selection || out.market) {
-        out.selection = stripSubReplacement(out.selection, out.market);
-        out.market = fixMarket(out.market, out.selection, out.event);
+        out.market = canonicalMarket(out.market, out.selection, out.event);
+        out.selection = tidySelection(out.selection, out.market);
+        out.market = canonicalMarket(out.market, out.selection, out.event);
       }
 
       return fixMoney(out);
