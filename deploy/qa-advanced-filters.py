@@ -2,7 +2,7 @@ from pathlib import Path
 import json,re,shutil,subprocess,tempfile,time
 
 html=Path('_site/index.html').read_text(encoding='utf-8')
-for x in ['id="bt-advanced-filter-styles"','children:"Bookmaker"','children:"Sport"','children:"Source"','children:"Result"','children:advOpen?"Hide Advanced":"Advanced"','Advanced filters','btAdvancedMatch(o,r)','aria-expanded":advOpen','if(!advOpen&&advRules.length===0)btAddRule()']:
+for x in ['id="bt-advanced-filter-styles"','children:"Bookmaker"','children:"Sport"','children:"Source"','children:"Result"','children:advOpen?"Hide Advanced":"Advanced"','Advanced filters','btAdvancedMatch(o,r)','className:"bt-advanced-panel open"','display:block!important']:
     if x not in html: raise SystemExit(f'Advanced filter QA missing {x}')
 main_m=re.search(r'<script>"use strict";\(\(\)=>\{.*?</script>',html,re.S)
 if not main_m: raise SystemExit('Advanced filter QA: main script missing')
@@ -18,15 +18,20 @@ tracker={'version':1,'startingBalance':100,'transactions':[],'bets':[
 ],'ladder':{'startStake':10,'targetReturn':100,'days':7,'results':['Pending']*7}}
 page=f'''<!doctype html><html><body><div id="bet-tracker-root"></div><script>localStorage.setItem('bet-tracker-user-v1',JSON.stringify({json.dumps(tracker)}));</script><script>{main_js}</script><script>
 const setNative=(el,val)=>{{const proto=el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype;const setter=Object.getOwnPropertyDescriptor(proto,'value').set;setter.call(el,val);el.dispatchEvent(new Event(el instanceof HTMLSelectElement?'change':'input',{{bubbles:true}}));}};
+const visible=(el)=>{{if(!el)return false;const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity||1)>0&&r.width>20&&r.height>20;}};
 setTimeout(()=>{{[...document.querySelectorAll('aside nav button')].find(b=>b.textContent.includes('Bet Tracker'))?.click();setTimeout(()=>{{
  const labels=[...document.querySelectorAll('.bt-filter-control>span')].map(x=>x.textContent.trim());
  const adv=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Advanced');adv?.click();
  setTimeout(()=>{{
-   const panel=document.querySelector('.bt-advanced-panel');const rule=document.querySelector('.bt-advanced-rule');const rect=panel?.getBoundingClientRect();const visible=!!panel&&!!rule&&rect.width>100&&rect.height>50&&getComputedStyle(panel).display!=='none';
-   const sels=rule?.querySelectorAll('select');const inp=rule?.querySelector('input');
+   const panel=document.querySelector('.bt-advanced-panel');
+   const rule=panel?.querySelector('.bt-advanced-rule');
+   const sels=rule?.querySelectorAll('select');
+   const inp=rule?.querySelector('input');
+   const panelRect=panel?.getBoundingClientRect();
+   const actuallyOpen=!!panel&&panel.classList.contains('open')&&visible(panel)&&panelRect.width>300&&panelRect.height>80&&visible(sels?.[0])&&visible(sels?.[1])&&visible(inp)&&adv?.textContent.trim()==='Hide Advanced'&&adv?.getAttribute('aria-expanded')==='true';
    if(sels?.[0])setNative(sels[0],'market');
    setTimeout(()=>{{if(inp)setNative(inp,'Match Odds');}},50);
-   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');document.body.dataset.qa=(JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&visible&&adv?.textContent.trim()==='Hide Advanced'&&rows.length===1&&rows[0].textContent.includes('Bet365'))?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / visible='+visible+' / toggle='+(adv?.textContent||'')+' / rows='+rows.length+' / '+(rows[0]?.textContent||'');}},350);
+   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');const ok=JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&actuallyOpen&&rows.length===1&&rows[0].textContent.includes('Bet365');document.body.dataset.qa=ok?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / open='+actuallyOpen+' / display='+(panel?getComputedStyle(panel).display:'missing')+' / class='+(panel?.className||'missing')+' / box='+(panelRect?panelRect.width+'x'+panelRect.height:'missing')+' / rows='+rows.length+' / '+(rows[0]?.textContent||'');}},350);
  }},180);
 }},120)}},100);
 </script></body></html>'''
@@ -40,4 +45,4 @@ with tempfile.TemporaryDirectory() as td:
         srv.terminate();
         try:srv.wait(timeout=2)
         except: srv.kill()
-print('Advanced filter browser QA passed: one click opens a visible Field / Condition / Value rule and the rule filters tracker rows')
+print('Advanced filter browser QA passed: click visibly opens real Field / Condition / Value controls and market rule filters rows')
