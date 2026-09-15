@@ -3,15 +3,31 @@ from pathlib import Path
 p=Path('_site/index.html')
 h=p.read_text(encoding='utf-8')
 
+blank='{field:"any",op:"contains",value:""}'
+
+# Start with one real rule already present. This avoids relying on two batched
+# React state updates (add-rule + open) from the same click.
+old_state='''[advRules,setAdvRules]=(0,W.useState)([]);'''
+new_state=f'''[advRules,setAdvRules]=(0,W.useState)(()=>[{blank}]);'''
+if h.count(old_state)!=1:
+    raise SystemExit(f'Expected one Advanced rules state initializer, found {h.count(old_state)}')
+h=h.replace(old_state,new_state,1)
+
 old='''onClick:()=>setAdvOpen(x=>!x),children:advOpen?"Hide Advanced":"Advanced"'''
-new='''onClick:()=>{if(!advOpen&&advRules.length===0)btAddRule();setAdvOpen(x=>!x)},"aria-expanded":advOpen,children:advOpen?"Hide Advanced":"Advanced"'''
+new='''onClick:()=>setAdvOpen(x=>!x),"aria-expanded":advOpen,children:advOpen?"Hide Advanced":"Advanced"'''
 if h.count(old)!=1:
     raise SystemExit(f'Expected one Advanced toggle handler, found {h.count(old)}')
 h=h.replace(old,new,1)
 
+# Clearing should leave one blank usable row rather than an empty panel.
+old_clear='''onClick:()=>setAdvRules([]),children:"Clear"'''
+new_clear=f'''onClick:()=>setAdvRules([{blank}]),children:"Clear"'''
+if h.count(old_clear)!=1:
+    raise SystemExit(f'Expected one Advanced clear handler, found {h.count(old_clear)}')
+h=h.replace(old_clear,new_clear,1)
+
 # Do NOT reuse .bt-advanced-panel: the base app already uses that class for the
 # Profit / Loss Analysis advanced panel and its CSS deliberately starts hidden.
-# Give the Bet Tracker panel its own class so the two features cannot conflict.
 old_panel='''advOpen&&(0,c.jsxs)("div",{className:"bt-advanced-panel",children:'''
 new_panel='''advOpen&&(0,c.jsxs)("div",{className:"bt-tracker-advanced-panel",children:'''
 if h.count(old_panel)!=1:
@@ -25,4 +41,4 @@ if h.count(old_css)!=1:
 h=h.replace(old_css,new_css,1)
 
 p.write_text(h,encoding='utf-8')
-print('Tracker Advanced panel now uses its own visible class, isolated from legacy Analysis advanced CSS')
+print('Tracker Advanced now opens with a real visible rule and uses its own isolated panel class')
