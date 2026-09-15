@@ -134,7 +134,7 @@ jobs:
         run: python deploy/qa-bet365-review-browser.py
 
       - name: Browser QA bulk delete and import progress
-        run: python deploy/qa-bulk-import-flow-v3.py
+        run: python deploy/qa-bulk-import-flow-v4.py
 
       - name: Browser QA Shift-click bulk selection
         run: python deploy/qa-bulk-shift-select.py
