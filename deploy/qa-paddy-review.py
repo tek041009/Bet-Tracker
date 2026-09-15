@@ -8,7 +8,6 @@ required = [
     'id="bt-paddy-text-click-fix"',
     'id="bt-paddy-review"',
     'id="bt-paddy-review-button-fix"',
-    'window.__btOpenPaddyReview(modal)',
     'Review ${results.length} parsed bets',
     'Review Paddy Power Import',
     'Import Approved Bets',
@@ -17,20 +16,34 @@ for token in required:
     if token not in html:
         raise SystemExit(f'QA failed: missing {token}')
 
+# 1) Verify the *earliest/base* .bt-use-import capture handler routes Paddy text mode
+# to review before the generic screenshot importer can swallow the click.
+core_route = 'if(modal?.dataset.btImportMode==="text"&&typeof window.__btOpenPaddyReview==="function"){window.__btOpenPaddyReview(modal);return}if(modal)await useImportV6(modal);return'
+if html.count(core_route) != 1:
+    raise SystemExit(f'QA failed: live/base import handler is not routed through Paddy review exactly once (found {html.count(core_route)})')
+
+# 2) Verify the Paddy text importer itself does not bypass review.
 text_match = re.search(r'<script id="bt-paddy-text-import">(.*?)</script>', html, re.S)
 if not text_match:
     raise SystemExit('QA failed: Paddy text importer script missing')
 text_js = text_match.group(1)
-
 bad = 'e.preventDefault();e.stopImmediatePropagation();await importSelected(modal);return'
 if bad in text_js:
     raise SystemExit('QA failed: Paddy text importer still directly imports from the review button')
 
-route = 'e.preventDefault();e.stopImmediatePropagation();if(typeof window.__btOpenPaddyReview==="function")window.__btOpenPaddyReview(modal);return'
-if text_js.count(route) != 1:
-    raise SystemExit(f'QA failed: expected one explicit Paddy review route in text importer, found {text_js.count(route)}')
+# 3) Verify the review renderer helper matches how the review code actually calls it.
+review_match = re.search(r'<script id="bt-paddy-review">(.*?)</script>', html, re.S)
+if not review_match:
+    raise SystemExit('QA failed: Paddy review script missing')
+review_js = review_match.group(1)
+correct_helper = 'const $=(s,r=document)=>r?.querySelector(s), $$=(r,s)=>[...(r?.querySelectorAll(s)||[])], esc=s=>'
+broken_helper = 'const $=(r,s)=>r?.querySelector(s), $$=(r,s)=>[...(r?.querySelectorAll(s)||[])], esc=s=>'
+if correct_helper not in review_js or broken_helper in review_js:
+    raise SystemExit('QA failed: Paddy review selector helper is still incompatible with selector-first render calls')
+if "$('.bt-pr-count',o)" not in review_js or "$('.bt-pr-close',overlay)" not in review_js:
+    raise SystemExit('QA failed: expected review render/navigation bindings are missing')
 
-# Syntax-check every Paddy patch script in the built artifact, not just source patch files.
+# 4) Syntax-check every Paddy patch script in the final built artifact.
 ids = [
     'bt-paddy-text-import',
     'bt-paddy-text-click-fix',
@@ -49,4 +62,4 @@ for sid in ids:
     if r.returncode:
         raise SystemExit(f'QA failed: JS syntax error in {sid}: {r.stderr}')
 
-print('Paddy review QA passed: review button routes to review, direct text import blocked, scripts syntax-valid')
+print('Paddy review QA passed: earliest live click route -> review, renderer bindings valid, direct import blocked, scripts syntax-valid')
