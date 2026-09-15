@@ -67,6 +67,9 @@ jobs:
       - name: Route Paddy action through review stage
         run: python deploy/paddy-review-routing-fix.py
 
+      - name: QA Paddy review flow
+        run: python deploy/qa-paddy-review.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
