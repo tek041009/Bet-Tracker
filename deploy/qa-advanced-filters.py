@@ -27,7 +27,7 @@ setTimeout(()=>{{[...document.querySelectorAll('aside nav button')].find(b=>b.te
    const rule=document.querySelector('.bt-advanced-rule');const sels=rule?.querySelectorAll('select');const inp=rule?.querySelector('input');
    if(sels?.[0])setNative(sels[0],'market');
    setTimeout(()=>{{if(inp)setNative(inp,'Match Odds');}},50);
-   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');document.body.dataset.qa=(JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&!!document.querySelector('.bt-advanced-panel')&&rows.length===1&&rows[0].textContent.includes('West Ham'))?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / '+rows.length+' / '+(rows[0]?.textContent||'');}},350);
+   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');document.body.dataset.qa=(JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&!!document.querySelector('.bt-advanced-panel')&&rows.length===1&&rows[0].textContent.includes('Bet365'))?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / '+rows.length+' / '+(rows[0]?.textContent||'');}},350);
   }},120);
  }},120);
 }},120)}},100);
