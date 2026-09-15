@@ -58,6 +58,9 @@ jobs:
       - name: Apply robust Paddy Super Sub parser
         run: python deploy/paddy-super-sub-parser-fix.py
 
+      - name: Default imported source to My Pick
+        run: python deploy/paddy-default-source-patch.py
+
       - name: Apply Paddy text click isolation fix
         run: python deploy/paddy-text-click-fix.py
 
