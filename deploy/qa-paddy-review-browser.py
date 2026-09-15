@@ -93,8 +93,9 @@ const expected=[
  ['Harvey Barnes','Player To Be Fouled 1 Or More Times','', 'Win']
 ];
 if(parsed.legs.length!==12) errors.push('leg count '+parsed.legs.length);
-expected.forEach((x,i)=>{{const l=parsed.legs[i]||{{}};if(l.selection!==x[0])errors.push(`leg ${{i+1}} selection ${{l.selection}}`);if(l.market!==x[1])errors.push(`leg ${{i+1}} market ${{l.market}}`);if((l._superSubReplacement||'')!==x[2])errors.push(`leg ${{i+1}} super ${{l._superSubReplacement||''}}`);if(l.result!==x[3])errors.push(`leg ${{i+1}} result ${{l.result}}`);}});
+expected.forEach((x,i)=>{{const l=parsed.legs[i]||{{}};if(l.event!=='Leeds v Newcastle')errors.push(`leg ${{i+1}} match ${{l.event}}`);if(l.selection!==x[0])errors.push(`leg ${{i+1}} selection ${{l.selection}}`);if(l.market!==x[1])errors.push(`leg ${{i+1}} market ${{l.market}}`);if((l._superSubReplacement||'')!==x[2])errors.push(`leg ${{i+1}} super ${{l._superSubReplacement||''}}`);if(l.result!==x[3])errors.push(`leg ${{i+1}} result ${{l.result}}`);}});
 if(parsed.date!=='2026-09-14') errors.push('date '+parsed.date);
+if(parsed.source!=='My Pick') errors.push('source '+parsed.source);
 
 const modal=document.querySelector('.bt-import-modal');
 modal.__btTextResults=[{{raw,parsed}}];
@@ -103,11 +104,13 @@ setTimeout(()=>{{
  const overlay=document.querySelector('.bt-paddy-review-overlay');
  if(!overlay) errors.push('overlay missing');
  const heads=[...document.querySelectorAll('.bt-pr-leg-table-head span')].map(x=>x.textContent.trim());
- if(JSON.stringify(heads)!==JSON.stringify(['Leg','Market','Selection','Super Sub','Result'])) errors.push('headers '+JSON.stringify(heads));
+ if(JSON.stringify(heads)!==JSON.stringify(['Leg','Match','Market','Selection','Super Sub','Result'])) errors.push('headers '+JSON.stringify(heads));
  const rows=[...document.querySelectorAll('.bt-pr-leg-row')];
  if(rows.length!==12) errors.push('review row count '+rows.length);
- expected.forEach((x,i)=>{{const row=rows[i];if(row?.querySelector('[data-lkey="market"]')?.value!==x[1])errors.push(`review ${{i+1}} market`);if(row?.querySelector('[data-lkey="selection"]')?.value!==x[0])errors.push(`review ${{i+1}} selection`);if((row?.querySelector('[data-lkey="_superSubReplacement"]')?.value||'')!==x[2])errors.push(`review ${{i+1}} super`);if(row?.querySelector('[data-lkey="result"]')?.value!==x[3])errors.push(`review ${{i+1}} result`);}});
- const out=document.createElement('div');out.id='qa-output';out.textContent=errors.length?'FAIL: '+errors.join(' | '):'PASS: exact Leeds v Newcastle 12-leg paste';document.body.appendChild(out);
+ expected.forEach((x,i)=>{{const row=rows[i];if(row?.querySelector('[data-lkey="event"]')?.value!=='Leeds v Newcastle')errors.push(`review ${{i+1}} match`);if(row?.querySelector('[data-lkey="market"]')?.value!==x[1])errors.push(`review ${{i+1}} market`);if(row?.querySelector('[data-lkey="selection"]')?.value!==x[0])errors.push(`review ${{i+1}} selection`);if((row?.querySelector('[data-lkey="_superSubReplacement"]')?.value||'')!==x[2])errors.push(`review ${{i+1}} super`);if(row?.querySelector('[data-lkey="result"]')?.value!==x[3])errors.push(`review ${{i+1}} result`);}});
+ const source=document.querySelector('[data-pkey="source"]')?.value;
+ if(source!=='My Pick') errors.push('review source '+source);
+ const out=document.createElement('div');out.id='qa-output';out.textContent=errors.length?'FAIL: '+errors.join(' | '):'PASS: exact Leeds v Newcastle 12-leg paste + Match + My Pick source';document.body.appendChild(out);
  document.body.dataset.qa=errors.length?'fail':'pass';
 }},100);
 </script></body></html>'''
@@ -125,4 +128,4 @@ with tempfile.TemporaryDirectory() as td:
         detail = re.search(r'<div id="qa-output">(.*?)</div>', r.stdout, re.S)
         raise SystemExit('Browser QA failed: '+(detail.group(1) if detail else out[-2500:]))
 
-print('Browser QA passed: exact Leeds v Newcastle pasted builder parses all 12 legs and carries each Super Sub through to review')
+print('Browser QA passed: exact Leeds v Newcastle paste renders Leg | Match | Market | Selection | Super Sub | Result and defaults source to My Pick')
