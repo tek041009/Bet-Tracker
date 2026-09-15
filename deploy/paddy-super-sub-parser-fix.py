@@ -83,10 +83,25 @@ new_builder = r'''  function parseBuilder(lines){
       if(d&&!resultCode(lines[i])){currentEvent=cleanLine(lines[i]);if(!firstDate)firstDate=d;i+=2;continue}
       const rr=resultCode(lines[i]);
       if(rr){
-        const ss=takeSelection(lines,i+1);let j=ss.j;
-        const market=cleanLine(lines[j++]||"");
+        let j=i+1,block=[];
+        while(j<lines.length){
+          if(/^Stake$/i.test(lines[j])||resultCode(lines[j]))break;
+          const nextDate=parseDateLine(lines[j+1]||"");
+          if(nextDate&&!promoKind(lines[j]).promo)break;
+          block.push(cleanLine(lines[j]));j++;
+        }
+        const superMarked=block.some(x=>promoKind(x).super);
+        const content=block.filter(x=>!promoKind(x).promo).filter(Boolean);
+        const market=cleanLine(content.pop()||"");
+        let first=cleanLine(content.shift()||""),ss=splitSuperSub(first);
+        if(!ss.replacement&&content.length){
+          let candidate=cleanLine(content.shift()||"");
+          if(/^svg$/i.test(candidate)&&content.length)candidate=cleanLine(content.shift()||"");
+          candidate=cleanLine(candidate.replace(/^svg/i,"").replace(/svg$/i,""));
+          if(candidate&&(superMarked||/svg/i.test(first)))ss={selection:ss.selection,replacement:candidate};
+        }
         legs.push({sport:"Football",event:currentEvent,market,selection:ss.selection,odds:null,result:rr,_superSubReplacement:ss.replacement});
-        while(j<lines.length&&promoKind(lines[j]).promo)j++;i=j;continue;
+        i=j;continue;
       }
       i++;
     }
@@ -132,4 +147,4 @@ if h.count(old_acc) != 1:
 h = h.replace(old_acc, new_acc, 1)
 
 p.write_text(h, encoding='utf-8')
-print('Applied robust Paddy Super Sub parser for combined and split clipboard formats')
+print('Applied Paddy Super Sub parser for actual builder block order, including promo-after-market copies')
