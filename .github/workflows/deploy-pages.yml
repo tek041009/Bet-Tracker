@@ -88,6 +88,9 @@ jobs:
       - name: Harden reviewed batch imports
         run: python deploy/import-batch-reliability-patch.py
 
+      - name: Normalize imported leg odds to form precision
+        run: python deploy/import-leg-odds-step-fix.py
+
       - name: Add Bet365 text paste importer
         run: python deploy/bet365-text-import-patch.py
 
@@ -120,6 +123,9 @@ jobs:
 
       - name: QA reviewed batch reliability
         run: python deploy/qa-import-batch-reliability.py
+
+      - name: QA imported leg odds precision
+        run: python deploy/qa-import-leg-odds-step.py
 
       - name: QA Bet365 text paste parser
         run: python deploy/qa-bet365-text-import.py
