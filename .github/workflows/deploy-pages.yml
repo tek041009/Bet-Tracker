@@ -55,6 +55,9 @@ jobs:
       - name: Apply Paddy Power text import patch
         run: python deploy/paddy-text-import-patch.py
 
+      - name: Apply robust Paddy Super Sub parser
+        run: python deploy/paddy-super-sub-parser-fix.py
+
       - name: Apply Paddy text click isolation fix
         run: python deploy/paddy-text-click-fix.py
 
@@ -76,7 +79,7 @@ jobs:
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
 
-      - name: Browser QA Paddy review columns
+      - name: Browser QA Paddy parser and review columns
         run: python deploy/qa-paddy-review-browser.py
 
       - name: Configure Pages
