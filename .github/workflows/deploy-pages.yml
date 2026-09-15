@@ -85,6 +85,9 @@ jobs:
       - name: Return batch import result to progress screen
         run: python deploy/paddy-import-wrapper-return-fix.py
 
+      - name: Add Bet365 text paste importer
+        run: python deploy/bet365-text-import-patch.py
+
       - name: Apply Bet Tracker bulk delete
         run: python deploy/bulk-delete-patch.py
 
@@ -102,6 +105,9 @@ jobs:
 
       - name: Browser QA Paddy parser and review columns
         run: python deploy/qa-paddy-review-browser.py
+
+      - name: QA Bet365 text paste parser
+        run: python deploy/qa-bet365-text-import.py
 
       - name: Browser QA bulk delete and import progress
         run: python deploy/qa-bulk-import-flow-v3.py
