@@ -1,0 +1,46 @@
+from pathlib import Path
+
+path=Path('_site/index.html')
+html=path.read_text(encoding='utf-8')
+
+css=r'''
+<style id="bt-paddy-review-styles">
+.bt-paddy-review-overlay{position:fixed;inset:0;z-index:10050;background:rgba(1,8,15,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px}
+.bt-paddy-review-shell{width:min(1180px,96vw);height:min(880px,94vh);background:#071827;border:1px solid rgba(120,157,190,.22);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.55);display:grid;grid-template-rows:auto auto 1fr auto;overflow:hidden;color:#eaf3fb}
+.bt-pr-head,.bt-pr-nav,.bt-pr-foot{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(120,157,190,.15)}
+.bt-pr-head{justify-content:space-between}.bt-pr-head h2{margin:0;font-size:18px}.bt-pr-head small{color:#8fa8bd}.bt-pr-nav{justify-content:space-between;padding:10px 18px}.bt-pr-nav button,.bt-pr-foot button,.bt-pr-head button{border:1px solid rgba(120,157,190,.25);background:#0c2335;color:#eaf3fb;border-radius:9px;padding:8px 12px;font-weight:700;cursor:pointer}.bt-pr-nav button:disabled{opacity:.35;cursor:default}.bt-pr-count{font-weight:800}.bt-pr-body{overflow:auto;padding:18px}.bt-pr-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.bt-pr-field{display:grid;gap:5px}.bt-pr-field label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#809bb2}.bt-pr-field input,.bt-pr-field select{width:100%;border:1px solid rgba(120,157,190,.22);border-radius:8px;background:#06131f;color:#eaf3fb;padding:9px;font:inherit}.bt-pr-wide{grid-column:span 2}.bt-pr-warning{padding:10px 12px;border:1px solid rgba(255,116,129,.35);background:rgba(255,70,90,.08);border-radius:9px;color:#ffb4bd;margin-bottom:12px}.bt-pr-legs{display:grid;gap:9px}.bt-pr-leg{border:1px solid rgba(120,157,190,.18);background:#081c2b;border-radius:11px;padding:11px}.bt-pr-leg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px}.bt-pr-leg-grid{display:grid;grid-template-columns:1.35fr 1.35fr 1.15fr .65fr .65fr;gap:8px}.bt-pr-leg input,.bt-pr-leg select{min-width:0;width:100%;border:1px solid rgba(120,157,190,.18);border-radius:7px;background:#06131f;color:#eaf3fb;padding:8px}.bt-pr-super{margin-top:7px;color:#8fa8bd;font-size:10px}.bt-pr-foot{border-top:1px solid rgba(120,157,190,.15);border-bottom:0;justify-content:space-between}.bt-pr-approve{display:flex;align-items:center;gap:8px;font-weight:800}.bt-pr-import{background:#2864ef!important;border-color:#3d75f5!important}.bt-pr-import:disabled{opacity:.4}.bt-pr-status{color:#91a8bb;font-size:10px}
+@media(max-width:800px){.bt-paddy-review-overlay{padding:0}.bt-paddy-review-shell{width:100vw;height:100vh;max-height:none;border-radius:0}.bt-pr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bt-pr-leg-grid{grid-template-columns:1fr}.bt-pr-wide{grid-column:span 2}.bt-pr-head,.bt-pr-foot{padding:11px}.bt-pr-body{padding:11px}}
+</style>
+'''
+
+js=r'''
+<script id="bt-paddy-review">
+(()=>{"use strict";
+const $=(r,s)=>r?.querySelector(s), $$=(r,s)=>[...(r?.querySelectorAll(s)||[])], esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let state=null;
+function clone(v){return JSON.parse(JSON.stringify(v))}
+function issueText(p){return (p._parseIssues||[]).filter(x=>x!=="Already in tracker").join(' · ')}
+function field(label,key,val,type='text',wide=false){return `<div class="bt-pr-field ${wide?'bt-pr-wide':''}"><label>${label}</label><input data-pkey="${key}" type="${type}" value="${esc(val)}"></div>`}
+function render(){if(!state)return;const o=state.overlay,p=state.items[state.i].parsed,approved=state.approved[state.i];$('.bt-pr-count',o).textContent=`Bet ${state.i+1} of ${state.items.length}`;$('.bt-pr-prev',o).disabled=state.i===0;$('.bt-pr-next',o).disabled=state.i===state.items.length-1;$('.bt-pr-approve input',o).checked=approved;
+const issues=issueText(p);$('.bt-pr-body',o).innerHTML=`${issues?`<div class="bt-pr-warning">${esc(issues)}</div>`:''}<div class="bt-pr-grid">${field('Bet ID','_betId',p._betId||'')}${field('Date','date',p.date||'','date')}${field('Bet format','betFormat',p.betFormat||'')}${field('Overall result','result',p.result||'')}${field('Stake £','stake',p.stake||'','number')}${field('Potential return £','returns',p.returns||'','number')}${field('Free bet £','free',p.free||'','number')}${field('Price','_receiptOdds',p._receiptOdds||'','number')}${field('Notes','notes',p.notes||'','text',true)}${field('Source','source',p.source||'','text',true)}</div><div class="bt-pr-legs">${(p.legs||[]).map((l,i)=>`<div class="bt-pr-leg"><div class="bt-pr-leg-head"><b>Leg ${i+1}</b><span>${esc(l.sport||'')}</span></div><div class="bt-pr-leg-grid"><input data-leg="${i}" data-lkey="event" value="${esc(l.event||'')}" title="Fixture"><input data-leg="${i}" data-lkey="market" value="${esc(l.market||'')}" title="Market"><input data-leg="${i}" data-lkey="selection" value="${esc(l.selection||'')}" title="Selection"><input data-leg="${i}" data-lkey="odds" value="${esc(l.odds??'')}" title="Leg odds"><select data-leg="${i}" data-lkey="result"><option ${l.result==='Win'?'selected':''}>Win</option><option ${l.result==='Loss'?'selected':''}>Loss</option><option ${l.result==='Void'?'selected':''}>Void</option><option ${l.result==='Pending'?'selected':''}>Pending</option></select></div>${l._superSubReplacement?`<div class="bt-pr-super">Super Sub replacement: <b>${esc(l._superSubReplacement)}</b></div>`:''}</div>`).join('')}</div>`;
+$('.bt-pr-status',o).textContent=`${state.approved.filter(Boolean).length} of ${state.items.length} approved`;$('.bt-pr-import',o).textContent=`Import Approved Bets (${state.approved.filter(Boolean).length})`;$('.bt-pr-import',o).disabled=!state.approved.some(Boolean)}
+function sync(){if(!state)return;const o=state.overlay,p=state.items[state.i].parsed;$$ (o,'[data-pkey]').forEach(x=>{let v=x.value;if(['stake','returns','free','_receiptOdds'].includes(x.dataset.pkey)&&v!=='')v=Number(v);p[x.dataset.pkey]=v});$$ (o,'[data-leg]').forEach(x=>{let v=x.value;if(x.dataset.lkey==='odds'&&v!=='')v=Number(v);p.legs[Number(x.dataset.leg)][x.dataset.lkey]=v});state.approved[state.i]=$('.bt-pr-approve input',o).checked}
+function close(){state?.overlay?.remove();state=null}
+function openReview(modal){const src=modal.__btTextResults;if(!src?.length)return;const overlay=document.createElement('div');overlay.className='bt-paddy-review-overlay';overlay.innerHTML=`<div class="bt-paddy-review-shell"><div class="bt-pr-head"><div><h2>Review Paddy Power Import</h2><small>Nothing is added until you press Import Approved Bets.</small></div><button class="bt-pr-close">Close</button></div><div class="bt-pr-nav"><button class="bt-pr-prev">← Previous</button><span class="bt-pr-count"></span><button class="bt-pr-next">Next →</button></div><div class="bt-pr-body"></div><div class="bt-pr-foot"><label class="bt-pr-approve"><input type="checkbox"> Approve this bet</label><span class="bt-pr-status"></span><button class="bt-pr-import">Import Approved Bets</button></div></div>`;document.body.appendChild(overlay);state={overlay,sourceModal:modal,items:src.map(x=>({raw:x.raw,parsed:clone(x.parsed)})),approved:src.map(x=>!(x.parsed._parseIssues||[]).length),i:0};
+$('.bt-pr-close',overlay).onclick=close;$('.bt-pr-prev',overlay).onclick=()=>{sync();if(state.i>0){state.i--;render()}};$('.bt-pr-next',overlay).onclick=()=>{sync();if(state.i<state.items.length-1){state.i++;render()}};$('.bt-pr-approve input',overlay).onchange=()=>{state.approved[state.i]=$('.bt-pr-approve input',overlay).checked;render()};$('.bt-pr-import',overlay).onclick=async()=>{sync();const chosen=state.items.filter((_,i)=>state.approved[i]);if(!chosen.length)return;const modal=state.sourceModal;modal.__btTextResults=chosen;const checks=$$(modal,'.bt-multi-check');checks.forEach((c,i)=>{c.checked=i<chosen.length});const fn=window.__btImportReviewedPaddy;if(typeof fn==='function'){await fn(modal,chosen)}else{const old=modal.querySelector('.bt-use-import');if(old){close();old.click()}}};render()}
+
+document.addEventListener('click',e=>{const modal=e.target.closest?.('.bt-import-modal');if(!modal||modal.dataset.btImportMode!=='text')return;const use=e.target.closest?.('.bt-use-import');if(!use)return;e.preventDefault();e.stopImmediatePropagation();openReview(modal)},true);
+window.__btOpenPaddyReview=openReview;
+})();
+</script>
+'''
+
+# Expose a safe direct importer from the existing Paddy patch's internal importSelected function.
+needle='  window.__btParsePaddyText=parseAll;'
+replacement='  window.__btParsePaddyText=parseAll;\n  window.__btImportReviewedPaddy=async (modal,items)=>{ modal.__btTextResults=items; const old=modal.querySelectorAll(".bt-multi-check"); old.forEach((c,i)=>c.checked=i<items.length); await importSelected(modal); };'
+if needle not in html: raise SystemExit('Paddy importer hook not found')
+html=html.replace(needle,replacement,1)
+if '</head>' not in html or '</body>' not in html: raise SystemExit('HTML markers missing')
+html=html.replace('</head>',css+'\n</head>',1).replace('</body>',js+'\n</body>',1)
+path.write_text(html,encoding='utf-8')
+print('Applied Paddy full review stage')
