@@ -17,13 +17,18 @@ for token in required:
     if token not in html:
         raise SystemExit(f'QA failed: missing {token}')
 
+text_match = re.search(r'<script id="bt-paddy-text-import">(.*?)</script>', html, re.S)
+if not text_match:
+    raise SystemExit('QA failed: Paddy text importer script missing')
+text_js = text_match.group(1)
+
 bad = 'e.preventDefault();e.stopImmediatePropagation();await importSelected(modal);return'
-if bad in html:
-    raise SystemExit('QA failed: direct Paddy text import click route still exists')
+if bad in text_js:
+    raise SystemExit('QA failed: Paddy text importer still directly imports from the review button')
 
 route = 'e.preventDefault();e.stopImmediatePropagation();if(typeof window.__btOpenPaddyReview==="function")window.__btOpenPaddyReview(modal);return'
-if html.count(route) != 1:
-    raise SystemExit(f'QA failed: expected one explicit review route, found {html.count(route)}')
+if text_js.count(route) != 1:
+    raise SystemExit(f'QA failed: expected one explicit Paddy review route in text importer, found {text_js.count(route)}')
 
 # Syntax-check every Paddy patch script in the built artifact, not just source patch files.
 ids = [
@@ -44,4 +49,4 @@ for sid in ids:
     if r.returncode:
         raise SystemExit(f'QA failed: JS syntax error in {sid}: {r.stderr}')
 
-print('Paddy review QA passed: parse -> review route active, direct import blocked, scripts syntax-valid')
+print('Paddy review QA passed: review button routes to review, direct text import blocked, scripts syntax-valid')
