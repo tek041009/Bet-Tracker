@@ -95,7 +95,7 @@ jobs:
         run: python deploy/qa-paddy-review-browser.py
 
       - name: Browser QA bulk delete and import progress
-        run: python deploy/qa-bulk-import-flow-v2.py
+        run: python deploy/qa-bulk-import-flow-v3.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
