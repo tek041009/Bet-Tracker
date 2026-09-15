@@ -9,7 +9,7 @@ required = [
     'id="bt-paddy-review"',
     'id="bt-paddy-review-button-fix"',
     'Review ${results.length} parsed bets',
-    'Review Paddy Power Import',
+    'Review ${esc(src[0]?.parsed?.bookmaker||"Paddy Power")} Import',
     'Import Approved Bets',
 ]
 for token in required:
