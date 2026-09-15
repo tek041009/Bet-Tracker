@@ -70,8 +70,14 @@ jobs:
       - name: Apply Paddy review runtime fix
         run: python deploy/paddy-review-runtime-fix.py
 
+      - name: Apply Paddy review leg columns
+        run: python deploy/paddy-review-columns-patch.py
+
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
+
+      - name: Browser QA Paddy review columns
+        run: python deploy/qa-paddy-review-browser.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
