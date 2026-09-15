@@ -49,6 +49,9 @@ jobs:
       - name: Apply audited scanner regression patch
         run: python deploy/scanner-regression-patch.py
 
+      - name: Apply Multi Bet Import patch
+        run: python deploy/multi-bet-import-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
