@@ -91,6 +91,9 @@ jobs:
       - name: Restore labeled and advanced Bet Tracker filters
         run: python deploy/tracker-advanced-filters-patch.py
 
+      - name: Make Advanced open visible controls immediately
+        run: python deploy/tracker-advanced-open-fix.py
+
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
 
