@@ -19,11 +19,13 @@ tracker={'version':1,'startingBalance':100,'transactions':[],'bets':[
 page=f'''<!doctype html><html><body><div id="bet-tracker-root"></div><script>localStorage.setItem('bet-tracker-user-v1',JSON.stringify({json.dumps(tracker)}));</script><script>{main_js}</script><script>
 const setNative=(el,val)=>{{const proto=el instanceof HTMLSelectElement?HTMLSelectElement.prototype:HTMLInputElement.prototype;const setter=Object.getOwnPropertyDescriptor(proto,'value').set;setter.call(el,val);el.dispatchEvent(new Event(el instanceof HTMLSelectElement?'change':'input',{{bubbles:true}}));}};
 const visible=(el)=>{{if(!el)return false;const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity||1)>0&&r.width>20&&r.height>20;}};
+const geo=(el)=>{{if(!el)return 'missing';const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display+','+s.visibility+','+s.opacity+','+Math.round(r.width)+'x'+Math.round(r.height)+',pos='+s.position+',ov='+s.overflow;}};
 setTimeout(()=>{{[...document.querySelectorAll('aside nav button')].find(b=>b.textContent.includes('Bet Tracker'))?.click();setTimeout(()=>{{
  const labels=[...document.querySelectorAll('.bt-filter-control>span')].map(x=>x.textContent.trim());
  const adv=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Advanced');adv?.click();
  setTimeout(()=>{{
    const panel=document.querySelector('.bt-tracker-advanced-panel');
+   const rules=panel?.querySelector('.bt-advanced-rules');
    const rule=panel?.querySelector('.bt-advanced-rule');
    const sels=rule?.querySelectorAll('select');
    const inp=rule?.querySelector('input');
@@ -31,7 +33,7 @@ setTimeout(()=>{{[...document.querySelectorAll('aside nav button')].find(b=>b.te
    const actuallyOpen=!!panel&&visible(panel)&&panelRect.width>300&&panelRect.height>80&&visible(sels?.[0])&&visible(sels?.[1])&&visible(inp)&&adv?.textContent.trim()==='Hide Advanced'&&adv?.getAttribute('aria-expanded')==='true';
    if(sels?.[0])setNative(sels[0],'market');
    setTimeout(()=>{{if(inp)setNative(inp,'Match Odds');}},50);
-   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');const ok=JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&actuallyOpen&&rows.length===1&&rows[0].textContent.includes('Bet365');document.body.dataset.qa=ok?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / open='+actuallyOpen+' / display='+(panel?getComputedStyle(panel).display:'missing')+' / box='+(panelRect?panelRect.width+'x'+panelRect.height:'missing')+' / rows='+rows.length+' / '+(rows[0]?.textContent||'');}},350);
+   setTimeout(()=>{{const rows=document.querySelectorAll('table.bet-table tbody tr');const ok=JSON.stringify(labels)===JSON.stringify(['Bookmaker','Sport','Source','Result'])&&actuallyOpen&&rows.length===1&&rows[0].textContent.includes('Bet365');document.body.dataset.qa=ok?'pass':'fail';document.body.dataset.detail=labels.join('|')+' / open='+actuallyOpen+' / panel='+geo(panel)+' / rules='+geo(rules)+' / rule='+geo(rule)+' / field='+geo(sels?.[0])+' / cond='+geo(sels?.[1])+' / value='+geo(inp)+' / btn='+(adv?.textContent||'missing')+' / expanded='+(adv?.getAttribute('aria-expanded')||'missing')+' / rows='+rows.length+' / html='+(panel?.innerHTML||'missing').slice(0,900).replace(/\s+/g,' ');}},350);
  }},180);
 }},120)}},100);
 </script></body></html>'''
@@ -40,7 +42,7 @@ with tempfile.TemporaryDirectory() as td:
     try:
         time.sleep(.25);r=subprocess.run([chrome,'--headless','--disable-gpu','--no-sandbox','--disable-background-networking','--virtual-time-budget=2500','--dump-dom','http://127.0.0.1:8766/index.html'],capture_output=True,text=True,timeout=35)
         if r.returncode or 'data-qa="pass"' not in r.stdout:
-            b=re.search(r'<body([^>]*)>',r.stdout,re.S);raise SystemExit('Advanced filter browser QA failed: '+(b.group(1) if b else (r.stdout+r.stderr)[-2000:]))
+            b=re.search(r'<body([^>]*)>',r.stdout,re.S);raise SystemExit('Advanced filter browser QA failed: '+(b.group(1) if b else (r.stdout+r.stderr)[-3000:]))
     finally:
         srv.terminate();
         try:srv.wait(timeout=2)
