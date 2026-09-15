@@ -64,6 +64,9 @@ jobs:
       - name: Apply explicit Paddy review button fix
         run: python deploy/paddy-review-button-fix.py
 
+      - name: Route Paddy action through review stage
+        run: python deploy/paddy-review-routing-fix.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
