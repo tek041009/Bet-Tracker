@@ -58,6 +58,9 @@ jobs:
       - name: Apply Paddy text click isolation fix
         run: python deploy/paddy-text-click-fix.py
 
+      - name: Apply Paddy full review stage
+        run: python deploy/paddy-review-patch.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
