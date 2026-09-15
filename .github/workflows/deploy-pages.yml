@@ -88,6 +88,9 @@ jobs:
       - name: Add Bet365 text paste importer
         run: python deploy/bet365-text-import-patch.py
 
+      - name: Normalize Bet365 markets and European Tour competition
+        run: python deploy/bet365-market-competition-normalization-patch.py
+
       - name: Apply Bet Tracker bulk delete
         run: python deploy/bulk-delete-patch.py
 
@@ -108,6 +111,9 @@ jobs:
 
       - name: QA Bet365 text paste parser
         run: python deploy/qa-bet365-text-import.py
+
+      - name: QA Bet365 market and competition normalization
+        run: python deploy/qa-bet365-market-competition.py
 
       - name: Browser QA bulk delete and import progress
         run: python deploy/qa-bulk-import-flow-v3.py
