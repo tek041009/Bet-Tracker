@@ -106,6 +106,9 @@ jobs:
       - name: Browser QA bulk delete and import progress
         run: python deploy/qa-bulk-import-flow-v3.py
 
+      - name: Browser QA Shift-click bulk selection
+        run: python deploy/qa-bulk-shift-select.py
+
       - name: Browser QA labeled and advanced tracker filters
         run: python deploy/qa-advanced-filters.py
 
