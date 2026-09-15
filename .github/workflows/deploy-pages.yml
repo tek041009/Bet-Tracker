@@ -85,6 +85,9 @@ jobs:
       - name: Return batch import result to progress screen
         run: python deploy/paddy-import-wrapper-return-fix.py
 
+      - name: Harden reviewed batch imports
+        run: python deploy/import-batch-reliability-patch.py
+
       - name: Add Bet365 text paste importer
         run: python deploy/bet365-text-import-patch.py
 
@@ -114,6 +117,9 @@ jobs:
 
       - name: Browser QA Paddy parser and review columns
         run: python deploy/qa-paddy-review-browser.py
+
+      - name: QA reviewed batch reliability
+        run: python deploy/qa-import-batch-reliability.py
 
       - name: QA Bet365 text paste parser
         run: python deploy/qa-bet365-text-import.py
