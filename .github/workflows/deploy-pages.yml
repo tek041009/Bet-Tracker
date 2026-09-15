@@ -79,11 +79,20 @@ jobs:
       - name: Apply Paddy review leg columns
         run: python deploy/paddy-review-columns-patch.py
 
+      - name: Apply Paddy batch import progress flow
+        run: python deploy/paddy-import-progress-patch.py
+
+      - name: Apply Bet Tracker bulk delete
+        run: python deploy/bulk-delete-patch.py
+
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
 
       - name: Browser QA Paddy parser and review columns
         run: python deploy/qa-paddy-review-browser.py
+
+      - name: Browser QA bulk delete and import progress
+        run: python deploy/qa-bulk-import-flow.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
