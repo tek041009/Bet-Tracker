@@ -16,11 +16,11 @@ for token in required:
     if token not in html:
         raise SystemExit(f'QA failed: missing {token}')
 
-# 1) Verify the *earliest/base* .bt-use-import capture handler routes Paddy text mode
-# to review before the generic screenshot importer can swallow the click.
-core_route = 'if(modal?.dataset.btImportMode==="text"&&typeof window.__btOpenPaddyReview==="function"){window.__btOpenPaddyReview(modal);return}if(modal)await useImportV6(modal);return'
+# 1) Verify the *earliest/base* .bt-use-import capture handler routes both reviewed
+# text modes to review before the generic screenshot importer can swallow the click.
+core_route = 'if((modal?.dataset.btImportMode==="text"||modal?.dataset.btImportMode==="bet365text")&&typeof window.__btOpenPaddyReview==="function"){window.__btOpenPaddyReview(modal);return}if(modal)await useImportV6(modal);return'
 if html.count(core_route) != 1:
-    raise SystemExit(f'QA failed: live/base import handler is not routed through Paddy review exactly once (found {html.count(core_route)})')
+    raise SystemExit(f'QA failed: live/base import handler is not routed through reviewed text import exactly once (found {html.count(core_route)})')
 
 # 2) Verify the Paddy text importer itself does not bypass review.
 text_match = re.search(r'<script id="bt-paddy-text-import">(.*?)</script>', html, re.S)
@@ -62,4 +62,4 @@ for sid in ids:
     if r.returncode:
         raise SystemExit(f'QA failed: JS syntax error in {sid}: {r.stderr}')
 
-print('Paddy review QA passed: earliest live click route -> review, renderer bindings valid, direct import blocked, scripts syntax-valid')
+print('Paddy review QA passed: earliest live click route -> reviewed text import, renderer bindings valid, direct import blocked, scripts syntax-valid')
