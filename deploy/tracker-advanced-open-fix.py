@@ -9,19 +9,20 @@ if h.count(old)!=1:
     raise SystemExit(f'Expected one Advanced toggle handler, found {h.count(old)}')
 h=h.replace(old,new,1)
 
-# The base app already has an older .bt-advanced-panel { display:none } rule.
-# Our conditional React panel reused the same class, so it existed in the DOM but was still hidden.
+# Do NOT reuse .bt-advanced-panel: the base app already uses that class for the
+# Profit / Loss Analysis advanced panel and its CSS deliberately starts hidden.
+# Give the Bet Tracker panel its own class so the two features cannot conflict.
 old_panel='''advOpen&&(0,c.jsxs)("div",{className:"bt-advanced-panel",children:'''
-new_panel='''advOpen&&(0,c.jsxs)("div",{className:"bt-advanced-panel open",children:'''
+new_panel='''advOpen&&(0,c.jsxs)("div",{className:"bt-tracker-advanced-panel",children:'''
 if h.count(old_panel)!=1:
-    raise SystemExit(f'Expected one Advanced panel render, found {h.count(old_panel)}')
+    raise SystemExit(f'Expected one tracker Advanced panel render, found {h.count(old_panel)}')
 h=h.replace(old_panel,new_panel,1)
 
 old_css='''.bt-advanced-panel{margin:12px 0 14px;padding:14px;border:1px solid rgba(120,157,190,.18);border-radius:12px;background:#081925}'''
-new_css='''.bt-advanced-panel{display:block!important;margin:12px 0 14px;padding:16px;border:1px solid rgba(84,134,255,.48);border-radius:12px;background:#081925;box-shadow:0 12px 28px rgba(0,0,0,.28);max-height:42vh;overflow:auto}'''
+new_css='''.bt-tracker-advanced-panel{display:block;margin:12px 0 14px;padding:16px;border:1px solid rgba(84,134,255,.48);border-radius:12px;background:#081925;box-shadow:0 12px 28px rgba(0,0,0,.28);max-height:42vh;overflow:auto}'''
 if h.count(old_css)!=1:
-    raise SystemExit(f'Expected one Advanced panel style, found {h.count(old_css)}')
+    raise SystemExit(f'Expected one tracker Advanced panel style, found {h.count(old_css)}')
 h=h.replace(old_css,new_css,1)
 
 p.write_text(h,encoding='utf-8')
-print('Fixed Advanced panel visibility conflict with legacy display:none CSS')
+print('Tracker Advanced panel now uses its own visible class, isolated from legacy Analysis advanced CSS')
