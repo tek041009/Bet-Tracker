@@ -34,25 +34,6 @@ jobs:
           touch _site/.nojekyll
           test "$(sha256sum _site/index.html | awk '{print $1}')" = "99b5473dc34adc11d20a0974e10a512ee09a9a3fbcbd8d36fa79aa11197e937b"
 
-      - name: Inspect original Bet Tracker filters
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          h=Path('_site/index.html').read_text()
-          p=h.find('function r1({data:t,onAdd:l,onEdit:a,onDelete:e})')
-          if p<0:
-              raise SystemExit('r1 component not found')
-          s=h[p:p+12000]
-          for token in ['filter-bar','Advanced','advanced','select','All']:
-              print('\n---',token,'---')
-              q=0
-              while True:
-                  i=s.find(token,q)
-                  if i<0: break
-                  print(s[max(0,i-700):i+1400])
-                  q=i+len(token)
-          PY
-
       - name: Apply cloud sync safety patch
         run: python deploy/cloud-safety-patch.py
 
@@ -107,6 +88,9 @@ jobs:
       - name: Apply Bet Tracker bulk delete
         run: python deploy/bulk-delete-patch.py
 
+      - name: Restore labeled and advanced Bet Tracker filters
+        run: python deploy/tracker-advanced-filters-patch.py
+
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
 
@@ -115,6 +99,9 @@ jobs:
 
       - name: Browser QA bulk delete and import progress
         run: python deploy/qa-bulk-import-flow-v3.py
+
+      - name: Browser QA labeled and advanced tracker filters
+        run: python deploy/qa-advanced-filters.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
