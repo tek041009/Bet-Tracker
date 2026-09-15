@@ -94,6 +94,9 @@ jobs:
       - name: Make Advanced open visible controls immediately
         run: python deploy/tracker-advanced-open-fix.py
 
+      - name: Replace generic Advanced with Excel-style tracker filters
+        run: python deploy/tracker-advanced-v2-patch.py
+
       - name: QA Paddy review flow
         run: python deploy/qa-paddy-review.py
 
