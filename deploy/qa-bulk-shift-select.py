@@ -2,7 +2,7 @@ from pathlib import Path
 import json,re,shutil,subprocess,tempfile,time
 
 html=Path('_site/index.html').read_text(encoding='utf-8')
-for x in ['J=(0,W.useRef)(null)','e.shiftKey','Shift-click to select a range','Delete selected (${B.size})']:
+for x in ['r1.__btLastSelectedId','e.shiftKey','Shift-click to select a range','Delete selected (${B.size})']:
     if x not in html: raise SystemExit(f'Shift-select QA missing {x}')
 main_m=re.search(r'<script>"use strict";\(\(\)=>\{.*?</script>',html,re.S)
 if not main_m: raise SystemExit('Shift-select QA: main script missing')
