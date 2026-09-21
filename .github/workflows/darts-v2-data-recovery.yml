@@ -10,13 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract official format semantics
+      - name: Validate live-usable starter-resolved rate model
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p darts_recovery
+          python -m pip install -q pandas numpy scikit-learn
           python - <<'PY'
-          import urllib.request, hashlib, pathlib, zipfile, re, html, xml.etree.ElementTree as ET
+          import urllib.request, hashlib, pathlib, zipfile, json, math
+          import numpy as np
+          import pandas as pd
+          from sklearn.metrics import log_loss, brier_score_loss, accuracy_score
+
           out=pathlib.Path("darts_recovery")
           url="https://data.mendeley.com/public-files/datasets/cpzg7kw428/files/c4863545-da82-4d2d-ae8f-380c48673e23/file_downloaded"
           expected="e1997b356278657a75efbdafd7f265c6b7edde9fcb3fb98524c7dee8a456f930"
@@ -28,37 +33,148 @@ jobs:
               if not b: break
               f.write(b); h.update(b)
           if h.hexdigest()!=expected: raise SystemExit("archive hash mismatch")
-          with zipfile.ZipFile(zpath) as z:
-            run=z.read("Run.R").decode("utf-8",errors="replace")
-            (out/"Run.R").write_text(run)
-            guide=z.read("User guide to the code used for Paper.docx")
-          (out/"guide.docx").write_bytes(guide)
-          # Extract DOCX text.
-          with zipfile.ZipFile(out/"guide.docx") as dz:
-            xml=dz.read("word/document.xml")
-          root=ET.fromstring(xml)
-          ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
-          paras=[]
-          for p in root.findall('.//w:p',ns):
-            t=''.join(x.text or '' for x in p.findall('.//w:t',ns))
-            if t.strip(): paras.append(t)
-          guide_text="\n".join(paras)
-          (out/"guide.txt").write_text(guide_text)
-          # Print all lines around format/field construction.
-          lines=run.splitlines()
-          keys=re.compile(r'NumberofLegs|TotSets|Matchtype|Startfrom|Start\b|Win\b|GameNo|LegNo|SetNo|Timestamp|Win_poss_both',re.I)
-          for i,line in enumerate(lines):
-            if keys.search(line):
-              a=max(0,i-3); b=min(len(lines),i+4)
-              print(f"--- Run.R lines {a+1}-{b} ---")
-              for j in range(a,b): print(f"{j+1}: {lines[j]}")
-          print("=== GUIDE ===")
-          print(guide_text)
+          with zipfile.ZipFile(zpath) as z, z.open("International.csv") as src, open(out/"International.csv","wb") as dst:
+            while True:
+              b=src.read(1024*1024)
+              if not b: break
+              dst.write(b)
           zpath.unlink()
+
+          usecols=["GameNo","Timestamp","SetNo","LegNo","Playername","Win","Start","throw_no"]
+          df=pd.read_csv(out/"International.csv",usecols=usecols,low_memory=False)
+          df["Timestamp"]=pd.to_datetime(df["Timestamp"],errors="coerce",utc=True)
+          for c in ["Win","Start","throw_no","SetNo","LegNo"]: df[c]=pd.to_numeric(df[c],errors="coerce")
+          first=df[(df.throw_no==1)&df.Start.isin([0,1])].copy()
+          keys=["GameNo","SetNo","LegNo"]
+          s=first[first.Start==1].sort_values(keys).drop_duplicates(keys)
+          r=first[first.Start==0].sort_values(keys).drop_duplicates(keys)
+          legs=s[keys+["Timestamp","Playername","Win"]].merge(r[keys+["Playername","Win"]],on=keys,suffixes=("_starter","_responder"))
+          legs=legs.rename(columns={"Playername_starter":"starter","Playername_responder":"responder","Win_starter":"starter_win"})
+          legs=legs.dropna(subset=["Timestamp","starter","responder","starter_win"])
+          legs["starter_win"]=legs.starter_win.astype(int)
+          legs=legs[(legs.starter_win.isin([0,1]))&(legs.starter!=legs.responder)].copy()
+          legs["GameNo"]=legs.GameNo.astype(str)
+          legs=legs.sort_values(["Timestamp","GameNo","SetNo","LegNo"]).drop_duplicates(keys)
+
+          matches=(legs.groupby("GameNo",as_index=False).Timestamp.min().sort_values(["Timestamp","GameNo"]))
+          games=matches.GameNo.tolist(); n=len(games)
+          ntr=int(n*.70); nval=int(n*.15)
+          train_games=set(games[:ntr]); val_games=set(games[ntr:ntr+nval]); test_games=set(games[ntr+nval:])
+          train=legs[legs.GameNo.isin(train_games)]
+          global_start=float(train.starter_win.mean())
+          global_resp=1-global_start
+
+          # Stats are [starts,wins_on_start,responses,wins_on_response], updated only AFTER each complete match.
+          def init_stats():
+            st={}
+            for _,row in train.iterrows():
+              a=row.starter; b=row.responder; y=int(row.starter_win)
+              sa=st.setdefault(a,[0,0,0,0]); sb=st.setdefault(b,[0,0,0,0])
+              sa[0]+=1; sa[1]+=y
+              sb[2]+=1; sb[3]+=(1-y)
+            return st
+
+          eps=1e-9
+          def logit(p):
+            p=min(1-eps,max(eps,p)); return math.log(p/(1-p))
+          def sig(z): return 1/(1+math.exp(-z))
+          def posterior(w,n,prior,k):
+            return (w+k*prior)/(n+k)
+
+          def predict_match_rows(rows,st,k,mode):
+            ps=[]
+            meta=[]
+            for _,row in rows.iterrows():
+              a=row.starter; b=row.responder
+              sa=st.get(a,[0,0,0,0]); sb=st.get(b,[0,0,0,0])
+              pa_start=posterior(sa[1],sa[0],global_start,k)
+              pb_resp=posterior(sb[3],sb[2],global_resp,k) # B win rate when responding
+              opp_loss=1-pb_resp
+              if mode=="mean":
+                p=.5*(pa_start+opp_loss)
+              elif mode=="logit_mean":
+                p=sig(.5*(logit(pa_start)+logit(opp_loss)))
+              elif mode=="count_weighted_logit":
+                wa=sa[0]+k; wb=sb[2]+k
+                p=sig((wa*logit(pa_start)+wb*logit(opp_loss))/(wa+wb))
+              else: raise ValueError(mode)
+              ps.append(p)
+              meta.append((a,b,sa[0],sb[2],pa_start,pb_resp))
+            return np.asarray(ps),meta
+
+          def update_match(rows,st):
+            for _,row in rows.iterrows():
+              a=row.starter; b=row.responder; y=int(row.starter_win)
+              sa=st.setdefault(a,[0,0,0,0]); sb=st.setdefault(b,[0,0,0,0])
+              sa[0]+=1; sa[1]+=y; sb[2]+=1; sb[3]+=(1-y)
+
+          def evaluate(game_seq, st, k, mode):
+            ys=[]; ps=[]; cold=0; details=[]
+            for g in game_seq:
+              rows=legs[legs.GameNo==g]
+              for _,row in rows.iterrows():
+                if row.starter not in st or row.responder not in st: cold+=1
+              p,meta=predict_match_rows(rows,st,k,mode)
+              ys.extend(rows.starter_win.astype(int).tolist()); ps.extend(p.tolist())
+              update_match(rows,st)
+            y=np.asarray(ys); p=np.asarray(ps)
+            return {
+              "n":int(len(y)),"log_loss":float(log_loss(y,p,labels=[0,1])),
+              "brier":float(brier_score_loss(y,p)),
+              "accuracy":float(accuracy_score(y,p>=.5)),
+              "mean_pred":float(p.mean()),"observed":float(y.mean()),
+              "cold_start_legs":int(cold)
+            },st,y,p
+
+          val_games_seq=games[ntr:ntr+nval]; test_games_seq=games[ntr+nval:]
+          candidates=[]
+          for k in [10,20,50,100,200]:
+            for mode in ["mean","logit_mean","count_weighted_logit"]:
+              st=init_stats()
+              m,_,_,_=evaluate(val_games_seq,st,k,mode)
+              candidates.append({"k":k,"mode":mode,**m})
+          best=min(candidates,key=lambda x:x["log_loss"])
+
+          # Rerun chosen model across validation then untouched test, allowing only prior completed matches to update rates.
+          st=init_stats()
+          val_metrics,st,_,_=evaluate(val_games_seq,st,best["k"],best["mode"])
+          test_metrics,st,yt,pt=evaluate(test_games_seq,st,best["k"],best["mode"])
+          p0=np.full(len(yt),global_start)
+          challenger={
+            "n":int(len(yt)),"log_loss":float(log_loss(yt,p0,labels=[0,1])),
+            "brier":float(brier_score_loss(yt,p0)),
+            "accuracy":float(accuracy_score(yt,p0>=.5)),
+            "mean_pred":float(p0.mean()),"observed":float(yt.mean())
+          }
+          tmp=pd.DataFrame({"y":yt,"p":pt})
+          tmp["bin"]=pd.qcut(tmp.p,q=10,duplicates="drop")
+          bins=[]
+          for _,g in tmp.groupby("bin",observed=True): bins.append({"n":len(g),"mean_pred":float(g.p.mean()),"observed":float(g.y.mean())})
+          ece=sum(x["n"]*abs(x["mean_pred"]-x["observed"]) for x in bins)/len(tmp)
+
+          result={
+            "source":{"doi":"10.17632/cpzg7kw428.3","archive_sha256":expected,"raw_file":"International.csv"},
+            "model":"STARTER_RESOLVED_DIRECT_RATE_SHRINKAGE",
+            "semantics":"P(starter wins) combines starter's prior on-throw leg-win rate with responder's prior off-throw leg-loss rate; all rates frozen at match start and updated only after match completion",
+            "global_train_start_rate":global_start,
+            "train":{"matches":ntr,"legs":int(len(train)),"cutoff":str(train.Timestamp.max())},
+            "validation":{"matches":nval,"start":str(legs[legs.GameNo.isin(val_games)].Timestamp.min()),"end":str(legs[legs.GameNo.isin(val_games)].Timestamp.max())},
+            "test":{"matches":len(test_games_seq),"start":str(legs[legs.GameNo.isin(test_games)].Timestamp.min()),"end":str(legs[legs.GameNo.isin(test_games)].Timestamp.max())},
+            "candidate_grid":candidates,
+            "selected":{"k":best["k"],"mode":best["mode"]},
+            "validation_model":val_metrics,
+            "test_model":test_metrics,
+            "test_global_challenger":challenger,
+            "test_ece":float(ece),
+            "test_calibration_bins":bins
+          }
+          (out/"family_h_live_rate_validation.json").write_text(json.dumps(result,indent=2))
+          print(json.dumps(result,indent=2))
+          (out/"International.csv").unlink()
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: darts-v2-format-semantics
+          name: darts-v2-family-h-live-rate-validation
           path: darts_recovery/
           if-no-files-found: error
           retention-days: 3
