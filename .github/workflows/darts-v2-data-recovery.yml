@@ -1,0 +1,52 @@
+name: DARTS V2 data recovery
+on:
+  push:
+    branches:
+      - darts-v2-data-recovery
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+      - name: Download and inspect International replication data
+        shell: bash
+        run: |
+          mkdir -p darts_recovery
+          Rscript - <<'RSCRIPT'
+          url <- "https://raw.githubusercontent.com/bibliotheque-generale/darts-project/main/International_processed.RData"
+          dest <- "darts_recovery/International_processed.RData"
+          download.file(url, dest, mode="wb", quiet=FALSE)
+          e <- new.env(parent=emptyenv())
+          objs <- load(dest, envir=e)
+          lines <- c(
+            paste0("source_url=", url),
+            paste0("objects=", paste(objs, collapse=",")),
+            paste0("download_bytes=", file.info(dest)$size)
+          )
+          for (nm in objs) {
+            x <- e[[nm]]
+            cls <- paste(class(x), collapse=",")
+            dims <- if (!is.null(dim(x))) paste(dim(x), collapse="x") else ""
+            lines <- c(lines, paste0("object=", nm, ";class=", cls, ";dims=", dims))
+            if (is.data.frame(x) || inherits(x, "data.table")) {
+              out <- file.path("darts_recovery", paste0(gsub("[^A-Za-z0-9_-]","_",nm), ".csv"))
+              write.csv(as.data.frame(x), out, row.names=FALSE)
+              lines <- c(lines, paste0("csv=", out, ";rows=", nrow(x), ";cols=", ncol(x),
+                                       ";columns=", paste(names(x), collapse="|")))
+            }
+          }
+          writeLines(lines, "darts_recovery/manifest.txt")
+          RSCRIPT
+          ls -lah darts_recovery
+          cat darts_recovery/manifest.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: darts-v2-international-recovery
+          path: darts_recovery/
+          if-no-files-found: error
+          retention-days: 3
