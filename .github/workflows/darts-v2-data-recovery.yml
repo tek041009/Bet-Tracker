@@ -10,43 +10,60 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: 'release'
-      - name: Download and inspect International replication data
+      - name: Discover full Mendeley replication file endpoints
         shell: bash
         run: |
           mkdir -p darts_recovery
-          Rscript - <<'RSCRIPT'
-          url <- "https://raw.githubusercontent.com/bibliotheque-generale/darts-project/main/International_processed.RData"
-          dest <- "darts_recovery/International_processed.RData"
-          download.file(url, dest, mode="wb", quiet=FALSE)
-          e <- new.env(parent=emptyenv())
-          objs <- load(dest, envir=e)
-          lines <- c(
-            paste0("source_url=", url),
-            paste0("objects=", paste(objs, collapse=",")),
-            paste0("download_bytes=", file.info(dest)$size)
-          )
-          for (nm in objs) {
-            x <- e[[nm]]
-            cls <- paste(class(x), collapse=",")
-            dims <- if (!is.null(dim(x))) paste(dim(x), collapse="x") else ""
-            lines <- c(lines, paste0("object=", nm, ";class=", cls, ";dims=", dims))
-            if (is.data.frame(x) || inherits(x, "data.table")) {
-              out <- file.path("darts_recovery", paste0(gsub("[^A-Za-z0-9_-]","_",nm), ".csv"))
-              write.csv(as.data.frame(x), out, row.names=FALSE)
-              lines <- c(lines, paste0("csv=", out, ";rows=", nrow(x), ";cols=", ncol(x),
-                                       ";columns=", paste(names(x), collapse="|")))
-            }
-          }
-          writeLines(lines, "darts_recovery/manifest.txt")
-          RSCRIPT
-          ls -lah darts_recovery
-          cat darts_recovery/manifest.txt
+          python - <<'PY'
+          import json, re, urllib.request, urllib.error, pathlib
+          out = pathlib.Path("darts_recovery")
+          urls = [
+            "https://data.mendeley.com/datasets/cpzg7kw428/3",
+            "https://data.mendeley.com/public-api/datasets/cpzg7kw428",
+            "https://data.mendeley.com/public-api/datasets/cpzg7kw428/versions/3",
+            "https://data.mendeley.com/public-api/datasets/cpzg7kw428/versions/3/files",
+            "https://api.mendeley.com/datasets/cpzg7kw428",
+            "https://api.mendeley.com/datasets/cpzg7kw428/versions/3",
+          ]
+          report=[]
+          bodies=[]
+          headers={"User-Agent":"Mozilla/5.0"}
+          for i,u in enumerate(urls):
+            try:
+              req=urllib.request.Request(u,headers=headers)
+              with urllib.request.urlopen(req,timeout=30) as r:
+                b=r.read()
+                ct=r.headers.get("content-type","")
+                final=r.geturl()
+                report.append({"url":u,"status":r.status,"final":final,"content_type":ct,"bytes":len(b)})
+                p=out/f"response_{i}.txt"
+                p.write_bytes(b)
+                try: bodies.append(b.decode("utf-8","ignore"))
+                except: pass
+            except Exception as e:
+              report.append({"url":u,"error":repr(e)})
+          text="\n".join(bodies)
+          patterns = [
+            r'https?://[^"\'<> ]+',
+            r'[^"\'<> ]+\.csv(?:\?[^"\'<> ]*)?',
+            r'[^"\'<> ]+(?:download|file_download|public-files)[^"\'<> ]*'
+          ]
+          candidates=set()
+          for pat in patterns:
+            for m in re.findall(pat,text,re.I):
+              if isinstance(m,tuple): m="".join(m)
+              candidates.add(m.replace("\\/","/"))
+          (out/"report.json").write_text(json.dumps(report,indent=2))
+          (out/"candidates.txt").write_text("\n".join(sorted(candidates)))
+          print(json.dumps(report,indent=2))
+          print("=== CANDIDATES ===")
+          for x in sorted(candidates):
+            if any(k in x.lower() for k in ["csv","download","file","cpzg7kw428"]):
+              print(x[:1000])
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: darts-v2-international-recovery
+          name: darts-v2-mendeley-discovery
           path: darts_recovery/
           if-no-files-found: error
           retention-days: 3
