@@ -10,20 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build chronological starter-aware leg challenger
+      - name: Extract official format semantics
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p darts_recovery
-          python -m pip install -q pandas numpy scipy scikit-learn
           python - <<'PY'
-          import urllib.request, hashlib, pathlib, zipfile, io, json, math
-          import numpy as np
-          import pandas as pd
-          from scipy.sparse import csr_matrix
-          from sklearn.linear_model import LogisticRegression
-          from sklearn.metrics import log_loss, brier_score_loss, accuracy_score
-
+          import urllib.request, hashlib, pathlib, zipfile, re, html, xml.etree.ElementTree as ET
           out=pathlib.Path("darts_recovery")
           url="https://data.mendeley.com/public-files/datasets/cpzg7kw428/files/c4863545-da82-4d2d-ae8f-380c48673e23/file_downloaded"
           expected="e1997b356278657a75efbdafd7f265c6b7edde9fcb3fb98524c7dee8a456f930"
@@ -34,161 +27,38 @@ jobs:
               b=r.read(1024*1024)
               if not b: break
               f.write(b); h.update(b)
-          digest=h.hexdigest()
-          if digest != expected:
-            raise SystemExit(f"archive sha mismatch {digest}")
-
+          if h.hexdigest()!=expected: raise SystemExit("archive hash mismatch")
           with zipfile.ZipFile(zpath) as z:
-            with z.open("International.csv") as src, open(out/"International.csv","wb") as dst:
-              while True:
-                b=src.read(1024*1024)
-                if not b: break
-                dst.write(b)
+            run=z.read("Run.R").decode("utf-8",errors="replace")
+            (out/"Run.R").write_text(run)
+            guide=z.read("User guide to the code used for Paper.docx")
+          (out/"guide.docx").write_bytes(guide)
+          # Extract DOCX text.
+          with zipfile.ZipFile(out/"guide.docx") as dz:
+            xml=dz.read("word/document.xml")
+          root=ET.fromstring(xml)
+          ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+          paras=[]
+          for p in root.findall('.//w:p',ns):
+            t=''.join(x.text or '' for x in p.findall('.//w:t',ns))
+            if t.strip(): paras.append(t)
+          guide_text="\n".join(paras)
+          (out/"guide.txt").write_text(guide_text)
+          # Print all lines around format/field construction.
+          lines=run.splitlines()
+          keys=re.compile(r'NumberofLegs|TotSets|Matchtype|Startfrom|Start\b|Win\b|GameNo|LegNo|SetNo|Timestamp|Win_poss_both',re.I)
+          for i,line in enumerate(lines):
+            if keys.search(line):
+              a=max(0,i-3); b=min(len(lines),i+4)
+              print(f"--- Run.R lines {a+1}-{b} ---")
+              for j in range(a,b): print(f"{j+1}: {lines[j]}")
+          print("=== GUIDE ===")
+          print(guide_text)
           zpath.unlink()
-
-          usecols=["GameNo","Timestamp","Matchtype","Playertype","NumberofLegs","SetNo","LegNo",
-                   "Playername","Win","Start","throw_no","Player1","Player2"]
-          df=pd.read_csv(out/"International.csv", usecols=usecols, low_memory=False)
-          df["Timestamp"]=pd.to_datetime(df["Timestamp"], errors="coerce", utc=True)
-          for c in ["Win","Start","throw_no","SetNo","LegNo","NumberofLegs"]:
-            df[c]=pd.to_numeric(df[c], errors="coerce")
-
-          first=df[(df["throw_no"]==1) & df["Start"].isin([0,1])].copy()
-          keys=["GameNo","SetNo","LegNo"]
-          s=first[first["Start"]==1].sort_values(keys).drop_duplicates(keys)
-          r=first[first["Start"]==0].sort_values(keys).drop_duplicates(keys)
-          legs=s[keys+["Timestamp","Matchtype","Playertype","NumberofLegs","Playername","Win","Player1","Player2"]].merge(
-            r[keys+["Playername","Win"]], on=keys, suffixes=("_starter","_responder"), how="inner"
-          )
-          legs=legs.rename(columns={"Playername_starter":"starter","Playername_responder":"responder",
-                                    "Win_starter":"starter_win"})
-          legs=legs.dropna(subset=["Timestamp","starter","responder","starter_win"])
-          legs["starter_win"]=legs["starter_win"].astype(int)
-          legs=legs[(legs["starter_win"].isin([0,1])) & (legs["starter"]!=legs["responder"])].copy()
-          legs["GameNo"]=legs["GameNo"].astype(str)
-
-          # One canonical record per leg.
-          legs=legs.sort_values(["Timestamp","GameNo","SetNo","LegNo"]).drop_duplicates(keys)
-          match_times=legs.groupby("GameNo",as_index=False)["Timestamp"].min().sort_values(["Timestamp","GameNo"])
-          games=match_times["GameNo"].tolist()
-          n=len(games)
-          ntr=max(1,int(n*0.70)); nval=max(1,int(n*0.15))
-          train_games=set(games[:ntr]); val_games=set(games[ntr:ntr+nval]); test_games=set(games[ntr+nval:])
-          train=legs[legs.GameNo.isin(train_games)].copy()
-          val=legs[legs.GameNo.isin(val_games)].copy()
-          test=legs[legs.GameNo.isin(test_games)].copy()
-          train_cutoff=train["Timestamp"].max()
-          val_start=val["Timestamp"].min(); val_end=val["Timestamp"].max()
-          test_start=test["Timestamp"].min(); test_end=test["Timestamp"].max()
-
-          players=sorted(set(train["starter"]).union(train["responder"]))
-          pidx={p:i for i,p in enumerate(players)}
-          def X_for(d):
-            rr=[]; cc=[]; vv=[]
-            for i,(a,b) in enumerate(zip(d["starter"],d["responder"])):
-              ia=pidx.get(a); ib=pidx.get(b)
-              if ia is not None: rr.append(i); cc.append(ia); vv.append(1.0)
-              if ib is not None: rr.append(i); cc.append(ib); vv.append(-1.0)
-            return csr_matrix((vv,(rr,cc)),shape=(len(d),len(players)))
-          Xtr=X_for(train); Xv=X_for(val); Xt=X_for(test)
-          ytr=train["starter_win"].to_numpy(); yv=val["starter_win"].to_numpy(); yt=test["starter_win"].to_numpy()
-
-          # Simple challenger: frozen training-period global starter rate.
-          p0=float(np.clip(ytr.mean(),1e-6,1-1e-6))
-          def metrics(y,p):
-            p=np.clip(np.asarray(p,float),1e-9,1-1e-9)
-            return {
-              "n":int(len(y)),
-              "log_loss":float(log_loss(y,p,labels=[0,1])),
-              "brier":float(brier_score_loss(y,p)),
-              "accuracy":float(accuracy_score(y,p>=0.5)),
-              "mean_pred":float(np.mean(p)),
-              "observed":float(np.mean(y))
-            }
-          def calibration(y,p,bins=10):
-            tmp=pd.DataFrame({"y":y,"p":p})
-            tmp["bin"]=pd.qcut(tmp["p"],q=min(bins,max(2,tmp["p"].nunique())),duplicates="drop")
-            rows=[]
-            for _,g in tmp.groupby("bin",observed=True):
-              rows.append({"n":len(g),"mean_pred":float(g.p.mean()),"observed":float(g.y.mean())})
-            ece=sum(x["n"]*abs(x["mean_pred"]-x["observed"]) for x in rows)/max(1,len(tmp))
-            return rows,float(ece)
-
-          Cs=[0.01,0.03,0.1,0.3,1.0]
-          val_scores=[]
-          models={}
-          for C in Cs:
-            m=LogisticRegression(C=C,penalty="l2",solver="lbfgs",fit_intercept=True,max_iter=1000)
-            m.fit(Xtr,ytr)
-            pv=m.predict_proba(Xv)[:,1]
-            sc=metrics(yv,pv)
-            val_scores.append({"C":C,**sc})
-            models[C]=m
-          best=min(val_scores,key=lambda x:x["log_loss"])
-          C=best["C"]
-          model=models[C]
-          ptest=model.predict_proba(Xt)[:,1]
-          pval=model.predict_proba(Xv)[:,1]
-          const_test=np.full(len(test),p0)
-          const_val=np.full(len(val),p0)
-          cal_rows,ece=calibration(yt,ptest)
-
-          # Cold-start diagnostic.
-          known_s=test["starter"].isin(pidx); known_r=test["responder"].isin(pidx)
-          both_known=(known_s & known_r).to_numpy()
-          cold=int((~both_known).sum())
-
-          result={
-            "source":{
-              "doi":"10.17632/cpzg7kw428.3",
-              "archive_sha256":digest,
-              "raw_file":"International.csv"
-            },
-            "leg_rows":int(len(legs)),
-            "matches":int(n),
-            "players_total":int(len(set(legs.starter).union(legs.responder))),
-            "train":{"matches":len(train_games),"legs":len(train),"cutoff":str(train_cutoff),"starter_win_rate":p0},
-            "validation":{"matches":len(val_games),"legs":len(val),"start":str(val_start),"end":str(val_end)},
-            "test":{"matches":len(test_games),"legs":len(test),"start":str(test_start),"end":str(test_end),"cold_start_legs":cold},
-            "tuning":val_scores,
-            "selected_C":C,
-            "intercept_start_advantage_logit":float(model.intercept_[0]),
-            "intercept_start_advantage_probability_equal_skill":float(1/(1+math.exp(-model.intercept_[0]))),
-            "validation_model":metrics(yv,pval),
-            "validation_global_challenger":metrics(yv,const_val),
-            "test_model":metrics(yt,ptest),
-            "test_global_challenger":metrics(yt,const_test),
-            "test_calibration_bins":cal_rows,
-            "test_ece":ece
-          }
-          (out/"family_h_validation.json").write_text(json.dumps(result,indent=2,default=str))
-
-          coef=pd.DataFrame({"player":players,"skill_logit":model.coef_[0]})
-          coef.sort_values("skill_logit",ascending=False).to_csv(out/"family_h_player_coefficients.csv",index=False)
-
-          compact=legs[["GameNo","Timestamp","Matchtype","Playertype","NumberofLegs","SetNo","LegNo","starter","responder","starter_win"]].copy()
-          compact.to_csv(out/"international_leg_level.csv",index=False)
-
-          # Match-format diagnostics, not used as model evidence yet.
-          compact["winner"]=np.where(compact.starter_win.eq(1),compact.starter,compact.responder)
-          win_counts=compact.groupby(["GameNo","winner"]).size().rename("legs_won").reset_index()
-          mx=win_counts.groupby("GameNo")["legs_won"].max().rename("winner_legs")
-          md=compact.groupby("GameNo").agg(
-            Timestamp=("Timestamp","min"),Matchtype=("Matchtype","first"),
-            NumberofLegs=("NumberofLegs","first"),observed_legs=("LegNo","count"),
-            sets=("SetNo","nunique")
-          ).join(mx).reset_index()
-          md["numberoflegs_eq_winnerlegs"]=md["NumberofLegs"].eq(md["winner_legs"])
-          md.to_csv(out/"match_format_diagnostics.csv",index=False)
-
-          print(json.dumps(result,indent=2,default=str))
-          print("FORMAT_CROSSTAB")
-          print(pd.crosstab([md.Matchtype,md.NumberofLegs],md.numberoflegs_eq_winnerlegs).tail(80).to_string())
-          (out/"International.csv").unlink()
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: darts-v2-family-h-chronological-validation
+          name: darts-v2-format-semantics
           path: darts_recovery/
           if-no-files-found: error
           retention-days: 3
