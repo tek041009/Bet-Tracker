@@ -1,0 +1,40 @@
+name: Bowen media context recovery
+on:
+  push:
+    branches:
+      - bowen-media-context-20261001
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install open source tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install -q yt-dlp
+      - name: Recover short context excerpts only
+        shell: bash
+        run: |
+          set -e
+          mkdir -p media
+          python -m yt_dlp --no-playlist --download-sections "*00:00:00-00:00:07" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA01_CRISIS.%(ext)s" "https://www.youtube.com/watch?v=AYB1oR60h0U"
+          python -m yt_dlp --no-playlist --download-sections "*00:02:46-00:03:09" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA02_BOWEN_DILEMMA.%(ext)s" "https://www.youtube.com/watch?v=AYB1oR60h0U"
+          python -m yt_dlp --no-playlist --download-sections "*00:00:28-00:00:36" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA03_ANTONIO.%(ext)s" "https://www.youtube.com/watch?v=kle0u1To9_U"
+          python -m yt_dlp --no-playlist --download-sections "*00:05:40-00:06:14" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA04_FINAL_QUESTION.%(ext)s" "https://www.youtube.com/watch?v=ycmfKTfv6O4"
+          for f in media/*.wav; do
+            ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"
+          done
+      - name: Package context audio
+        shell: bash
+        run: |
+          set -e
+          sha256sum media/*.wav > media/SHA256SUMS.txt
+          zip -q BOWEN_MEDIA_CONTEXT_AUDIO.zip media/*.wav media/SHA256SUMS.txt
+          unzip -t BOWEN_MEDIA_CONTEXT_AUDIO.zip | tail -n 2
+      - name: Upload context audio
+        uses: actions/upload-artifact@v4
+        with:
+          name: bowen-media-context-audio
+          path: BOWEN_MEDIA_CONTEXT_AUDIO.zip
+          retention-days: 1
