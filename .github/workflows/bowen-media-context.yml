@@ -1,4 +1,4 @@
-name: Bowen media context browser recovery
+name: Bowen media context official podcast recovery
 on:
   push:
     branches:
@@ -8,87 +8,85 @@ jobs:
   recover:
     runs-on: ubuntu-latest
     steps:
-      - name: Install free open source tools
+      - name: Install open source audio tools
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
-          python -m pip install -q playwright
-          python -m playwright install chromium
-      - name: Resolve YouTube audio through embedded browser
+          python -m pip install -q faster-whisper
+      - name: Resolve official Sports Agents RSS episode
+        shell: bash
+        run: |
+          set -e
+          curl -fsSL 'https://feeds.captivate.fm/the-sports-agents/' -o feed.xml
+          python - <<'PY'
+          import xml.etree.ElementTree as ET, html, json
+          root=ET.parse('feed.xml').getroot()
+          found=None
+          for item in root.findall('.//item'):
+              title=(item.findtext('title') or '').strip()
+              if "Who's to blame for West Ham's relegation?" in title:
+                  enc=item.find('enclosure')
+                  found={'title':title,'url':enc.attrib.get('url') if enc is not None else None}
+                  break
+          if not found or not found['url']:
+              raise SystemExit('episode not found')
+          open('episode.json','w').write(json.dumps(found,indent=2))
+          print(found['title'])
+          print(found['url'])
+          PY
+          URL=$(python -c "import json; print(json.load(open('episode.json'))['url'])")
+          curl -fL --retry 3 "$URL" -o episode.mp3
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 episode.mp3
+          ffmpeg -hide_banner -loglevel error -y -i episode.mp3 -t 70 -ac 1 -ar 16000 intro70.wav
+      - name: Locate Antonio Bowen quote with open source Whisper
         shell: bash
         run: |
           set -e
           python - <<'PY'
-          from playwright.sync_api import sync_playwright
-          import json, time
-          vids=["AYB1oR60h0U","kle0u1To9_U","ycmfKTfv6O4"]
-          out={}
-          with sync_playwright() as p:
-              b=p.chromium.launch(headless=True,args=["--autoplay-policy=no-user-gesture-required"])
-              for vid in vids:
-                  page=b.new_page(viewport={"width":1280,"height":720})
-                  hits=[]
-                  def req(r):
-                      u=r.url
-                      if "googlevideo.com/videoplayback" in u:
-                          hits.append({"url":u,"headers":r.headers})
-                  page.on("request",req)
-                  try:
-                      page.goto(f"https://www.youtube-nocookie.com/embed/{vid}?autoplay=1&controls=1",wait_until="domcontentloaded",timeout=90000)
-                      page.wait_for_timeout(12000)
-                      out[vid]={"title":page.title(),"hits":hits}
-                  except Exception as e:
-                      out[vid]={"error":repr(e),"hits":hits}
-                  page.close()
-              b.close()
-          open("youtube_media_requests.json","w").write(json.dumps(out,indent=2))
-          for vid,d in out.items():
-              print("VIDEO",vid,"TITLE",d.get("title"),"HITS",len(d.get("hits",[])))
-              for h in d.get("hits",[])[:5]:
-                  print(h["url"][:500])
+          from faster_whisper import WhisperModel
+          import json,re
+          model=WhisperModel('tiny.en',device='cpu',compute_type='int8')
+          segs,info=model.transcribe('intro70.wav',word_timestamps=True,beam_size=3)
+          words=[]; text=[]
+          for s in segs:
+              text.append(s.text)
+              for w in (s.words or []):
+                  words.append({'word':w.word.strip(),'start':w.start,'end':w.end})
+          open('intro_transcript.txt','w').write(' '.join(text))
+          open('word_timestamps.json','w').write(json.dumps(words,indent=2))
+          norm=lambda s:re.sub(r'[^a-z]','',s.lower())
+          # Search from Jarrod/Jared through 'stop him'.
+          start=None; end=None
+          for i,w in enumerate(words):
+              n=norm(w['word'])
+              if start is None and n in ('jarrod','jared'):
+                  # prefer the occurrence followed closely by 'wants'
+                  look=[norm(x['word']) for x in words[i:i+5]]
+                  if 'wants' in look:
+                      start=max(0,w['start']-0.2)
+              if start is not None and n=='him' and i>0 and norm(words[i-1]['word'])=='stop':
+                  end=w['end']+0.25; break
+          if start is None or end is None:
+              # fallback: save the whole intro for manual localisation
+              start,end=25,60
+          open('cut.json','w').write(json.dumps({'start':start,'end':end},indent=2))
+          print(open('intro_transcript.txt').read())
+          print('CUT',start,end)
           PY
-      - name: Download full audio streams from captured browser URLs
+      - name: Cut verified Antonio excerpt
         shell: bash
         run: |
           set -e
-          python - <<'PY'
-          import json, subprocess, urllib.parse, os
-          d=json.load(open("youtube_media_requests.json"))
-          for vid,data in d.items():
-              candidates=[]
-              for h in data.get("hits",[]):
-                  u=h["url"]
-                  q=urllib.parse.parse_qs(urllib.parse.urlsplit(u).query)
-                  mt=(q.get("mime",[""])[0]).lower()
-                  if "audio" in mt:
-                      candidates.append(h)
-              if not candidates:
-                  print("NO AUDIO CANDIDATE",vid)
-                  continue
-              h=candidates[0]
-              open(f"{vid}.url.txt","w").write(h["url"])
-              args=["curl","-fL","--retry","2","-A",h.get("headers",{}).get("user-agent","Mozilla/5.0"),h["url"],"-o",f"{vid}.audio"]
-              subprocess.run(args,check=True)
-              print(vid,os.path.getsize(f"{vid}.audio"))
-          PY
-      - name: Trim documentary excerpts
-        shell: bash
-        run: |
-          set -e
-          test -f AYB1oR60h0U.audio
-          test -f kle0u1To9_U.audio
-          test -f ycmfKTfv6O4.audio
-          ffmpeg -hide_banner -loglevel error -y -ss 0 -i AYB1oR60h0U.audio -t 7 -vn -acodec pcm_s16le MEDIA01_CRISIS.wav
-          ffmpeg -hide_banner -loglevel error -y -ss 166 -i AYB1oR60h0U.audio -t 23 -vn -acodec pcm_s16le MEDIA02_BOWEN_DILEMMA.wav
-          ffmpeg -hide_banner -loglevel error -y -ss 28 -i kle0u1To9_U.audio -t 8 -vn -acodec pcm_s16le MEDIA03_ANTONIO.wav
-          ffmpeg -hide_banner -loglevel error -y -ss 340 -i ycmfKTfv6O4.audio -t 34 -vn -acodec pcm_s16le MEDIA04_FINAL_QUESTION.wav
-          for f in MEDIA*.wav; do ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"; done
-          sha256sum MEDIA*.wav > MEDIA_SHA256SUMS.txt
-          zip -q BOWEN_MEDIA_CONTEXT_AUDIO.zip MEDIA*.wav MEDIA_SHA256SUMS.txt youtube_media_requests.json
-          unzip -t BOWEN_MEDIA_CONTEXT_AUDIO.zip | tail -n 2
-      - name: Upload context bank
+          START=$(python -c "import json; print(json.load(open('cut.json'))['start'])")
+          END=$(python -c "import json; print(json.load(open('cut.json'))['end'])")
+          DUR=$(python -c "import json; d=json.load(open('cut.json')); print(d['end']-d['start'])")
+          ffmpeg -hide_banner -loglevel error -y -ss "$START" -i episode.mp3 -t "$DUR" -ac 2 -ar 48000 -c:a pcm_s16le MEDIA03_ANTONIO.wav
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 MEDIA03_ANTONIO.wav
+          sha256sum MEDIA03_ANTONIO.wav > MEDIA03_SHA256SUM.txt
+          zip -q BOWEN_ANTONIO_CONTEXT.zip MEDIA03_ANTONIO.wav MEDIA03_SHA256SUM.txt intro_transcript.txt word_timestamps.json cut.json episode.json
+      - name: Upload Antonio context
         uses: actions/upload-artifact@v4
         with:
-          name: bowen-media-context-audio-browser
-          path: BOWEN_MEDIA_CONTEXT_AUDIO.zip
+          name: bowen-antonio-context
+          path: BOWEN_ANTONIO_CONTEXT.zip
           retention-days: 1
