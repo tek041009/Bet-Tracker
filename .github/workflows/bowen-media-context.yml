@@ -1,4 +1,4 @@
-name: Bowen media context recovery
+name: Bowen media context browser recovery
 on:
   push:
     branches:
@@ -8,33 +8,87 @@ jobs:
   recover:
     runs-on: ubuntu-latest
     steps:
-      - name: Install open source tools
+      - name: Install free open source tools
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
-          python -m pip install -q yt-dlp
-      - name: Recover short context excerpts only
+          python -m pip install -q playwright
+          python -m playwright install chromium
+      - name: Resolve YouTube audio through embedded browser
         shell: bash
         run: |
           set -e
-          mkdir -p media
-          python -m yt_dlp --no-playlist --download-sections "*00:00:00-00:00:07" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA01_CRISIS.%(ext)s" "https://www.youtube.com/watch?v=AYB1oR60h0U"
-          python -m yt_dlp --no-playlist --download-sections "*00:02:46-00:03:09" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA02_BOWEN_DILEMMA.%(ext)s" "https://www.youtube.com/watch?v=AYB1oR60h0U"
-          python -m yt_dlp --no-playlist --download-sections "*00:00:28-00:00:36" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA03_ANTONIO.%(ext)s" "https://www.youtube.com/watch?v=kle0u1To9_U"
-          python -m yt_dlp --no-playlist --download-sections "*00:05:40-00:06:14" -f "bestaudio/best" -x --audio-format wav --force-keyframes-at-cuts -o "media/MEDIA04_FINAL_QUESTION.%(ext)s" "https://www.youtube.com/watch?v=ycmfKTfv6O4"
-          for f in media/*.wav; do
-            ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"
-          done
-      - name: Package context audio
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          import json, time
+          vids=["AYB1oR60h0U","kle0u1To9_U","ycmfKTfv6O4"]
+          out={}
+          with sync_playwright() as p:
+              b=p.chromium.launch(headless=True,args=["--autoplay-policy=no-user-gesture-required"])
+              for vid in vids:
+                  page=b.new_page(viewport={"width":1280,"height":720})
+                  hits=[]
+                  def req(r):
+                      u=r.url
+                      if "googlevideo.com/videoplayback" in u:
+                          hits.append({"url":u,"headers":r.headers})
+                  page.on("request",req)
+                  try:
+                      page.goto(f"https://www.youtube-nocookie.com/embed/{vid}?autoplay=1&controls=1",wait_until="domcontentloaded",timeout=90000)
+                      page.wait_for_timeout(12000)
+                      out[vid]={"title":page.title(),"hits":hits}
+                  except Exception as e:
+                      out[vid]={"error":repr(e),"hits":hits}
+                  page.close()
+              b.close()
+          open("youtube_media_requests.json","w").write(json.dumps(out,indent=2))
+          for vid,d in out.items():
+              print("VIDEO",vid,"TITLE",d.get("title"),"HITS",len(d.get("hits",[])))
+              for h in d.get("hits",[])[:5]:
+                  print(h["url"][:500])
+          PY
+      - name: Download full audio streams from captured browser URLs
         shell: bash
         run: |
           set -e
-          sha256sum media/*.wav > media/SHA256SUMS.txt
-          zip -q BOWEN_MEDIA_CONTEXT_AUDIO.zip media/*.wav media/SHA256SUMS.txt
+          python - <<'PY'
+          import json, subprocess, urllib.parse, os
+          d=json.load(open("youtube_media_requests.json"))
+          for vid,data in d.items():
+              candidates=[]
+              for h in data.get("hits",[]):
+                  u=h["url"]
+                  q=urllib.parse.parse_qs(urllib.parse.urlsplit(u).query)
+                  mt=(q.get("mime",[""])[0]).lower()
+                  if "audio" in mt:
+                      candidates.append(h)
+              if not candidates:
+                  print("NO AUDIO CANDIDATE",vid)
+                  continue
+              h=candidates[0]
+              open(f"{vid}.url.txt","w").write(h["url"])
+              args=["curl","-fL","--retry","2","-A",h.get("headers",{}).get("user-agent","Mozilla/5.0"),h["url"],"-o",f"{vid}.audio"]
+              subprocess.run(args,check=True)
+              print(vid,os.path.getsize(f"{vid}.audio"))
+          PY
+      - name: Trim documentary excerpts
+        shell: bash
+        run: |
+          set -e
+          test -f AYB1oR60h0U.audio
+          test -f kle0u1To9_U.audio
+          test -f ycmfKTfv6O4.audio
+          ffmpeg -hide_banner -loglevel error -y -ss 0 -i AYB1oR60h0U.audio -t 7 -vn -acodec pcm_s16le MEDIA01_CRISIS.wav
+          ffmpeg -hide_banner -loglevel error -y -ss 166 -i AYB1oR60h0U.audio -t 23 -vn -acodec pcm_s16le MEDIA02_BOWEN_DILEMMA.wav
+          ffmpeg -hide_banner -loglevel error -y -ss 28 -i kle0u1To9_U.audio -t 8 -vn -acodec pcm_s16le MEDIA03_ANTONIO.wav
+          ffmpeg -hide_banner -loglevel error -y -ss 340 -i ycmfKTfv6O4.audio -t 34 -vn -acodec pcm_s16le MEDIA04_FINAL_QUESTION.wav
+          for f in MEDIA*.wav; do ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"; done
+          sha256sum MEDIA*.wav > MEDIA_SHA256SUMS.txt
+          zip -q BOWEN_MEDIA_CONTEXT_AUDIO.zip MEDIA*.wav MEDIA_SHA256SUMS.txt youtube_media_requests.json
           unzip -t BOWEN_MEDIA_CONTEXT_AUDIO.zip | tail -n 2
-      - name: Upload context audio
+      - name: Upload context bank
         uses: actions/upload-artifact@v4
         with:
-          name: bowen-media-context-audio
+          name: bowen-media-context-audio-browser
           path: BOWEN_MEDIA_CONTEXT_AUDIO.zip
           retention-days: 1
