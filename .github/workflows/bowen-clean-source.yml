@@ -1,97 +1,101 @@
-name: Bowen clean source probe
+name: Bowen clean source recovery
 on:
   push:
     branches:
       - bowen-clean-source-20261001
 
 jobs:
-  probe:
+  recover:
     runs-on: ubuntu-latest
     steps:
-      - name: Install open source browser
+      - name: Install open source tools
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
           python -m pip install -q playwright
           python -m playwright install chromium
-      - name: Capture authorized playback response
+      - name: Resolve WHU streams and trim clean sources
         shell: bash
         run: |
           set -e
           python - <<'PY'
           from playwright.sync_api import sync_playwright
-          import json, re
-          url="https://www.whufc.com/en/video/0_fwe57njw?provider=stream"
-          captured={}
-          hits=[]
+          import json, subprocess, os, time
+
+          clips = [
+            ("0_5vlzy6vn", 80, 22, "01_PRAGUE_COLD_OPEN_CLEAN.mp4"),
+            ("0_fwe57njw", 318, 18, "02_NEWCASTLE_DECLINE_CLEAN.mp4"),
+            ("0_h0y2r4yq", 78, 26, "03_LEEDS_GOAL_CLEAN.mp4"),
+            ("0_i46e409j", 526, 14, "04_LEEDS_FULLTIME_CLEAN.mp4"),
+            ("0_xua2rsv6", 61, 9, "05_RELEGATION_INTERVIEW_CLEAN.mp4"),
+            ("0_var7kzmh", 0, 10, "06_STAY_PIVOT_CLEAN.mp4"),
+            ("0_jlsrwgsp", 44, 70, "07_BOLTON_OPENER_CLEAN.mp4"),
+            ("0_mgby2nzr", 72, 34, "08_DERBY_CREATION_CLEAN.mp4"),
+            ("0_k2v6qd2y", 50, 72, "09_WREXHAM_GOAL_CELEBRATION_CLEAN.mp4"),
+            ("0_jlsrwgsp", 470, 70, "10_BOLTON_WINNER_CLEAN.mp4"),
+            ("0_4smjwnen", 250, 28, "11_WOLVES_ARMS_OUT_CLEAN.mp4"),
+            ("0_anxhb73b", 12, 12, "12_PRAGUE_GOPRO_CLEAN.mp4"),
+            ("0_8hp3sltc", 35, 9, "13_PRAGUE_MEMORY_CLEAN.mp4"),
+            ("0_09bah7u5", 0, 12, "14_BOWEN_FRUSTRATION_INTERVIEW_CLEAN.mp4"),
+          ]
+
+          streams={}
           with sync_playwright() as p:
-              b=p.chromium.launch(headless=True)
-              page=b.new_page(viewport={"width":1280,"height":720})
-              def onresp(resp):
-                  u=resp.url
-                  if "api.playback.streamamg.com/v1/entry/0_fwe57njw" in u:
-                      try:
-                          captured["url"]=u
-                          captured["status"]=resp.status
-                          captured["headers"]=resp.headers
-                          captured["body"]=resp.text()
-                      except Exception as e:
-                          captured["error"]=repr(e)
-                  if any(k in u.lower() for k in ["m3u8","mp4","manifest","playlist","akama","streamamg"]):
-                      hits.append(u)
-              page.on("response",onresp)
-              page.goto(url, wait_until="domcontentloaded", timeout=90000)
-              page.wait_for_timeout(5000)
-              for selector in [
-                  "button:has-text('Accept All')",
-                  "button:has-text('Accept')",
-                  "button:has-text('Play')",
-                  "[aria-label*='Play']",
-                  "video"
-              ]:
-                  try:
-                      page.locator(selector).first.click(timeout=1500)
-                  except: pass
-              page.wait_for_timeout(15000)
-              b.close()
-          open("playback_capture.json","w").write(json.dumps(captured,indent=2))
-          open("media_hits.txt","w").write("\n".join(dict.fromkeys(hits)))
-          print(json.dumps(captured,indent=2)[:30000])
-          print("--- MEDIA HITS ---")
-          print("\n".join(dict.fromkeys(hits)))
+              browser=p.chromium.launch(headless=True)
+              page=browser.new_page(viewport={"width":1280,"height":720})
+              for entry, start, dur, outfile in clips:
+                  got={}
+                  def onresp(resp, entry=entry, got=got):
+                      if f"api.playback.streamamg.com/v1/entry/{entry}" in resp.url:
+                          try:
+                              data=resp.json()
+                              got["hls"]=data.get("media",{}).get("hls")
+                              got["name"]=data.get("name")
+                              got["duration"]=data.get("duration")
+                          except Exception as e:
+                              got["error"]=repr(e)
+                  page.on("response", onresp)
+                  page.goto(f"https://www.whufc.com/en/video/{entry}?provider=stream", wait_until="domcontentloaded", timeout=90000)
+                  page.wait_for_timeout(2500)
+                  if not got.get("hls"):
+                      page.wait_for_timeout(3500)
+                  page.remove_listener("response", onresp)
+                  if not got.get("hls"):
+                      raise RuntimeError(f"No HLS for {entry}: {got}")
+                  streams[entry]=got
+                  print(entry, got.get("name"), "->", outfile)
+                  cmd=[
+                      "ffmpeg","-hide_banner","-loglevel","warning","-y",
+                      "-ss",str(start),"-i",got["hls"],"-t",str(dur),
+                      "-map","0:v:0","-map","0:a:0?",
+                      "-c:v","libx264","-preset","fast","-crf","17",
+                      "-pix_fmt","yuv420p",
+                      "-c:a","aac","-b:a","192k",
+                      "-movflags","+faststart",outfile
+                  ]
+                  subprocess.run(cmd, check=True)
+                  probe=subprocess.check_output([
+                      "ffprobe","-v","error","-show_entries",
+                      "format=duration:stream=width,height,codec_name",
+                      "-of","json",outfile
+                  ], text=True)
+                  open(outfile+".probe.json","w").write(probe)
+              browser.close()
+          safe={k:{kk:vv for kk,vv in v.items() if kk!="hls"} for k,v in streams.items()}
+          open("recovery_sources.json","w").write(json.dumps(safe,indent=2))
           PY
-      - name: Extract stream and fetch clean Newcastle clip
+      - name: Package clean bank
         shell: bash
         run: |
           set -e
-          python - <<'PY'
-          import json,re
-          d=json.load(open("playback_capture.json"))
-          body=d.get("body","")
-          urls=re.findall(r'https?://[^"\\\\\s]+',body)
-          urls=[u.replace('\\u0026','&').replace('\\/','/') for u in urls]
-          all_urls=[]
-          for u in urls:
-              if u not in all_urls: all_urls.append(u)
-          open("playback_urls.txt","w").write("\n".join(all_urls))
-          cand=[u for u in all_urls if "m3u8" in u.lower()]
-          if not cand:
-              cand=[u for u in all_urls if any(k in u.lower() for k in ["manifest","mp4"])]
-          open("selected_url.txt","w").write(cand[0] if cand else "")
-          print("\n".join(all_urls))
-          print("SELECTED",cand[0] if cand else "NONE")
-          PY
-          HLS=$(cat selected_url.txt)
-          test -n "$HLS"
-          ffmpeg -hide_banner -loglevel warning -y -ss 00:05:18 -i "$HLS" -t 18 -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k 02_NEWCASTLE_CLEAN.mp4
-          ffprobe -v error -show_entries format=duration:stream=width,height -of json 02_NEWCASTLE_CLEAN.mp4 | tee clean_probe.json
-      - name: Upload probe
+          sha256sum *_CLEAN.mp4 > CLEAN_SHA256SUMS.txt
+          ffprobe -v error -show_entries format=duration -of csv=p=0 *_CLEAN.mp4 > /dev/null || true
+          zip -q BOWEN_CLEAN_SOURCE_BANK.zip *_CLEAN.mp4 *.probe.json recovery_sources.json CLEAN_SHA256SUMS.txt
+          unzip -t BOWEN_CLEAN_SOURCE_BANK.zip | tail -n 2
+          ls -lh BOWEN_CLEAN_SOURCE_BANK.zip
+      - name: Upload clean bank
         uses: actions/upload-artifact@v4
         with:
-          name: bowen-clean-source-probe-3
-          path: |
-            playback_capture.json
-            playback_urls.txt
-            selected_url.txt
-            media_hits.txt
-            clean_probe.json
-            02_NEWCASTLE_CLEAN.mp4
+          name: bowen-clean-source-bank
+          path: BOWEN_CLEAN_SOURCE_BANK.zip
           retention-days: 1
