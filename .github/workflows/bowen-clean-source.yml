@@ -1,0 +1,84 @@
+name: Bowen clean source probe
+on:
+  push:
+    branches:
+      - bowen-clean-source-20261001
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install open source fetch tools
+        run: |
+          python -m pip install -q yt-dlp playwright
+          python -m playwright install chromium
+      - name: Probe WHU original source
+        shell: bash
+        run: |
+          set +e
+          URL="https://www.whufc.com/en/video/0_fwe57njw?provider=stream"
+          yt-dlp -F "$URL" > ytdlp_formats.txt 2>&1
+          echo $? > ytdlp_exit.txt
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          import json, re, time
+          url="https://www.whufc.com/en/video/0_fwe57njw?provider=stream"
+          hits=[]
+          allreq=[]
+          with sync_playwright() as p:
+              b=p.chromium.launch(headless=True)
+              page=b.new_page(viewport={"width":1280,"height":720})
+              def onreq(r):
+                  u=r.url
+                  if any(k in u.lower() for k in ["m3u8","mp4","streamamg","akama","manifest","playlist","hls"]):
+                      hits.append(u)
+                  allreq.append(u)
+              page.on("request",onreq)
+              try:
+                  page.goto(url, wait_until="domcontentloaded", timeout=90000)
+                  page.wait_for_timeout(8000)
+                  for label in ["Accept All","Accept","I Agree","Play"]:
+                      try:
+                          page.get_by_text(label, exact=False).first.click(timeout=1500)
+                      except: pass
+                  page.wait_for_timeout(12000)
+                  open("page_title.txt","w").write(page.title())
+                  open("page_html.html","w").write(page.content())
+              except Exception as e:
+                  open("playwright_error.txt","w").write(repr(e))
+              finally:
+                  b.close()
+          open("media_hits.txt","w").write("\n".join(dict.fromkeys(hits)))
+          open("request_sample.txt","w").write("\n".join(allreq[:3000]))
+          print("hits",len(hits))
+          PY
+          cat ytdlp_formats.txt | tail -n 100
+          echo "--- MEDIA HITS ---"
+          cat media_hits.txt || true
+      - name: Fetch clip if stream found
+        shell: bash
+        run: |
+          set -e
+          HLS=$(grep -E 'https?://.*(m3u8|mp4)' media_hits.txt | head -n1 || true)
+          if [ -n "$HLS" ]; then
+            ffmpeg -hide_banner -loglevel warning -y -ss 00:05:18 -i "$HLS" -t 18 -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k 02_NEWCASTLE_CLEAN.mp4
+            ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 02_NEWCASTLE_CLEAN.mp4 > clean_duration.txt
+          else
+            echo "NO_STREAM" > clean_duration.txt
+          fi
+      - name: Upload probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: bowen-clean-source-probe
+          path: |
+            ytdlp_formats.txt
+            ytdlp_exit.txt
+            media_hits.txt
+            request_sample.txt
+            page_title.txt
+            page_html.html
+            playwright_error.txt
+            clean_duration.txt
+            02_NEWCASTLE_CLEAN.mp4
+          if-no-files-found: warn
+          retention-days: 1
