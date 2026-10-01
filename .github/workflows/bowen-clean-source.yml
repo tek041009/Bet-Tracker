@@ -8,36 +8,90 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch StreamAMG playback JSON
+      - name: Install open source browser
+        run: |
+          python -m pip install -q playwright
+          python -m playwright install chromium
+      - name: Capture authorized playback response
         shell: bash
         run: |
           set -e
-          curl -fsSL 'https://api.playback.streamamg.com/v1/entry/0_fwe57njw' -o playback.json
-          echo '--- PLAYBACK JSON ---'
-          cat playback.json
-          echo
-          echo '--- URLS ---'
-          jq -r '.. | strings | select(test("^https?://"))' playback.json | tee playback_urls.txt
-      - name: Fetch clean Newcastle clip
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          import json, re
+          url="https://www.whufc.com/en/video/0_fwe57njw?provider=stream"
+          captured={}
+          hits=[]
+          with sync_playwright() as p:
+              b=p.chromium.launch(headless=True)
+              page=b.new_page(viewport={"width":1280,"height":720})
+              def onresp(resp):
+                  u=resp.url
+                  if "api.playback.streamamg.com/v1/entry/0_fwe57njw" in u:
+                      try:
+                          captured["url"]=u
+                          captured["status"]=resp.status
+                          captured["headers"]=resp.headers
+                          captured["body"]=resp.text()
+                      except Exception as e:
+                          captured["error"]=repr(e)
+                  if any(k in u.lower() for k in ["m3u8","mp4","manifest","playlist","akama","streamamg"]):
+                      hits.append(u)
+              page.on("response",onresp)
+              page.goto(url, wait_until="domcontentloaded", timeout=90000)
+              page.wait_for_timeout(5000)
+              for selector in [
+                  "button:has-text('Accept All')",
+                  "button:has-text('Accept')",
+                  "button:has-text('Play')",
+                  "[aria-label*='Play']",
+                  "video"
+              ]:
+                  try:
+                      page.locator(selector).first.click(timeout=1500)
+                  except: pass
+              page.wait_for_timeout(15000)
+              b.close()
+          open("playback_capture.json","w").write(json.dumps(captured,indent=2))
+          open("media_hits.txt","w").write("\n".join(dict.fromkeys(hits)))
+          print(json.dumps(captured,indent=2)[:30000])
+          print("--- MEDIA HITS ---")
+          print("\n".join(dict.fromkeys(hits)))
+          PY
+      - name: Extract stream and fetch clean Newcastle clip
         shell: bash
         run: |
           set -e
-          HLS=$(grep -Ei 'm3u8|manifest' playback_urls.txt | head -n1 || true)
-          if [ -z "$HLS" ]; then
-            HLS=$(grep -Ei 'https?://' playback_urls.txt | head -n1 || true)
-          fi
-          echo "SELECTED=$HLS" | tee selected_url.txt
+          python - <<'PY'
+          import json,re
+          d=json.load(open("playback_capture.json"))
+          body=d.get("body","")
+          urls=re.findall(r'https?://[^"\\\\\s]+',body)
+          urls=[u.replace('\\u0026','&').replace('\\/','/') for u in urls]
+          all_urls=[]
+          for u in urls:
+              if u not in all_urls: all_urls.append(u)
+          open("playback_urls.txt","w").write("\n".join(all_urls))
+          cand=[u for u in all_urls if "m3u8" in u.lower()]
+          if not cand:
+              cand=[u for u in all_urls if any(k in u.lower() for k in ["manifest","mp4"])]
+          open("selected_url.txt","w").write(cand[0] if cand else "")
+          print("\n".join(all_urls))
+          print("SELECTED",cand[0] if cand else "NONE")
+          PY
+          HLS=$(cat selected_url.txt)
           test -n "$HLS"
           ffmpeg -hide_banner -loglevel warning -y -ss 00:05:18 -i "$HLS" -t 18 -c:v libx264 -preset fast -crf 18 -c:a aac -b:a 192k 02_NEWCASTLE_CLEAN.mp4
           ffprobe -v error -show_entries format=duration:stream=width,height -of json 02_NEWCASTLE_CLEAN.mp4 | tee clean_probe.json
       - name: Upload probe
         uses: actions/upload-artifact@v4
         with:
-          name: bowen-clean-source-probe-2
+          name: bowen-clean-source-probe-3
           path: |
-            playback.json
+            playback_capture.json
             playback_urls.txt
             selected_url.txt
+            media_hits.txt
             clean_probe.json
             02_NEWCASTLE_CLEAN.mp4
           retention-days: 1
