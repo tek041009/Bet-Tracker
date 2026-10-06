@@ -1,3 +1,4 @@
 requests==2.32.5
 cryptography==46.0.3
 yt-dlp>=2026.8.19
+pytubefix==11.2.0
