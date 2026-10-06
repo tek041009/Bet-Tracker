@@ -1,0 +1,7 @@
+{
+  "state": "failed",
+  "error_code": null,
+  "error": "Both source routes failed. pytubefix=zEHKGUP34LM This request was detected as a bot. DO NOT OPEN AN ISSUE! See more details at https://pytubefix.readthedocs.io/en/latest/user/po_token.html; yt-dlp=Command '['/opt/hostedtoolcache/Python/3.12.14/x64/bin/python', '-m', 'yt_dlp', '--no-playlist', '--merge-output-format', 'mp4', '-f', 'bv*[height<=1080]+ba/b[height<=1080]/b', '-o', '/tmp/clipnerve-dry-5_tvjxwg/source-ytdlp.%(ext)s', 'https://www.youtube.com/watch?v=zEHKGUP34LM']' returned non-zero exit status 1.",
+  "job_id": "dryrun-source-pytubefix-20261006-1658",
+  "updated_at": 1791302291
+}
