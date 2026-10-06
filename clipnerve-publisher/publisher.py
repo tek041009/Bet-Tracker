@@ -233,6 +233,69 @@ def write_ass(job: dict[str, Any], duration: float, path: Path) -> bool:
     return True
 
 
+def download_with_pytubefix(source_url: str, work: Path) -> Path:
+    from pytubefix import YouTube
+
+    yt = YouTube(source_url)
+    video_candidates = []
+    for stream in yt.streams.filter(
+        adaptive=True, file_extension="mp4", only_video=True
+    ):
+        try:
+            height = int((stream.resolution or "0p").rstrip("p") or 0)
+        except ValueError:
+            height = 0
+        if 0 < height <= 1080:
+            video_candidates.append(
+                (height, int(stream.fps or 0), int(getattr(stream, "bitrate", 0) or 0), stream)
+            )
+    if not video_candidates:
+        raise RuntimeError("pytubefix found no usable MP4 video stream")
+
+    video = max(video_candidates, key=lambda item: item[:3])[3]
+    audio = yt.streams.get_by_itag(140)
+    if audio is None:
+        audio_candidates = list(
+            yt.streams.filter(only_audio=True, file_extension="mp4")
+        )
+        if not audio_candidates:
+            raise RuntimeError("pytubefix found no usable MP4 audio stream")
+        audio = max(
+            audio_candidates,
+            key=lambda stream: int(getattr(stream, "bitrate", 0) or 0),
+        )
+
+    video_path = Path(
+        video.download(output_path=str(work), filename="source-video.mp4")
+    )
+    audio_path = Path(
+        audio.download(output_path=str(work), filename="source-audio.m4a")
+    )
+    target = work / "source-pytubefix.mp4"
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(video_path),
+            "-i",
+            str(audio_path),
+            "-map",
+            "0:v:0",
+            "-map",
+            "1:a:0",
+            "-c:v",
+            "copy",
+            "-c:a",
+            "copy",
+            "-movflags",
+            "+faststart",
+            str(target),
+        ]
+    )
+    return target
+
+
 def download_source(job: dict[str, Any], work: Path) -> Path:
     if job.get("media_url"):
         target = work / "input.mp4"
@@ -248,23 +311,35 @@ def download_source(job: dict[str, Any], work: Path) -> Path:
     if not source_url:
         raise RuntimeError("Job needs either media_url or source_url")
 
-    template = str(work / "source.%(ext)s")
-    run(
-        [
-            sys.executable,
-            "-m",
-            "yt_dlp",
-            "--no-playlist",
-            "--merge-output-format",
-            "mp4",
-            "-f",
-            "bv*[height<=1080]+ba/b[height<=1080]/b",
-            "-o",
-            template,
-            source_url,
-        ]
-    )
-    candidates = sorted(work.glob("source.*"))
+    pytube_error = None
+    try:
+        return download_with_pytubefix(source_url, work)
+    except Exception as exc:
+        pytube_error = exc
+
+    template = str(work / "source-ytdlp.%(ext)s")
+    try:
+        run(
+            [
+                sys.executable,
+                "-m",
+                "yt_dlp",
+                "--no-playlist",
+                "--merge-output-format",
+                "mp4",
+                "-f",
+                "bv*[height<=1080]+ba/b[height<=1080]/b",
+                "-o",
+                template,
+                source_url,
+            ]
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            f"Both source routes failed. pytubefix={pytube_error}; yt-dlp={exc}"
+        ) from exc
+
+    candidates = sorted(work.glob("source-ytdlp.*"))
     if not candidates:
         raise RuntimeError("yt-dlp completed without producing a source file")
     return candidates[0]
