@@ -1,0 +1,93 @@
+name: ClipNerve TikTok Publisher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "clipnerve-publisher/jobs/*.json"
+  workflow_dispatch:
+    inputs:
+      job_path:
+        description: "Path to one ClipNerve job JSON"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: clipnerve-tiktok-publisher
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install FFmpeg and Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          pip install -r clipnerve-publisher/requirements.txt
+
+      - name: Resolve publish jobs
+        id: jobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            printf '%s\n' "${{ inputs.job_path }}" > /tmp/clipnerve_jobs.txt
+          else
+            BEFORE="${{ github.event.before }}"
+            if [[ -z "$BEFORE" || "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
+              git ls-files 'clipnerve-publisher/jobs/*.json' > /tmp/clipnerve_jobs.txt
+            else
+              git diff --name-only "$BEFORE" "${{ github.sha }}" -- 'clipnerve-publisher/jobs/*.json' > /tmp/clipnerve_jobs.txt
+            fi
+          fi
+          cat /tmp/clipnerve_jobs.txt
+          [[ -s /tmp/clipnerve_jobs.txt ]]
+
+      - name: Publish jobs to TikTok
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TOKEN_ENCRYPTION_KEY: ${{ secrets.TOKEN_ENCRYPTION_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          failed=0
+          while IFS= read -r job; do
+            [[ -z "$job" ]] && continue
+            echo "Publishing $job"
+            python clipnerve-publisher/publisher.py "$job" || failed=1
+          done < /tmp/clipnerve_jobs.txt
+          exit "$failed"
+
+      - name: Persist encrypted token state and publish statuses
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "clipnerve-publisher"
+          git config user.email "clipnerve-publisher@users.noreply.github.com"
+          git add clipnerve-publisher/token-state.enc clipnerve-publisher/status/ 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No state changes to commit"
+            exit 0
+          fi
+          git commit -m "ClipNerve: persist publisher state [skip ci]"
+          git push
