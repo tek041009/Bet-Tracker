@@ -1,0 +1,13 @@
+{
+  "id": "dryrun-media-20261006-1653",
+  "dry_run": true,
+  "media_url": "https://static.metricool.com/planner/202610/7145004-file-10488989999243822994.mp4",
+  "post": {
+    "title": "DRY RUN - DO NOT POST",
+    "privacy_level": "SELF_ONLY",
+    "disable_comment": true,
+    "disable_duet": true,
+    "disable_stitch": true,
+    "video_cover_timestamp_ms": 1000
+  }
+}
