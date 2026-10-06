@@ -1,0 +1,25 @@
+{
+  "id": "dryrun-source-pytubefix-20261006-1658",
+  "dry_run": true,
+  "source_url": "https://www.youtube.com/watch?v=zEHKGUP34LM",
+  "clip": {
+    "start": 3,
+    "end": 8.5
+  },
+  "hook": "CLIPNERVE SOURCE TEST",
+  "captions": [
+    {
+      "start": 0.2,
+      "end": 2,
+      "text": "GitHub source acquisition test"
+    }
+  ],
+  "post": {
+    "title": "DRY RUN - DO NOT POST",
+    "privacy_level": "SELF_ONLY",
+    "disable_comment": true,
+    "disable_duet": true,
+    "disable_stitch": true,
+    "video_cover_timestamp_ms": 1000
+  }
+}
