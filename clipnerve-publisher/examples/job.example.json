@@ -1,0 +1,21 @@
+{
+  "id": "clipnerve-example-001",
+  "source_url": "https://www.youtube.com/watch?v=EXAMPLE",
+  "clip": {
+    "start": 120.0,
+    "end": 138.5
+  },
+  "hook": "THE PAYOFF HAPPENS FAST",
+  "captions": [
+    {"start": 0.0, "end": 2.2, "text": "Example caption line"},
+    {"start": 2.2, "end": 4.6, "text": "Second caption line"}
+  ],
+  "post": {
+    "title": "Example ClipNerve caption #Funny",
+    "privacy_level": "PUBLIC_TO_EVERYONE",
+    "disable_comment": false,
+    "disable_duet": false,
+    "disable_stitch": false,
+    "video_cover_timestamp_ms": 1000
+  }
+}
