@@ -465,6 +465,22 @@ def main() -> int:
     write_status(job_id, {"state": "starting", "job_file": job_path.as_posix()})
 
     try:
+        if job.get("dry_run"):
+            with tempfile.TemporaryDirectory(prefix="clipnerve-dry-") as tmp:
+                work = Path(tmp)
+                source = download_source(job, work)
+                final = render(job, source, work)
+                probe_video(final)
+                write_status(
+                    job_id,
+                    {
+                        "state": "dry_run_passed",
+                        "video_bytes": final.stat().st_size,
+                    },
+                )
+            print(f"{job_id}: dry run passed")
+            return 0
+
         token = get_access_token()
         creator = query_creator(token)
         post = validate_post_options(job, creator)
