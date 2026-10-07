@@ -1,0 +1,25 @@
+name: ClipNerve recovery release relay
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-recovery-release-relay.yml'
+permissions:
+  contents: write
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Fetch packages
+        run: |
+          curl -fL --retry 3 -o A.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/e1781665-35f5-4e05-9c10-c543fc520a7c.zip'
+          curl -fL --retry 3 -o B.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/6c51405d-0c31-4d3c-bd62-511fd05f1932.zip'
+          curl -fL --retry 3 -o C.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/a3d87938-4603-4525-b504-93713aabfbc0.zip'
+          mkdir clips
+          unzip -q A.zip -d clips
+          unzip -q B.zip -d clips
+          unzip -q C.zip -d clips
+      - name: Publish temporary recovery release
+        run: |
+          gh release create clipnerve-recovery-20261007 clips/cn*.mp4 --repo "${{ github.repository }}" --title "ClipNerve recovery relay" --notes "Temporary media relay for Drive persistence"
