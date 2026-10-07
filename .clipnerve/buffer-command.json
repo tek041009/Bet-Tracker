@@ -1,0 +1,5 @@
+{
+  "enabled": false,
+  "note": "Automation writes post batches here. Workflow publishes them to Buffer using BUFFER_API_KEY.",
+  "posts": []
+}
