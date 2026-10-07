@@ -1,0 +1,140 @@
+name: ClipNerve Buffer command publisher
+
+on:
+  push:
+    paths:
+      - '.clipnerve/buffer-command.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish queued ClipNerve commands to Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os, sys, urllib.request, urllib.error
+          from pathlib import Path
+
+          token = os.environ.get("BUFFER_API_KEY")
+          if not token:
+              raise SystemExit("BUFFER_API_KEY secret is missing")
+
+          command_path = Path(".clipnerve/buffer-command.json")
+          payload_doc = json.loads(command_path.read_text(encoding="utf-8"))
+
+          if not payload_doc.get("enabled", False):
+              print("Command file disabled; nothing to do.")
+              raise SystemExit(0)
+
+          posts = payload_doc.get("posts", [])
+          if not posts:
+              print("No posts supplied.")
+              raise SystemExit(0)
+
+          endpoint = "https://api.buffer.com"
+
+          def esc(s):
+              return json.dumps(s, ensure_ascii=False)
+
+          failures = 0
+          for i, post in enumerate(posts, start=1):
+              text = post["text"]
+              video_url = post["video_url"]
+              channel_id = post["channel_id"]
+              title = post.get("title") or ""
+              mode = post.get("mode", "addToQueue")
+              due_at = post.get("due_at")
+              ai = "true" if post.get("is_ai_generated", False) else "false"
+
+              due_fragment = f"dueAt: {esc(due_at)}" if due_at else ""
+              title_fragment = f"title: {esc(title)}" if title else ""
+
+              query = f"""
+              mutation CreatePost {{
+                createPost(
+                  input: {{
+                    text: {esc(text)}
+                    channelId: {esc(channel_id)}
+                    schedulingType: automatic
+                    mode: {mode}
+                    {due_fragment}
+                    assets: [
+                      {{
+                        video: {{
+                          url: {esc(video_url)}
+                        }}
+                      }}
+                    ]
+                    metadata: {{
+                      tiktok: {{
+                        {title_fragment}
+                        isAiGenerated: {ai}
+                      }}
+                    }}
+                  }}
+                ) {{
+                  ... on PostActionSuccess {{
+                    post {{
+                      id
+                      status
+                      dueAt
+                      text
+                      assets {{ source }}
+                    }}
+                  }}
+                  ... on MutationError {{
+                    message
+                  }}
+                }}
+              }}
+              """
+
+              body = json.dumps({"query": query}).encode("utf-8")
+              req = urllib.request.Request(
+                  endpoint,
+                  data=body,
+                  headers={
+                      "Content-Type": "application/json",
+                      "Authorization": f"Bearer {token}",
+                  },
+                  method="POST",
+              )
+
+              try:
+                  with urllib.request.urlopen(req, timeout=90) as resp:
+                      data = json.loads(resp.read().decode("utf-8"))
+              except Exception as e:
+                  failures += 1
+                  print(f"[{i}] transport failure: {e}")
+                  continue
+
+              if data.get("errors"):
+                  failures += 1
+                  print(f"[{i}] top-level GraphQL errors: {json.dumps(data['errors'])}")
+                  continue
+
+              result = data.get("data", {}).get("createPost") or {}
+              if result.get("message"):
+                  failures += 1
+                  print(f"[{i}] Buffer error: {result['message']}")
+                  continue
+
+              created = result.get("post") or {}
+              if not created.get("id"):
+                  failures += 1
+                  print(f"[{i}] No post id returned: {json.dumps(data)}")
+                  continue
+
+              print(f"[{i}] BUFFER_POST_CREATED={created['id']} dueAt={created.get('dueAt')}")
+
+          if failures:
+              raise SystemExit(f"{failures} Buffer post command(s) failed")
+          PY
