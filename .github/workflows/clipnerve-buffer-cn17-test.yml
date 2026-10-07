@@ -1,0 +1,104 @@
+name: ClipNerve Buffer cn17 test
+
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-buffer-cn17-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-cn17:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create cn17 in Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, os, sys, urllib.request, urllib.error
+
+          token = os.environ.get("BUFFER_API_KEY")
+          if not token:
+              raise SystemExit("BUFFER_API_KEY secret is missing")
+
+          query = r'''
+          mutation CreatePost {
+            createPost(
+              input: {
+                text: "They served a medium-rare sausage and Harry somehow made it worse 😭 #W2S #Sidemen #Funny"
+                channelId: "6ac51f456a5c39ccb631eeaa"
+                schedulingType: automatic
+                mode: addToQueue
+                assets: [
+                  {
+                    video: {
+                      url: "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn17.mp4"
+                    }
+                  }
+                ]
+                metadata: {
+                  tiktok: {
+                    title: "They served a medium-rare sausage 😭"
+                    isAiGenerated: false
+                  }
+                }
+              }
+            ) {
+              ... on PostActionSuccess {
+                post {
+                  id
+                  status
+                  dueAt
+                  text
+                  assets {
+                    source
+                  }
+                }
+              }
+              ... on MutationError {
+                message
+              }
+            }
+          }
+          '''
+
+          payload = json.dumps({"query": query}).encode("utf-8")
+          req = urllib.request.Request(
+              "https://api.buffer.com",
+              data=payload,
+              headers={
+                  "Content-Type": "application/json",
+                  "Authorization": f"Bearer {token}",
+              },
+              method="POST",
+          )
+
+          try:
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                  data = json.loads(resp.read().decode("utf-8"))
+          except urllib.error.HTTPError as e:
+              body = e.read().decode("utf-8", errors="replace")
+              print(f"HTTP {e.code}: {body}")
+              raise
+
+          print(json.dumps(data, indent=2))
+
+          if data.get("errors"):
+              raise SystemExit("Buffer GraphQL returned top-level errors")
+
+          result = data.get("data", {}).get("createPost")
+          if not result:
+              raise SystemExit("No createPost result returned")
+
+          if result.get("message"):
+              raise SystemExit("Buffer createPost error: " + result["message"])
+
+          post = result.get("post")
+          if not post or not post.get("id"):
+              raise SystemExit("Buffer did not return a created post ID")
+
+          print("BUFFER_POST_CREATED=" + post["id"])
+          PY
