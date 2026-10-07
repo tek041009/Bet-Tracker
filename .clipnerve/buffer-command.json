@@ -1,5 +1,97 @@
 {
-  "enabled": false,
-  "note": "Automation writes post batches here. Workflow publishes them to Buffer using BUFFER_API_KEY.",
-  "posts": []
+  "enabled": true,
+  "batch_id": "clipnerve-2026-10-07-evening-fill-01",
+  "note": "Fill remaining Buffer queue after cn17 proof-of-path succeeded.",
+  "posts": [
+    {
+      "clip_id": "cn28",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T20:15:00+01:00",
+      "text": "One answer started a full argument 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "This answer started a full argument 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn28.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn30",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T20:45:00+01:00",
+      "text": "Prime ingredient or atomic bomb? Harry had an answer 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "Prime ingredient or atomic bomb? 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn30.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn23",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T21:15:00+01:00",
+      "text": "This insult escalated instantly 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "Harry's insult escalated so fast 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn23.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn29",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T21:45:00+01:00",
+      "text": "Harry's explanation for why Vikk would go homeless 😭 #W2S #Sidemen #Comedy #ClipNerve",
+      "title": "Harry explained why Vikk would go homeless 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn29.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn27",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T22:15:00+01:00",
+      "text": "“Is that your car?” “Yes, officer.” 😭 #W2S #Sidemen #Comedy #ClipNerve",
+      "title": "“Is that your car?” — “Yes, officer.” 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn27.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn18",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T23:20:00+01:00",
+      "text": "Every answer somehow made it worse 😭 #W2S #Sidemen #Comedy #ClipNerve",
+      "title": "Harry's answer got worse and worse 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn18.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn25",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-07T23:50:00+01:00",
+      "text": "Harry did NOT phrase this carefully 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "Harry: “I'd blow you out of the water” 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn25.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn20",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-08T00:20:00+01:00",
+      "text": "Everyone knew exactly who it was 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "They all knew it was Harry 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn20.mp4",
+      "is_ai_generated": false
+    },
+    {
+      "clip_id": "cn19",
+      "channel_id": "6ac51f456a5c39ccb631eeaa",
+      "mode": "customScheduled",
+      "due_at": "2026-10-08T00:50:00+01:00",
+      "text": "Harry's Achilles answer was unbelievable 😭 #W2S #Sidemen #Funny #ClipNerve",
+      "title": "Harry said Achilles was shot in the knee 😭",
+      "video_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn19.mp4",
+      "is_ai_generated": false
+    }
+  ]
 }
