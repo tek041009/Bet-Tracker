@@ -1,0 +1,33 @@
+name: ClipNerve recovery relay parts
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-recovery-relay-parts.yml'
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch part A
+        run: curl -fL --retry 3 -o A.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/e1781665-35f5-4e05-9c10-c543fc520a7c.zip'
+      - name: Fetch part B
+        run: curl -fL --retry 3 -o B.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/6c51405d-0c31-4d3c-bd62-511fd05f1932.zip'
+      - name: Fetch part C
+        run: curl -fL --retry 3 -o C.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/a3d87938-4603-4525-b504-93713aabfbc0.zip'
+      - name: Upload part A
+        uses: actions/upload-artifact@v4
+        with:
+          name: clipnerve-w2s-A
+          path: A.zip
+          retention-days: 1
+      - name: Upload part B
+        uses: actions/upload-artifact@v4
+        with:
+          name: clipnerve-w2s-B
+          path: B.zip
+          retention-days: 1
+      - name: Upload part C
+        uses: actions/upload-artifact@v4
+        with:
+          name: clipnerve-w2s-C
+          path: C.zip
+          retention-days: 1
