@@ -18,7 +18,7 @@ jobs:
           curl --fail --location --retry 3 --connect-timeout 30 --max-time 300 'https://at.adobe.com/XM0cwnje0nuGnqEC' --output reddit_wedding_v6.mp4
           test "$(stat -c %s reddit_wedding_v6.mp4)" -eq 33950016
           echo '524d600aedc83ead43e301d8f9bc29e416c98e1ab79a1c67095580d710c180a1  reddit_wedding_v6.mp4' | sha256sum --check
-          ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of json reddit_wedding_v6.mp4
+          echo 'SHA-256 and byte size match the Drive-approved MP4 exactly'
       - name: Host approved Short as GitHub release MP4
         env:
           GH_TOKEN: ${{ github.token }}
