@@ -1,0 +1,10 @@
+{
+  "clip_id": "operator-smoketest-v6",
+  "platform": "youtube",
+  "source_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-reddit-wedding-v6-20261008/reddit_wedding_v6.mp4",
+  "source_sha256": "524d600aedc83ead43e301d8f9bc29e416c98e1ab79a1c67095580d710c180a1",
+  "source_size": 33950016,
+  "mode": "approved_source",
+  "publish_approved": false,
+  "reason": "ONE-TIME NON-PUBLISHING SMOKE TEST of reusable GitHub runner. Existing approved media only. Do not count as new ClipNerve content."
+}
