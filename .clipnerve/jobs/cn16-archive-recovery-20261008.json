@@ -1,0 +1,10 @@
+{
+  "clip_id": "cn16-archive-recovery-20261008",
+  "platform": "tiktok",
+  "source_url": "https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-cn16-safe-20261008/cn16_safe_20261008.mp4",
+  "source_sha256": "ef91247145801442c0d025a117a150782d76943e08d0b90d6fbf4ee111f20731",
+  "source_size": 3315882,
+  "mode": "approved_source",
+  "publish_approved": false,
+  "reason": "Archive-only recovery of previously sent cn16 TikTok; DO NOT PUBLISH OR QUEUE; output existing MP4 to Actions QA artifact for verified Google Drive archive transfer."
+}
