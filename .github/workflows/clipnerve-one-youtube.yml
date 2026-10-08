@@ -1,0 +1,49 @@
+name: ClipNerve YouTube first Reddit Short
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-one-youtube.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Transfer approved Wedding V6 video and validate exact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 30 --max-time 300 'https://at.adobe.com/XM0cwnje0nuGnqEC' --output reddit_wedding_v6.mp4
+          test "$(stat -c %s reddit_wedding_v6.mp4)" -eq 33950016
+          echo '524d600aedc83ead43e301d8f9bc29e416c98e1ab79a1c67095580d710c180a1  reddit_wedding_v6.mp4' | sha256sum --check
+          ffprobe -v error -show_entries format=duration:stream=codec_name,width,height -of json reddit_wedding_v6.mp4
+      - name: Host approved Short as GitHub release MP4
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! gh release view clipnerve-reddit-wedding-v6-20261008 >/dev/null 2>&1; then
+            gh release create clipnerve-reddit-wedding-v6-20261008 reddit_wedding_v6.mp4 --title 'ClipNerve Reddit Wedding V6 - YouTube Short' --notes 'Exact approved V6 video, SHA256 verified, original video available from Google Drive' --latest=false
+          else
+            echo 'Release already exists; refusing to replace video automatically'
+          fi
+      - name: Publish YouTube Short immediately via Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json,os,urllib.request
+          assert os.environ.get('BUFFER_API_KEY'), 'BUFFER_API_KEY missing'
+          url='https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-reddit-wedding-v6-20261008/reddit_wedding_v6.mp4'
+          title="AITA for refusing to pay for my son's wedding? | Reddit Stories #Shorts"
+          description="I offered to pay for my son's wedding, but there's one condition... #RedditStories #AITA #Shorts"
+          query='''mutation { createPost(input: { text: "'''+description+'''", channelId: "6ac6c6546a5c39ccb647acb5", schedulingType: automatic, mode: shareNow, assets: [{video: {url: "'''+url+'''"}}], metadata: {youtube: {title: "'''+title+'''", categoryId: "24", madeForKids: false}} }) { ... on PostActionSuccess { post { id status } } ... on MutationError { message } } }'''
+          req=urllib.request.Request('https://api.buffer.com',data=json.dumps({'query':query}).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+os.environ['BUFFER_API_KEY']},method='POST')
+          with urllib.request.urlopen(req,timeout=90) as r: result=json.load(r)
+          print(json.dumps(result))
+          post=((result.get('data') or {}).get('createPost') or {}).get('post')
+          if not post or not post.get('id'): raise SystemExit('Buffer YouTube submission not accepted')
+          print('YOUTUBE_BUFFER_POST_CREATED='+post['id'])
+          PY
