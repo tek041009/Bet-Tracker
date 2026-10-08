@@ -1,0 +1,61 @@
+name: ClipNerve publish one corrected TikTok
+on:
+  push:
+    paths:
+      - '.github/workflows/clipnerve-one-tiktok.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build safe-caption cn16 from existing release original
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-recovery-20261007/cn16.mp4' -o original.mp4
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core python3-pil
+          cat > captions.ass <<'ASS'
+          [Script Info]
+          ScriptType: v4.00+
+          PlayResX: 1080
+          PlayResY: 1920
+          WrapStyle: 2
+          [V4+ Styles]
+          Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+          Style: Hook,DejaVu Sans,54,&H0000F5FF,&H0000F5FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,4,0,5,130,130,100,1
+          Style: Sub,DejaVu Sans,46,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,4,0,5,150,150,100,1
+          [Events]
+          Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+          Dialogue: 0,0:00:00.00,0:00:08.05,Hook,,0,0,0,,{\pos(540,420)}DO CHICKENS HAVE\N2 LEGS OR 4?
+          Dialogue: 0,0:00:00.00,0:00:02.43,Sub,,0,0,0,,{\pos(500,1105)}Do chickens have two\Nlegs or four?
+          Dialogue: 0,0:00:02.43,0:00:04.45,Sub,,0,0,0,,{\pos(500,1105)}By the way, this man has\Nchickens at his house.
+          Dialogue: 0,0:00:04.45,0:00:06.86,Sub,,0,0,0,,{\pos(500,1105)}He's got like 20 chickens.
+          Dialogue: 0,0:00:06.86,0:00:08.05,Sub,,0,0,0,,{\pos(500,1105)}Two legs, two. Yeah, okay.
+          ASS
+          ffmpeg -hide_banner -loglevel error -y -ss 0.9 -i original.mp4 -t 8.066667 -filter_complex "[0:v]split=3[base][upper][lower];[upper]crop=1080:250:0:350,scale=1080:650:flags=bicubic,boxblur=12:3[upfill];[lower]crop=1080:180:0:1250,scale=1080:700:flags=bicubic,boxblur=8:3[lofill];[base][upfill]overlay=0:0[updone];[updone][lofill]overlay=0:1220,drawbox=x=80:y=330:w=920:h=190:color=0x101010@0.95:t=fill,ass=captions.ass[v]" -map '[v]' -map '0:a:0' -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart cn16_safe_20261008.mp4
+          ffmpeg -v error -i cn16_safe_20261008.mp4 -f null -
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 cn16_safe_20261008.mp4 | grep -qx '1080,1920'
+      - name: Host finished MP4 as a new release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create clipnerve-cn16-safe-20261008 cn16_safe_20261008.mp4 --title 'ClipNerve cn16 corrected captions' --notes 'Corrected safe-zone caption render for TikTok' --latest=false
+      - name: Publish one TikTok immediately via Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json,os,urllib.request
+          assert os.environ.get('BUFFER_API_KEY'), 'BUFFER_API_KEY missing'
+          url='https://github.com/tek041009/Bet-Tracker/releases/download/clipnerve-cn16-safe-20261008/cn16_safe_20261008.mp4'
+          q='''mutation { createPost(input: { text: "Harry got asked the easiest chicken question 😭 #W2S #Sidemen #Funny #ClipNerve", channelId: "6ac51f456a5c39ccb631eeaa", schedulingType: automatic, mode: shareNow, assets: [{video: {url: "'''+url+'''"}}], metadata: {tiktok: {title: "Harry's chicken question 😭", isAiGenerated: false}} }) { ... on PostActionSuccess { post { id status } } ... on MutationError { message } } }'''
+          req=urllib.request.Request('https://api.buffer.com',data=json.dumps({'query':q}).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+os.environ['BUFFER_API_KEY']},method='POST')
+          with urllib.request.urlopen(req,timeout=90) as r: result=json.load(r)
+          print(json.dumps(result))
+          post=((result.get('data') or {}).get('createPost') or {}).get('post')
+          if not post or not post.get('id'): raise SystemExit('Buffer publication not accepted')
+          print('BUFFER_POST_CREATED='+post['id'])
+          PY
