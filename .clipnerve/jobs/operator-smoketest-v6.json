@@ -6,5 +6,6 @@
   "source_size": 33950016,
   "mode": "approved_source",
   "publish_approved": false,
-  "reason": "ONE-TIME NON-PUBLISHING SMOKE TEST of reusable GitHub runner. Existing approved media only. Do not count as new ClipNerve content."
+  "reason": "ONE-TIME NON-PUBLISHING SMOKE TEST of reusable GitHub runner. Existing approved media only. Do not count as new ClipNerve content.",
+  "retry": 2
 }
