@@ -1,7 +1,7 @@
 {
-  "enabled": true,
+  "enabled": false,
   "batch_id": "clipnerve-2026-10-07-evening-fill-01",
-  "note": "Fill remaining Buffer queue after cn17 proof-of-path succeeded.",
+  "note": "DISABLED 2026-10-08: historic batch already sent/cancelled; do not replay. Fresh publication requires new reviewed commands.",
   "posts": [
     {
       "clip_id": "cn28",
