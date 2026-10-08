@@ -21,10 +21,13 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Verify free tools
+      - name: Install and verify FFmpeg (not preinstalled on this runner)
         run: |
-          ffmpeg -version | head -n 1
-          ffprobe -version | head -n 1
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          command -v ffmpeg
+          command -v ffprobe
           gh --version | head -n 1
           python3 --version
 
