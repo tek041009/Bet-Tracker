@@ -1,0 +1,58 @@
+name: ClipNerve reusable FFmpeg-Buffer operator
+
+on:
+  push:
+    paths:
+      - '.clipnerve/jobs/*.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: clipnerve-operator-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  operator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Verify free tools
+        run: |
+          ffmpeg -version | head -n 1
+          ffprobe -version | head -n 1
+          gh --version | head -n 1
+          python3 --version
+
+      - name: Execute only new video-job manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t jobs < <(git diff-tree --no-commit-id --name-only -r HEAD -- '.clipnerve/jobs/' | grep -E '^\.clipnerve/jobs/[a-zA-Z0-9_-]+\.json$' || true)
+          if [ "${#jobs[@]}" -eq 0 ]; then
+            echo 'No new video manifest in this commit. No action taken.'
+            exit 0
+          fi
+          for job in "${jobs[@]}"; do
+            test -f "$job"
+            echo "Executing manifest: $job"
+            python3 .clipnerve/operator.py "$job"
+          done
+
+      - name: Keep actual rendered QA files for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clipnerve-render-${{ github.run_id }}
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            output_*.mp4
+            qa_*.jpg
