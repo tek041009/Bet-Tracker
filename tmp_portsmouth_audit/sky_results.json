@@ -1,0 +1,47 @@
+{
+  "SKY_GOAL": {
+    "http_status": 410,
+    "html_length": 224077,
+    "html_evidence": [],
+    "extractor_log": "[generic] Extracting URL: https://www.skysports.com/football/video/30998/13571012/carabao-cup-jarrod-bowens-deflected-curle...t-against-portsmouth\n[generic] carabao-cup-jarrod-bowens-deflected-curler-puts-west-ham-in-front-against-portsmouth: Downloading webpage\nERROR: [generic] carabao-cup-jarrod-bowens-deflected-curler-puts-west-ham-in-front-against-portsmouth: Unable to download webpage: HTTP Error 410: Gone (caused by <HTTPError 410: Gone>)\n"
+  },
+  "SKY_HIGHLIGHTS": {
+    "http_status": 410,
+    "html_length": 224077,
+    "html_evidence": [],
+    "extractor_log": "[generic] Extracting URL: https://www.skysports.com/football/video/30998/13571115/west-ham-united-3-1-portsmouth-carabao-cup-highlights\n[generic] west-ham-united-3-1-portsmouth-carabao-cup-highlights: Downloading webpage\nERROR: [generic] west-ham-united-3-1-portsmouth-carabao-cup-highlights: Unable to download webpage: HTTP Error 410: Gone (caused by <HTTPError 410: Gone>)\n"
+  },
+  "REDDIT_GOAL": {
+    "http_status": 403,
+    "html_length": 1522,
+    "html_evidence": [],
+    "extractor_log": "[Reddit] Setting up session via old reddit\n[Reddit] Extracting URL: https://www.reddit.com/r/soccer/comments/1viy1u2/west_ham_united_21_portsmouth_jarrod_bowen_45_efl/\n[Reddit] 1viy1u2: Setting up session via shreddit\n[Reddit] 1viy1u2: Downloading JSON metadata\nERROR: [Reddit] 1viy1u2: Account authentication is required. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies\n"
+  },
+  "WHU_MATCH_CENTRE": {
+    "http_status": 200,
+    "html_length": 755843,
+    "html_evidence": [
+      "substitutions\\\":\\\"Substitutes\\\",\\\"noContent\\\":\\\"$79\\\"}\\n7e:{\\\"sortOrder\\\":2680,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27hwtukeqxh91ch1f3qr1it49\\\",\\\"playerName\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"43'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalA",
+      "\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"43'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"6xzgcexqk70l1ps75vs22c9p0\\\",\\\"goalAssistPlayerName\\\":\\\"Mohamadou Kant\u00e9\\\"}\\n7f:{\\\"sortOrder\\\":2800,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"d54",
+      "22c9p0\\\",\\\"goalAssistPlayerName\\\":\\\"Mohamadou Kant\u00e9\\\"}\\n7f:{\\\"sortOrder\\\":2800,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"d542ijpf3j9hdrtt1mfe6vwlx\\\",\\\"playerName\\\":\\\"Jarrod Bowen\\\",\\\"minute\\\":\\\"45'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPla",
+      "ayerName\\\":\\\"Jarrod Bowen\\\",\\\"minute\\\":\\\"45'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"bvlwv6fwawqnv446zj516y4no\\\",\\\"goalAssistPlayerName\\\":\\\"Pablo\\\"}\\n80:{\\\"sortOrder\\\":3150,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27hwtukeqxh91",
+      "wqnv446zj516y4no\\\",\\\"goalAssistPlayerName\\\":\\\"Pablo\\\"}\\n80:{\\\"sortOrder\\\":3150,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27hwtukeqxh91ch1f3qr1it49\\\",\\\"playerName\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"50'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalA",
+      "\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"50'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"d542ijpf3j9hdrtt1mfe6vwlx\\\",\\\"goalAssistPlayerName\\\":\\\"Jarrod Bowen\\\"}\\n7d:[\\\"$7e\\\",\\\"$7f\\\",\\\"$80\\\"]\\n82:{\\\"sortOrder\\\":2080,\\\"event\\\":",
+      "Name\\\":\\\"Jarrod Bowen\\\"}\\n7d:[\\\"$7e\\\",\\\"$7f\\\",\\\"$80\\\"]\\n82:{\\\"sortOrder\\\":2080,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"53g522ox4zpljnu57fcf4meei\\\",\\\"playerName\\\":\\\"A\"])</script><script>self.__next_f.push([1,\"drian Segecic\\\",\\\"minute\\\":\\\"33'\\\",\\\"clubId\\\":",
+      "ay\\\":\\\"$81\\\"}\\n83:[]\\n84:[]\\n85:[]\\n86:[]\\n87:[]\\n89:{\\\"sortOrder\\\":3390,\\\"event\\\":\\\"YellowCard\\\",\\\"playerId\\\":\\\"bp3apdb2ahzacq45k4mzj5jhl\\\",\\\"playerName\\\":\\\"Edson \u00c1lvarez\\\",\\\"minute\\\":\\\"54'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"bookingReaso",
+      "jdaqveermfryvbfrr4taf7\\\",\\\"bookingReason\\\":\\\"Foul\\\"}\\n8a:{\\\"sortOrder\\\":4650,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"bp3apdb2ahzacq45k4mzj5jhl\\\",\\\"playerName\\\":\\\"Edson \u00c1lvarez\\\",\\\"minute\\\":\\\"75'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"playerOnId\\\"",
+      "e\\\":\\\"El Hadji Malick Diouf\\\"}\\n88:[\\\"$89\\\",\\\"$8a\\\"]\\n8c:{\\\"sortOrder\\\":4650,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"6xzgcexqk70l1ps75vs22c9p0\\\",\\\"playerName\\\":\\\"Mohamadou Kant\u00e9\\\",\\\"minute\\\":\\\"75'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"playerOnId",
+      ",\\\"playerOnName\\\":\\\"James Ward-Prowse\\\"}\\n8b:[\\\"$8c\\\"]\\n8e:{\\\"sortOrder\\\":2800,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"d542ijpf3j9hdrtt1mfe6vwlx\\\",\\\"playerName\\\":\\\"Jarrod Bowen\\\",\\\"minute\\\":\\\"45'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPla",
+      "ayerName\\\":\\\"Jarrod Bowen\\\",\\\"minute\\\":\\\"45'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"bvlwv6fwawqnv446zj516y4no\\\",\\\"goalAssistPlayerName\\\":\\\"Pablo\\\"}\\n8f:{\\\"sortOrder\\\":6030,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"d542ijpf3j9",
+      "nv446zj516y4no\\\",\\\"goalAssistPlayerName\\\":\\\"Pablo\\\"}\\n8f:{\\\"sortOrder\\\":6030,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"d542ijpf3j9hdrtt1mfe6vwlx\\\",\\\"playerName\\\":\\\"Jarrod Bowen\\\",\\\"minute\\\":\\\"90'+8'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"playerOnId",
+      "nName\\\":\\\"Joshua Ajala\\\"}\\n8d:[\\\"$8e\\\",\\\"$8f\\\"]\\n90:[]\\n92:{\\\"sortOrder\\\":2680,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27hwtukeqxh91ch1f3qr1it49\\\",\\\"playerName\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"43'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalA",
+      "\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"43'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"6xzgcexqk70l1ps75vs22c9p0\\\",\\\"goalAssistPlayerName\\\":\\\"Mohamadou Kant\u00e9\\\"}\\n93:{\\\"sortOrder\\\":3150,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27h",
+      "22c9p0\\\",\\\"goalAssistPlayerName\\\":\\\"Mohamadou Kant\u00e9\\\"}\\n93:{\\\"sortOrder\\\":3150,\\\"event\\\":\\\"Goal\\\",\\\"playerId\\\":\\\"27hwtukeqxh91ch1f3qr1it49\\\",\\\"playerName\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"50'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalA",
+      "\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"50'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"goalAssistPlayerId\\\":\\\"d542ijpf3j9hdrtt1mfe6vwlx\\\",\\\"goalAssistPlayerName\\\":\\\"Jarrod Bowen\\\"}\\n94:{\\\"sortOrder\\\":5430,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"27hw",
+      "fe6vwlx\\\",\\\"goalAssistPlayerName\\\":\\\"Jarrod Bowen\\\"}\\n94:{\\\"sortOrder\\\":5430,\\\"event\\\":\\\"SubOff\\\",\\\"playerId\\\":\\\"27hwtukeqxh91ch1f3qr1it49\\\",\\\"playerName\\\":\\\"Valent\u00edn Castellanos\\\",\\\"minute\\\":\\\"88'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"playe",
+      "\"Jo\u00ebl Veltman\\\"}\\n91:[\\\"$92\\\",\\\"$93\\\",\\\"$94\\\"]\\n95:[]\\n97:{\\\"sortOrder\\\":4650,\\\"event\\\":\\\"SubOn\\\",\\\"playerId\\\":\\\"7r6vds5j65fohi1k28cnqjqvp\\\",\\\"playerName\\\":\\\"James Ward-Prowse\\\",\\\"minute\\\":\\\"75'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"playerOf",
+      ",\\\"playerOffName\\\":\\\"Mohamadou Kant\u00e9\\\"}\\n96:[\\\"$97\\\"]\\n99:{\\\"sortOrder\\\":4650,\\\"event\\\":\\\"SubOn\\\",\\\"playerId\\\":\\\"18ibccymsaxom7wdnfz0tevx0\\\",\\\"playerName\\\":\\\"El Hadji Malick Diouf\\\",\\\"minute\\\":\\\"75'\\\",\\\"clubId\\\":\\\"4txjdaqveermfryvbfrr4taf7\\\",\\\"play"
+    ],
+    "extractor_log": "[generic] Extracting URL: https://std-pre-prod.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808?tab=pre-match\n[generic] west-ham-united-fc-v-portsmouth-fc-league-cup-20260808?tab=pre-match: Downloading webpage\n[generic] west-ham-united-fc-v-portsmouth-fc-league-cup-20260808?tab=pre-match: Extracting information\nERROR: Unsupported URL: https://std-pre-prod.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808?tab=pre-match\n"
+  }
+}
