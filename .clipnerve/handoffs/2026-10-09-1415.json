@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "run_local": "2026-10-09 14:15 BST",
+  "source_of_truth": "Google Drive + Buffer; this handoff is fallback because Control Centre write was blocked",
+  "platform": "tiktok",
+  "verified_buffer": {
+    "channel_id": "6ac51f456a5c39ccb631eeaa",
+    "sent_count": 23,
+    "scheduled_count": 0,
+    "most_recent_sent_post_id": "6ac76239022dfaf044068e54",
+    "most_recent_sent_at": "2026-10-08T09:30:11.319Z"
+  },
+  "new_renders": [
+    {
+      "clip_id": "cn21",
+      "version": "V6",
+      "filename": "cn21_caption_clean_v6_QA_HOLD.mp4",
+      "bytes": 2342430,
+      "sha256": "5e75592e29b62cdd2bc50036c97a25e4e6961f0103c0cd05fbb7cb7de161df1d",
+      "source_drive_id": "1WMBB4DlMq2cu6X226DmAYx7oK-UoacY6",
+      "status": "QA_HOLD",
+      "technical": "H264/AAC 1080x1920 full decode PASS, 12 frames inspected, original audio decoded PCM hash identical",
+      "caption_change": "removed opaque black top title bar, retained baked spoken subtitles",
+      "asset_location": "conversation /mnt/data/cn21_caption_clean_v6_QA_HOLD.mp4 (Drive upload failed)",
+      "rights": "NOT VERIFIED",
+      "next_action": "persist exact MP4 to Drive with genuinely different working transport, then verify speech and rights; do not publish unless clearance"
+    },
+    {
+      "clip_id": "cn26",
+      "version": "V6",
+      "filename": "cn26_caption_clean_v6_QA_HOLD.mp4",
+      "bytes": 3602670,
+      "sha256": "9c81d95705c8f957c214730d50a72538c64b4f19d28399d5b8024466e9e52f3b",
+      "source_drive_id": "1CF3oH1iIrZ77XynpoKw70GKhvP8voodi",
+      "status": "QA_HOLD",
+      "technical": "H264/AAC 1080x1920 full decode PASS, 12 frames inspected, original audio decoded PCM hash identical",
+      "caption_change": "removed opaque black top title bar, retained baked spoken subtitles",
+      "asset_location": "conversation /mnt/data/cn26_caption_clean_v6_QA_HOLD.mp4 (Drive upload failed)",
+      "rights": "NOT VERIFIED",
+      "next_action": "persist exact MP4 to Drive with genuinely different working transport, then verify speech and rights; do not publish unless clearance"
+    }
+  ],
+  "existing": [
+    {
+      "clip_id": "cn19",
+      "version": "V3",
+      "drive_id": "1ujqIQ8EdDurRtreTPbixngcKluRuGwtk",
+      "status": "QA_HOLD"
+    },
+    {
+      "clip_id": "cn20",
+      "version": "V3",
+      "drive_id": "1svp3EgK3eWYMBvpz1eta4pEEe1F-p_ZM",
+      "status": "QA_HOLD"
+    },
+    {
+      "clip_id": "cn22",
+      "version": "V10",
+      "drive_id": "1Bm8D_WJxb81vrNncUY6HSe0FvHVphJXG",
+      "status": "QA_HOLD"
+    },
+    {
+      "clip_id": "cn24",
+      "version": "V7",
+      "drive_id": "1T9DOZb3ujO6C4vFnvkl2rhiV8JPJSfsV",
+      "status": "QA_HOLD"
+    }
+  ],
+  "failure_registry": [
+    {
+      "operation": "Google Drive update_file move",
+      "result": "safety blocked",
+      "attempts": 1,
+      "action": "do not retry unchanged"
+    },
+    {
+      "operation": "Google Drive batch_update_spreadsheet",
+      "result": "safety blocked",
+      "attempts": 1,
+      "action": "do not retry unchanged"
+    },
+    {
+      "operation": "Descript import from Drive",
+      "result": "safety blocked",
+      "attempts": 1,
+      "action": "do not retry unchanged"
+    },
+    {
+      "operation": "Library files__manage_library upload to Google Drive",
+      "result": "container_session_expired",
+      "attempts": 2,
+      "action": "freeze this transport until runtime refreshed"
+    },
+    {
+      "operation": "Adobe short link -> Buffer",
+      "result": "Video could not be read from URL",
+      "attempts": 1,
+      "action": "requires actual stable direct media URL, do not retry Adobe share link"
+    }
+  ],
+  "next_run_resume": "cn21 | V6 QA HOLD | conversation /mnt/data/cn21_caption_clean_v6_QA_HOLD.mp4 | obtain durable Drive or retrievable GitHub artifact via changed supported transfer, then word-level QA/rights; if blocked, continue authorized YouTube source"
+}
