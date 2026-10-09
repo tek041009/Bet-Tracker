@@ -1,0 +1,22 @@
+{
+  "WHU_EXTENDED": {
+    "download": "failed",
+    "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=B5_vpCdI57E\n[youtube] B5_vpCdI57E: Downloading webpage\n[youtube] B5_vpCdI57E: Downloading visionos player API JSON\nERROR: [youtube] B5_vpCdI57E: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "EFL_EXTENDED": {
+    "download": "failed",
+    "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading visionos player API JSON\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "WHU_SHORT": {
+    "download": "failed",
+    "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=R15cQiru4-U\n[youtube] R15cQiru4-U: Downloading webpage\n[youtube] R15cQiru4-U: Downloading visionos player API JSON\nERROR: [youtube] R15cQiru4-U: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "EFL_CONDENSED": {
+    "download": "failed",
+    "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=7oEhDOc7GXE\n[youtube] 7oEhDOc7GXE: Downloading webpage\n[youtube] 7oEhDOc7GXE: Downloading visionos player API JSON\nERROR: [youtube] 7oEhDOc7GXE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "SCTV": {
+    "download": "failed",
+    "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=Syig5LWe0d4\n[youtube] Syig5LWe0d4: Downloading webpage\n[youtube] Syig5LWe0d4: Downloading visionos player API JSON\nERROR: [youtube] Syig5LWe0d4: Video unavailable\n"
+  }
+}
