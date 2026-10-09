@@ -1,0 +1,66 @@
+{
+  "run": "2026-10-10 00:26 BST",
+  "clip_id": "cn22",
+  "platform": "tiktok",
+  "stage": "V11 QA_HOLD",
+  "asset": {
+    "drive_id": "1PBHnOM2YCs6hrLukjoKvf8yMH6G_0iET",
+    "drive_url": "https://drive.google.com/file/d/1PBHnOM2YCs6hrLukjoKvf8yMH6G_0iET/view",
+    "folder_id": "1w_QjRBuE1C_h8uR1wZ77CvyTV-UvbsHe",
+    "bytes": 4227892,
+    "sha256": "160e83e82fdcc3821282686db7e4d28c0a3670fb4eb11453fad37e665ae2862f",
+    "duration_seconds": 16.066667,
+    "frames": 482,
+    "video": "H264 1080x1920",
+    "audio": "AAC"
+  },
+  "qa": {
+    "full_decode": "PASS",
+    "sampled_frames": "PASS 12",
+    "audio_packet_hash_match": "PASS",
+    "audio_sha256": "1bd482f02523c1b9fee5aeaaa5fb71c901fad36f9dc06543042f4c7b21456f4c",
+    "drive_download_byte_match": "PASS",
+    "spoken_word_manual_transcription": "NOT VERIFIED",
+    "footage_reuse_rights": "NOT VERIFIED",
+    "approved_ready": false
+  },
+  "edit": {
+    "from": "cn22 V10",
+    "issue": "Old top hook revealed answer before spoken joke",
+    "change": "Replaced only blurred top title with HARRY WAS SO CONFIDENT...",
+    "preserved": "Middle action, bottom dialogue captions, duration and AAC stream"
+  },
+  "publishing": {
+    "tiktok_new_queued": 0,
+    "tiktok_new_sent": 0,
+    "youtube_new_queued": 0,
+    "youtube_new_sent": 0,
+    "duplicate_check": "Buffer 23 TT and 1 YT lifetime SENT; cn16 and Wedding V6 never repost"
+  },
+  "backlog": {
+    "six_unpublished_caption_repaired_rights_hold": [
+      "cn19",
+      "cn20",
+      "cn21",
+      "cn22",
+      "cn24",
+      "cn26"
+    ],
+    "already_posted": [
+      "cn16"
+    ],
+    "superseded_variants": 14
+  },
+  "control_centre": {
+    "spreadsheet_id": "1jHn_uuStcGn6fjw7A9HiRHhMS0Tvg6Yz5yfZ2iX0GBw",
+    "backlog_row": 10,
+    "run_log_row": 68,
+    "write_readback": "PASS"
+  },
+  "next_run_resume": {
+    "clip_id": "cn22",
+    "stage": "V11 QA HOLD",
+    "persisted_asset_id": "1PBHnOM2YCs6hrLukjoKvf8yMH6G_0iET",
+    "exact_next_action": "Do not rerender. Verify rights and exact spoken words; if blocked, inspect cn24 for real edit defects or progress licensed YouTube V12; never publish without source clearance."
+  }
+}
