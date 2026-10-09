@@ -18,6 +18,7 @@ jobs:
           persist-credentials: true
       - name: Install non-AI video inspection software
         run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           python -m pip install --user --upgrade yt-dlp pillow
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Retrieve and sample source broadcasts
