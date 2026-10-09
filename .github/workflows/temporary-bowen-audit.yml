@@ -22,7 +22,7 @@ jobs:
           python -m pip install --user --upgrade yt-dlp pillow
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Retrieve and sample source broadcasts
-        run: python tmp_portsmouth_audit/kaltura_fetch.py
+        run: python tmp_portsmouth_audit/refine.py
       - name: Preserve source audit contact sheets on isolated research branch
         if: always()
         run: |
