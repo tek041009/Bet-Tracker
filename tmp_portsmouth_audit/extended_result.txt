@@ -1,0 +1,5 @@
+URL https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/url/protocol/https
+SOURCE_BYTES 27634276
+CAPTURED_FRAMES 105
+START 125
+DURATION 105
