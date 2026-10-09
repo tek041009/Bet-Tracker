@@ -1,0 +1,329 @@
+{
+  "0": {
+    "url": "https://std-pre-prod.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808?tab=post-match",
+    "http": 200,
+    "size": 755845,
+    "kaltura_ids": [
+      "0_rf4zz7e8",
+      "0_obcxj8mw",
+      "0_8lrtnx1l",
+      "0_iplk1pvk",
+      "0_4nzutk25",
+      "0_5vq1ppvj",
+      "0_mx9haob8",
+      "0_rc5a8usz"
+    ],
+    "term_Goals | West Ham United 3-1 Portsmouth": {
+      "n": 4,
+      "snippets": [
+        "opyEntries\\\",\\\"hyperlink\\\":[],\\\"block\\\":[]}}},\\\"featuredGallery\\\":\\\"$undefined\\\",\\\"id\\\":\\\"2gVsN9F1EVX69vJXjfTSiw\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"2gVsN9F1EVX69vJXjfTSiw\\\"},\\\"slugEn\\\":\\\"goals-or-west-ham-united-3-1-portsmouth\\\",\\\"slugIt\\\":\\\"goals-or-west-ham-united-3-1-portsmouth\\\",\\\"slugFr\\\":\\\"goals-or-west-ham-united-3-1-portsmouth\\\",\\\"slug\\\":\\\"goals-or-west-ham-united-3-1-portsmouth\\\",\\\"articleTitle\\\":\\\"Goals | West Ham United 3-1 Portsmouth\\\",\\\"format\\\":\\\"Video\\\",\\\"isFeatured\\\":\\\"$undefined\\\",\\\"category\\\":{\\\"__typename\\\":\\\"Category\\\",\\\"id\\\":\\\"6Dhb5Nw301ZfOwHMtxdFM0\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"6Dhb5Nw301ZfOwHMtxdFM0\\\"},\\\"category\\\":\\\"Highlights\\\",\\\"slug\\\":\\\"highlights\\\"},\\\"image\\\":{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"3vcWFgCDYIpnQHWkE9rBXi\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":939,\\\"height\\\":528,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/3kHkFLBRyfc9ZWu44glQvb/c176140303cf3b2b87f3caf2c27665ba/GettyImages-2289596932.jpg\\\",\\\"alt\\\":\\\"Taty goal Ports",
+        "Image\\\",\\\"id\\\":\\\"3vcWFgCDYIpnQHWkE9rBXi\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":939,\\\"height\\\":528,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/3kHkFLBRyfc9ZWu44glQvb/c176140303cf3b2b87f3caf2c27665ba/GettyImages-2289596932.jpg\\\",\\\"alt\\\":\\\"Taty goal Portsmouth\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":{\\\"x\\\":188,\\\"y\\\":264},\\\"focus\\\":\\\"left\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_4nzutk25\\\",\\\"title\\\":\\\"Goals | West Ham United 3-1 Portsmouth\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_4nzutk25/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"02:08\\\",\\\"date\\\":\\\"2026-08-08T16:55:51Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_4nzutk25/format/url/protocol/https\\\"},\\\"slug\\\":\\\"untitled-entry-2026-08-08-at-16-58-24\\\"},\\\"isRestrictedToMembersOnly\\\":false,\\\"isContentTargetedAtUnder18S\\\":false},{\\\"__typename\\\":\\\"ArticlePage\\\",\\\"bodyCopy\\\":{\\\"__typename\\\":\\\"ArticlePageBodyCopy\\\",\\\"json\\\":{\\\"nodeType\\\":\\\"docum",
+        "Image\\\",\\\"id\\\":\\\"3vcWFgCDYIpnQHWkE9rBXi\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":939,\\\"height\\\":528,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/3kHkFLBRyfc9ZWu44glQvb/c176140303cf3b2b87f3caf2c27665ba/GettyImages-2289596932.jpg\\\",\\\"alt\\\":\\\"Taty goal Portsmouth\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":{\\\"x\\\":188,\\\"y\\\":264},\\\"focus\\\":\\\"left\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_4nzutk25\\\",\\\"title\\\":\\\"Goals | West Ham United 3-1 Portsmouth\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_4nzutk25/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"02:08\\\",\\\"date\\\":\\\"2026-08-08T16:55:51Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_4nzutk25/format/url/protocol/https\\\"},\\\"slug\\\":\\\"untitled-entry-2026-08-08-at-16-58-24\\\"},{\\\"__typename\\\":\\\"Gallery\\\",\\\"id\\\":\\\"5vOEiRvnfDRkWB5fyu2QrR\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"5vOEiRvnfDRkWB5fyu2QrR\\\"},\\\"galleryTitle\\\":\\\"$undefined\\"
+      ]
+    },
+    "term_Bowen | It\u2019s a good way to start": {
+      "n": 1,
+      "snippets": [
+        ":806,\\\"y\\\":502},\\\"focus\\\":\\\"center\\\",\\\"isAgeSensitiveContent\\\":false}]}}},\\\"featuredGallery\\\":\\\"$undefined\\\",\\\"id\\\":\\\"1aWUIKJnuyryUr1syUk48X\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"1aWUIKJnuyryUr1syUk48X\\\"},\\\"slugEn\\\":\\\"bowen-or-its-a-good-way-to-start\\\",\\\"slugIt\\\":\\\"bowen-or-its-a-good-way-to-start\\\",\\\"slugFr\\\":\\\"bowen-or-its-a-good-way-to-start\\\",\\\"slug\\\":\\\"bowen-or-its-a-good-way-to-start\\\",\\\"articleTitle\\\":\\\"Bowen | It\u2019s a good way to start\\\",\\\"format\\\":\\\"Video\\\",\\\"isFeatured\\\":\\\"$undefined\\\",\\\"category\\\":{\\\"__typename\\\":\\\"Category\\\",\\\"id\\\":\\\"6SBOwSbKhOVxm2iINqVoBT\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"6SBOwSbKhOVxm2iINqVoBT\\\"},\\\"category\\\":\\\"Reaction\\\",\\\"slug\\\":\\\"reaction\\\"},\\\"image\\\":{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"6nRtTmOttP2hvmazd9oGvu\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":2971,\\\"height\\\":1671,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/z41FrFlZKUnOvRzurwTsg/fbe351964d7ad9f4ba89ea2b38e4d552/JIM_0469.jpg\\\",\\\"alt\\\":\\\"Bowen v Portsmouth (h) Aug 2026\\"
+      ]
+    },
+    "term_Portsmouth": {
+      "n": 267,
+      "snippets": [
+        "4804-824a200e82f42f15.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/%5Blocale%5D/layout-0929ad9c6b9799b1.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/%5Blocale%5D/error-82060aeeaaf335f5.js\" async=\"\"></script><link rel=\"preload\" href=\"https://www.googletagmanager.com/gtm.js?id=GTM-TBJDR7B\" as=\"script\"/><link rel=\"preload\" href=\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\" as=\"script\"/><title>West Ham United / Portsmouth - Carabao Cup - London Stadium, London - West Ham United FC</title><meta name=\"description\" content=\"Relive all the action from the Carabao Cup match between West Ham United and Portsmouth at London Stadium.\"/><meta name=\"robots\" content=\"index, follow\"/><meta name=\"googlebot\" content=\"index, follow\"/><link rel=\"canonical\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" hrefLang=\"en\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" href",
+        "5D/error-82060aeeaaf335f5.js\" async=\"\"></script><link rel=\"preload\" href=\"https://www.googletagmanager.com/gtm.js?id=GTM-TBJDR7B\" as=\"script\"/><link rel=\"preload\" href=\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\" as=\"script\"/><title>West Ham United / Portsmouth - Carabao Cup - London Stadium, London - West Ham United FC</title><meta name=\"description\" content=\"Relive all the action from the Carabao Cup match between West Ham United and Portsmouth at London Stadium.\"/><meta name=\"robots\" content=\"index, follow\"/><meta name=\"googlebot\" content=\"index, follow\"/><link rel=\"canonical\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" hrefLang=\"en\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><meta property=\"og:title\" content=\"West Ham United / Portsmouth - ",
+        "t.js\" as=\"script\"/><title>West Ham United / Portsmouth - Carabao Cup - London Stadium, London - West Ham United FC</title><meta name=\"description\" content=\"Relive all the action from the Carabao Cup match between West Ham United and Portsmouth at London Stadium.\"/><meta name=\"robots\" content=\"index, follow\"/><meta name=\"googlebot\" content=\"index, follow\"/><link rel=\"canonical\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" hrefLang=\"en\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><link rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.whufc.com/en/matches/mens-team/west-ham-united-fc-v-portsmouth-fc-league-cup-20260808\"/><meta property=\"og:title\" content=\"West Ham United / Portsmouth - Carabao Cup - London Stadium, London - West Ham United FC\"/><meta property=\"og:description\" content=\"Relive all the action from the Carabao Cup match between West Ham United and Portsmouth at London Stadium.\"/><meta p"
+      ]
+    },
+    "term_kaltura": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_partnerId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_entryId": {
+      "n": 10,
+      "snippets": [
+        "\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/34E3tgivH7gi4EgfbkxycL/5635542e9d5da8f833683257e5fe21df/Orford_Portsmouth.jpg\\\",\\\"alt\\\":\\\"Orford | It\u2019s a moment you dream of as a boy in the Academy\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":\\\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_rf4zz7e8\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_rf4zz7e8/format/url/protocol/https\\\",\\\"date\\\":\\\"2026-08-08T17:13:33Z\\\",\\\"title\\\":\\\"Orford | It\u2019s a moment you dream of as a boy in the Academy\\\",\\\"duration\\\":\\\"03:36\\\",\\\"provider\\\":\\\"stream\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_rf4zz7e8/width/900\\\"},\\\"slug\\\":\\\"orford-or-its-a-moment-you-dream-of-as-a-boy-in-the-academy\\\"},\\\"isRestrictedToMembersOnly\\\":false,\\\"isContentTargetedAtUnder18S\\\":false},{\\\"__typename\\\":\\\"ArticlePage\\\",\\\"bodyCopy\\\":{\\\"__typename\\\":\\\"ArticlePageBodyCopy\\\",\\\"json\\\":{\\\"data\\\":{},\\\"c",
+        "d\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_obcxj8mw\\\",\\\"title\\\":\\\"Watch | Every angle of Taty's equaliser\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_obcxj8mw/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"00:50\\\",\\\"date\\\":\\\"2026-08-08T17:31:19Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_obcxj8mw/format/url/protocol/https\\\"},\\\"slug\\\":\\\"watch-or-every-angle-of-tatys-equaliser\\\"},{\\\"__typename\\\":\\\"Video\\\",\\\"id\\\":\\\"lYYRK7hUXs1GwIrmoOpDs\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"lYYRK7hUXs1GwIrmoOpDs\\\"},\\\"title\\\":\\\"Watch | Every angle as Taty makes it three\\\",\\\"subtitle\\\":\\\"$undefined\\\",\\\"description\\\":\\\"$undefined\\\",\\\"image\\\":{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"58FKhkbz31WZAffrp0ukUP\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/1ASLaCv1xcajbshFZBmLwa/",
+        ",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_8lrtnx1l\\\",\\\"title\\\":\\\"Watch | Every angle as Taty makes it three\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_8lrtnx1l/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"01:00\\\",\\\"date\\\":\\\"2026-08-08T17:31:21Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_8lrtnx1l/format/url/protocol/https\\\"},\\\"slug\\\":\\\"watch-or-every-angle-as-taty-makes-it-three\\\"},{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"4bkgFdIgNJmv7Tx347WYY2\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/2EpImHw9SVGnQa9w7E4Fip/a0783de1c425e9694bfe0d2eb7682658/Kilman_Portsmouth.jpg\\\",\\\"alt\\\":\\\"Maximilian Kilman in action against Portsmouth\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":\\\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false}]}}},\\\"featuredGallery\\\":\\\"$undefined\\\",\\\"id\\\":\\\"1yBivPKilNvgGAi"
+      ]
+    },
+    "term_playManifest": {
+      "n": 10,
+      "snippets": [
+        ":\\\"$undefined\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/34E3tgivH7gi4EgfbkxycL/5635542e9d5da8f833683257e5fe21df/Orford_Portsmouth.jpg\\\",\\\"alt\\\":\\\"Orford | It\u2019s a moment you dream of as a boy in the Academy\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":\\\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_rf4zz7e8\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_rf4zz7e8/format/url/protocol/https\\\",\\\"date\\\":\\\"2026-08-08T17:13:33Z\\\",\\\"title\\\":\\\"Orford | It\u2019s a moment you dream of as a boy in the Academy\\\",\\\"duration\\\":\\\"03:36\\\",\\\"provider\\\":\\\"stream\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_rf4zz7e8/width/900\\\"},\\\"slug\\\":\\\"orford-or-its-a-moment-you-dream-of-as-a-boy-in-the-academy\\\"},\\\"isRestrictedToMembersOnly\\\":false,\\\"isContentTargetedAtUnder18S\\\":false},{\\\"__typename\\\":\\\"ArticlePage\\\",\\\"bodyCopy\\\":{\\\"__typename\\\":\\\"ArticlePageBodyCopy\\\",\\\"json\\\":{\\\"data\\",
+        "\":\\\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_obcxj8mw\\\",\\\"title\\\":\\\"Watch | Every angle of Taty's equaliser\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_obcxj8mw/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"00:50\\\",\\\"date\\\":\\\"2026-08-08T17:31:19Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_obcxj8mw/format/url/protocol/https\\\"},\\\"slug\\\":\\\"watch-or-every-angle-of-tatys-equaliser\\\"},{\\\"__typename\\\":\\\"Video\\\",\\\"id\\\":\\\"lYYRK7hUXs1GwIrmoOpDs\\\",\\\"publishedAt\\\":\\\"$undefined\\\",\\\"sys\\\":{\\\"__typename\\\":\\\"Sys\\\",\\\"id\\\":\\\"lYYRK7hUXs1GwIrmoOpDs\\\"},\\\"title\\\":\\\"Watch | Every angle as Taty makes it three\\\",\\\"subtitle\\\":\\\"$undefined\\\",\\\"description\\\":\\\"$undefined\\\",\\\"image\\\":{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"58FKhkbz31WZAffrp0ukUP\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/1ASLaCv1xcajbsh",
+        "\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false},\\\"video\\\":{\\\"id\\\":\\\"0_8lrtnx1l\\\",\\\"title\\\":\\\"Watch | Every angle as Taty makes it three\\\",\\\"description\\\":\\\"\\\",\\\"thumbnailImageUrl\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/thumbnail/entry_id/0_8lrtnx1l/width/900\\\",\\\"provider\\\":\\\"stream\\\",\\\"duration\\\":\\\"01:00\\\",\\\"date\\\":\\\"2026-08-08T17:31:21Z\\\",\\\"url\\\":\\\"https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_8lrtnx1l/format/url/protocol/https\\\"},\\\"slug\\\":\\\"watch-or-every-angle-as-taty-makes-it-three\\\"},{\\\"__typename\\\":\\\"Image\\\",\\\"id\\\":\\\"4bkgFdIgNJmv7Tx347WYY2\\\",\\\"attribution\\\":\\\"$undefined\\\",\\\"caption\\\":\\\"$undefined\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"url\\\":\\\"https://images.ctfassets.net/zl2jjr3puakk/2EpImHw9SVGnQa9w7E4Fip/a0783de1c425e9694bfe0d2eb7682658/Kilman_Portsmouth.jpg\\\",\\\"alt\\\":\\\"Maximilian Kilman in action against Portsmouth\\\",\\\"fit\\\":\\\"fill\\\",\\\"focalPoint\\\":\\\"$undefined\\\",\\\"focus\\\":\\\"face\\\",\\\"isAgeSensitiveContent\\\":false}]}}},\\\"featuredGallery\\\":\\\"$undefined\\\",\\\"id\\\":\\\"1yBivPK"
+      ]
+    },
+    "term_VideoPlayer": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_brightcove": {
+      "n": 0,
+      "snippets": []
+    },
+    "media_links": []
+  },
+  "1": {
+    "url": "https://www.whufc.com/en/video",
+    "http": 200,
+    "size": 1075509,
+    "kaltura_ids": [
+      "0_iha99xxu",
+      "0_ifzrf4oy",
+      "0_ik31kmgz",
+      "0_d0eafroa",
+      "0_7acn85ot",
+      "0_z2l9vvmn",
+      "0_8smypz5e",
+      "0_hwmafsk3",
+      "0_bozu90gx",
+      "0_ikc8kcz9",
+      "0_xybvr8ch",
+      "0_0hq3ad2o",
+      "0_ogimtreb",
+      "0_s0qx4fdi",
+      "0_3h8ousx3",
+      "0_qpn68eaf",
+      "0_spc0avi5",
+      "0_5aozorjp",
+      "0_hfxd8hsu",
+      "0_lx2ypzfu",
+      "0_m2hmn6ym",
+      "0_1rdbviim",
+      "0_2m7i87uj",
+      "0_nqsm38xe",
+      "0_ebskdh1d",
+      "0_y777u3c1",
+      "0_w6fyp24w",
+      "0_bdyxqqnj",
+      "0_ht592kul",
+      "0_zgxet8d1",
+      "0_4hfjgdw6",
+      "0_11o5vo7r",
+      "0_6xrz0jkl",
+      "0_djzq0d36",
+      "0_zbkuc44m",
+      "0_0imxta8y",
+      "0_0ob6e450",
+      "0_rg4xm2vz",
+      "0_3qqo7jen",
+      "0_9gf7se5n",
+      "0_kkmxt68p",
+      "0_1grptpoy",
+      "0_8aeepb9g",
+      "0_xa5wui6u",
+      "0_b55pxhqg",
+      "0_43pnoxdh",
+      "0_vhrwm2f1",
+      "0_e37xsltm",
+      "0_2kqcdkjk",
+      "0_k3iclzrp",
+      "0_vl8rtoz7",
+      "0_79cdffnc",
+      "0_pfie5e8x",
+      "0_uos3pwoy",
+      "0_m6teza8p",
+      "0_rcc7i9r6",
+      "0_pzprm08k",
+      "0_sd5pghza",
+      "0_4lds8xv9",
+      "0_k1qe6q0o",
+      "0_a5dihwn8",
+      "0_4aqmzk97",
+      "0_w867d7nt",
+      "0_23tqwj9r",
+      "0_27zeh5u8"
+    ],
+    "term_Goals | West Ham United 3-1 Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Bowen | It\u2019s a good way to start": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_kaltura": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_partnerId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_entryId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_playManifest": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_VideoPlayer": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_brightcove": {
+      "n": 0,
+      "snippets": []
+    },
+    "media_links": []
+  },
+  "2": {
+    "url": "https://www.whufc.com/en/video/playlists/goals",
+    "http": 404,
+    "size": 181805,
+    "kaltura_ids": [],
+    "term_Goals | West Ham United 3-1 Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Bowen | It\u2019s a good way to start": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_kaltura": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_partnerId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_entryId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_playManifest": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_VideoPlayer": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_brightcove": {
+      "n": 0,
+      "snippets": []
+    },
+    "media_links": []
+  },
+  "3": {
+    "url": "https://www.whufc.com/en/video/playlists/highlights-0",
+    "http": 200,
+    "size": 428280,
+    "kaltura_ids": [
+      "0_0hq3ad2o",
+      "0_s0qx4fdi",
+      "0_3h8ousx3",
+      "0_qpn68eaf",
+      "0_spc0avi5",
+      "0_5aozorjp",
+      "0_hfxd8hsu",
+      "0_lx2ypzfu",
+      "0_m2hmn6ym",
+      "0_1rdbviim",
+      "0_j41gxgt2",
+      "0_yk36pkow"
+    ],
+    "term_Goals | West Ham United 3-1 Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Bowen | It\u2019s a good way to start": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_kaltura": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_partnerId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_entryId": {
+      "n": 12,
+      "snippets": [
+        "\"className\\\":\\\"$undefined\\\",\\\"children\\\":[\\\"$\\\",\\\"path\\\",null,{\\\"fill\\\":\\\"currentColor\\\",\\\"d\\\":\\\"m6 20 14-8L6 4z\\\"}]}],\\\"url\\\":\\\"/en/video/0_0hq3ad2o?provider=stream\\u0026related=2c9e5a1e-b1c8-40c4-8838-10a6d5b9ecf0\\\",\\\"onDark\\\":true}],\\\"sponsor\\\":\\\"$undefined\\\"}],\\\"$undefined\\\",[\\\"$\\\",\\\"$L3a\\\",null,{\\\"items\\\":[{\\\"id\\\":\\\"efb0acea-2885-4e02-bbcf-ebbce79682ee\\\",\\\"mediaData\\\":{\\\"mediaType\\\":\\\"OnDemand\\\",\\\"entryStatus\\\":\\\"Ready\\\",\\\"source\\\":\\\"MP\\\",\\\"entryId\\\":\\\"0_0hq3ad2o\\\",\\\"thumbnailUrl\\\":\\\"https://thumbnails.vod.streamamg.com/eyJ0ZW5hbnRJZCI6IjhlMTFkZmUxLWQ2MjUtMTFlZS04ZmI4LTA2YzllZGMwYjFmOSIsImZpbGVuYW1lIjoiQ2hlbHNlYSBoaWdobGlnaHRzLmpwZyIsInZpZGVvSWQiOiJlZmIwYWNlYS0yODg1LTRlMDItYmJjZi1lYmJjZTc5NjgyZWUifQ==/\\\"},\\\"metaData\\\":{\\\"category\\\":[\\\"Extended Highlights\\\"],\\\"body\\\":null,\\\"hometeamplayers\\\":[],\\\"awayteamplayers\\\":[],\\\"team\\\":\\\"Women\\\",\\\"venue\\\":null,\\\"SysEntryEntitlements\\\":[\\\"?\\\"],\\\"competition\\\":null,\\\"awayteam\\\":null,\\\"isportrait\\\":false,\\\"personofinterest\\\":[],\\\"season\\\":null,\\\"VideoDuration\\\":228,\\\"hometeam\\\":null,\\\"title\\\":\\\"Highl",
+        "tle\\\":\\\"Highlights | West Ham United women's team 0-3 Chelsea\\\",\\\"fixture\\\":null,\\\"tags\\\":[\\\"Women's team\\\"]},\\\"publicationData\\\":{\\\"createdAt\\\":\\\"2026-10-05T08:43:58\\\",\\\"updatedAt\\\":\\\"2026-10-05T09:14:01\\\",\\\"released\\\":true,\\\"releaseFrom\\\":\\\"2026-10-05T09:00:00\\\",\\\"releaseTo\\\":\\\"9999-12-31T23:59:59.9999999\\\"}},{\\\"id\\\":\\\"3175b2f2-2096-44e8-96c7-652220e71741\\\",\\\"mediaData\\\":{\\\"mediaType\\\":\\\"OnDemand\\\",\\\"entryStatus\\\":\\\"Ready\\\",\\\"source\\\":\\\"MP\\\",\\\"entryId\\\":\\\"0_s0qx4fdi\\\",\\\"thumbnailUrl\\\":\\\"https://thumbnails.vod.streamamg.com/eyJ0ZW5hbnRJZCI6IjhlMTFkZmUxLWQ2MjUtMTFlZS04ZmI4LTA2YzllZGMwYjFmOSIsImZpbGVuYW1lIjoiU291dGhhbXB0b24gaGlnaGxpZ2h0cy5qcGciLCJ2aWRlb0lkIjoiMzE3NWIyZjItMjA5Ni00NGU4LTk2YzctNjUyMjIwZTcxNzQxIn0=/\\\"},\\\"metaData\\\":{\\\"category\\\":[\\\"Extended Highlights\\\"],\\\"body\\\":null,\\\"hometeamplayers\\\":[],\\\"awayteamplayers\\\":[],\\\"team\\\":\\\"Women\\\",\\\"venue\\\":null,\\\"SysEntryEntitlements\\\":[\\\"?\\\"],\\\"competition\\\":null,\\\"awayteam\\\":null,\\\"isportrait\\\":false,\\\"personofinterest\\\":[],\\\"season\\\":null,\\\"VideoDuration\\\":552,\\\"hometeam\\\":null,\\\"title\\\":\\\"H",
+        "\":\\\"Highlights | West Ham United women's team 3-1 Southampton\\\",\\\"fixture\\\":null,\\\"tags\\\":[\\\"Women's team\\\"]},\\\"publicationData\\\":{\\\"createdAt\\\":\\\"2026-10-01T10:10:53\\\",\\\"updatedAt\\\":\\\"2026-10-01T10:44:37\\\",\\\"released\\\":true,\\\"releaseFrom\\\":\\\"2026-10-01T10:10:53\\\",\\\"releaseTo\\\":\\\"9999-12-31T23:59:59.9999999\\\"}},{\\\"id\\\":\\\"5978d1e5-3e1f-4da3-a56d-61bd12373453\\\",\\\"mediaData\\\":{\\\"mediaType\\\":\\\"OnDemand\\\",\\\"entryStatus\\\":\\\"Ready\\\",\\\"source\\\":\\\"MP\\\",\\\"entryId\\\":\\\"0_3h8ousx3\\\",\\\"thumbnailUrl\\\":\\\"https://thumbnails.vod.streamamg.com/eyJ0ZW5hbnRJZCI6IjhlMTFkZmUxLWQ2MjUtMTFlZS04ZmI4LTA2YzllZGMwYjFmOSIsImZpbGVuYW1lIjoiTWFuIFVuaXRlZCBoaWdobGlnaHRzLmpwZyIsInZpZGVvSWQiOiI1OTc4ZDFlNS0zZTFmLTRkYTMtYTU2ZC02MWJkMTIzNzM0NTMifQ==/\\\"},\\\"metaData\\\":{\\\"category\\\":[\\\"Extended Highlights\\\"],\\\"body\\\":null,\\\"hometeamplayers\\\":[],\\\"awayteamplayers\\\":[],\\\"team\\\":\\\"Women\\\",\\\"venue\\\":null,\\\"SysEntryEntitlements\\\":[\\\"?\\\"],\\\"competition\\\":null,\\\"awayteam\\\":null,\\\"isportrait\\\":false,\\\"personofinterest\\\":[],\\\"season\\\":null,\\\"VideoDuration\\\":496,\\\"hometeam\\\":null,\\\"title\\\":\\\"H"
+      ]
+    },
+    "term_playManifest": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_VideoPlayer": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_brightcove": {
+      "n": 0,
+      "snippets": []
+    },
+    "media_links": []
+  },
+  "4": {
+    "url": "https://www.whufc.com/en/video/0_vl8rtoz7",
+    "http": 404,
+    "size": 179370,
+    "kaltura_ids": [
+      "0_vl8rtoz7"
+    ],
+    "term_Goals | West Ham United 3-1 Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Bowen | It\u2019s a good way to start": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_Portsmouth": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_kaltura": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_partnerId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_entryId": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_playManifest": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_VideoPlayer": {
+      "n": 0,
+      "snippets": []
+    },
+    "term_brightcove": {
+      "n": 0,
+      "snippets": []
+    },
+    "media_links": []
+  }
+}
