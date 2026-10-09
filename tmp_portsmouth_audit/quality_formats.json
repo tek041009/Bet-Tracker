@@ -1,0 +1,44 @@
+{
+  "applehttp": {
+    "code": 200,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/applehttp/protocol/https",
+    "type": "application/x-mpegurl",
+    "text": "#EXTM3U\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=480256,RESOLUTION=480x272\nhttps://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_2ut8km59_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZi52b2QubXAuc3RyZWFtYW1nLmNvbS92b2QvX2RlZmluc3RfL3MzLzMwMDAzNzkvMjAyNjA4MDgvMzAwMC8wX2lwbGsxcHZrXzBfMnV0OGttNTlfMi5tcDQvY2h1bmtsaXN0Lm0zdTgiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTE1Njc0MTR9fX1dfQ__&Signature=hJxqKHr6rcIiqXVgu-v3lHQx-NUMNzHQ7TqyAZ6m3Q2DAx8ewN5CwwcxRz4yoBoWay11DJCL3GI25v1Ammdl-7hKvzCCgaYxkmeIxGnPj-Gf4DNBRF3cHRcrTyWXFlzwnrKVRFhaAC7ADOe2OHhpU7dbrRVFoEW-ZUOBALC9CPIsOknc7viEJLzObNfTlviXetLMRaxAWH5Lo9l5jAtrMFQMKbQ3fdjxj4Own74AhmhDe31YqZlvBiR2uZdRCQ3Hw3eNu8mk3mm4ZCkzh8mUzFO1xSiLgh5zyZRaEaKQtKc-Wss99Szw8Kfn6Ddf0jJMVqpxCMrZXLVLG2Q2pfQL6g__&Key-Pair-Id=APKAJVKZD2WR75FL2ZUQ\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=685056,RESOLUTION=640x360\nhttps://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_3cklkjtv_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZi52b2QubXAuc3RyZWFtYW1nLmNvbS92b2QvX2RlZmluc3RfL3MzLzMwMDAzNzkvMjAyNjA4MDgvMzAwMC8wX2lwbGsxcHZrXzBfM2NrbGt"
+  },
+  "m3u8": {
+    "code": 500,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/m3u8/protocol/https",
+    "type": "text/html; charset=UTF-8",
+    "text": ""
+  },
+  "mpegdash": {
+    "code": 500,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/mpegdash/protocol/https",
+    "type": "text/html; charset=UTF-8",
+    "text": ""
+  },
+  "hdnetwork": {
+    "code": 500,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/hdnetwork/protocol/https",
+    "type": "text/html; charset=UTF-8",
+    "text": ""
+  },
+  "hls": {
+    "code": 500,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/hls/protocol/https",
+    "type": "text/html; charset=UTF-8",
+    "text": ""
+  },
+  "url": {
+    "code": 200,
+    "url": "https://cf-media.mp.streamamg.com/kaltura/3000379/20260808/3000/0_iplk1pvk_0_2ut8km59_2.mp4?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZi1tZWRpYS5tcC5zdHJlYW1hbWcuY29tL2thbHR1cmEvMzAwMDM3OS8yMDI2MDgwOC8zMDAwLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTE1Njc0MTV9f",
+    "type": "video/mp4",
+    "text": "large"
+  },
+  "download": {
+    "code": 500,
+    "url": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/download/protocol/https",
+    "type": "text/html; charset=UTF-8",
+    "text": ""
+  }
+}
