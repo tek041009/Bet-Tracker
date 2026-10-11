@@ -145,11 +145,7 @@ def main(path):
     need(job.get("approved_sha256") == actual, "Final reviewed SHA256 mismatch")
     need(job["buffer_mode"] in ("shareNow", "addToQueue"), "Unapproved Buffer mode")
     need("title" in job and "caption" in job, "Missing publishing metadata")
-    run(["gh", "release", "create", tag, str(media) + "#" + cid + ".mp4",
-         "--title", "ClipNerve " + cid, "--notes",
-         "QA approved, exact-SHA verified " + cid, "--latest=false"])
-    public = "https://github.com/" + REPO + "/releases/download/" + tag + "/" + cid + ".mp4"
-    print("PUBLIC_MEDIA_URL=" + public)
+    # Reuse existing permanent public GitHub raw MP4 directly.\n    public = url\n    print("PUBLIC_MEDIA_URL=" + public)
     gql_post(job, public)
 
 if __name__ == "__main__":
