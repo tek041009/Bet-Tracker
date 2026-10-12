@@ -1,0 +1,49 @@
+{
+  "feed_status": 403,
+  "rss_links": [],
+  "feed_video_id": "2dg62yo806ih1",
+  "variants": {
+    "https://v.redd.it/2dg62yo806ih1/DASH_1080.mp4": {
+      "status": 403,
+      "type": "application/xml",
+      "length": "263",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASH_1080.mp4"
+    },
+    "https://v.redd.it/2dg62yo806ih1/DASH_720.mp4": {
+      "status": 403,
+      "type": "application/xml",
+      "length": "243",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASH_720.mp4"
+    },
+    "https://v.redd.it/2dg62yo806ih1/DASH_480.mp4": {
+      "status": 403,
+      "type": "application/xml",
+      "length": "263",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASH_480.mp4"
+    },
+    "https://v.redd.it/2dg62yo806ih1/DASH_360.mp4": {
+      "status": 403,
+      "type": "application/xml",
+      "length": "243",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASH_360.mp4"
+    },
+    "https://v.redd.it/2dg62yo806ih1/DASHPlaylist.mpd": {
+      "status": 200,
+      "type": "application/dash+xml",
+      "length": "790",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASHPlaylist.mpd"
+    },
+    "https://v.redd.it/2dg62yo806ih1/HLSPlaylist.m3u8": {
+      "status": 200,
+      "type": "application/x-mpegurl",
+      "length": "446",
+      "final": "https://v.redd.it/2dg62yo806ih1/HLSPlaylist.m3u8"
+    },
+    "https://v.redd.it/2dg62yo806ih1/DASH_audio.mp4": {
+      "status": 403,
+      "type": "application/xml",
+      "length": "263",
+      "final": "https://v.redd.it/2dg62yo806ih1/DASH_audio.mp4"
+    }
+  }
+}
