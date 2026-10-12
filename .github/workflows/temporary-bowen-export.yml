@@ -1,0 +1,28 @@
+name: Export rendered Portsmouth video for preview
+on:
+  push:
+    branches:
+      - temporary/bowen-portsmouth-footage-audit-20261009
+    paths:
+      - .github/workflows/temporary-bowen-export.yml
+permissions:
+  contents: read
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: temporary/bowen-portsmouth-footage-audit-20261009
+      - name: Confirm video is rendered and silent
+        run: |
+          test -s tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
+          wc -c tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
+      - name: Export the actual MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW
+          path: tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
