@@ -1,0 +1,22 @@
+{
+  "clip_id": "CN_THIS_OR_THAT_ASSETS_20261012",
+  "mode": "photo_bridge",
+  "photos": {
+    "chocolate": "https://images.pexels.com/photos/5060295/pexels-photo-5060295.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "vanilla": "https://images.pexels.com/photos/9952312/pexels-photo-9952312.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "beach": "https://images.pexels.com/photos/31387453/pexels-photo-31387453.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "city": "https://images.pexels.com/photos/34737254/pexels-photo-34737254.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "coffee": "https://images.pexels.com/photos/5112652/pexels-photo-5112652.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "tea": "https://images.pexels.com/photos/14408182/pexels-photo-14408182.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "cat": "https://images.pexels.com/photos/26811195/pexels-photo-26811195.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "dog": "https://images.pexels.com/photos/6571008/pexels-photo-6571008.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "netflix": "https://images.pexels.com/photos/4009407/pexels-photo-4009407.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "youtube": "https://images.pexels.com/photos/6298412/pexels-photo-6298412.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "cash": "https://images.pexels.com/photos/1791583/pexels-photo-1791583.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "holiday": "https://images.pexels.com/photos/12858509/pexels-photo-12858509.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "clock": "https://images.pexels.com/photos/10061844/pexels-photo-10061844.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "portal": "https://images.pexels.com/photos/29735849/pexels-photo-29735849.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "music": "https://images.pexels.com/photos/12799296/pexels-photo-12799296.jpeg?auto=compress&cs=tinysrgb&w=1050",
+    "movies": "https://images.pexels.com/photos/29508640/pexels-photo-29508640.jpeg?auto=compress&cs=tinysrgb&w=1050"
+  }
+}
