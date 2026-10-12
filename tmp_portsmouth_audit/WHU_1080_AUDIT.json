@@ -1,0 +1,9 @@
+{
+  "source": "https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/applehttp/protocol/https",
+  "download_exit": 0,
+  "download_log": "[generic] Extracting URL: https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/...ehttp/protocol/https\n[generic] https: Downloading webpage\n[generic] https: Downloading m3u8 information\n[generic] https: Checking m3u8 live status\n[info] https: Downloading 1 format(s): 4227\n[hlsnative] Downloading m3u8 manifest\n[hlsnative] Total fragments: 79\n[download] Destination: /tmp/WESTHAM_1080.mp4\n[download] Download completed\n[FixupM3u8] Fixing MPEG-TS in MP4 container of \"/tmp/WESTHAM_1080.mp4\"\n\n",
+  "original_bytes": 242288934,
+  "metadata": "Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/WESTHAM_1080.mp4':\n  Metadata:\n    major_brand     : isom\n    minor_version   : 512\n    compatible_brands: isomiso2avc1mp41\n    encoder         : Lavf61.1.100\n  Duration: 00:07:51.16, start: 0.000000, bitrate: 4113 kb/s\n  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 3980 kb/s, 25 fps, 25 tbr, 90k tbn (default)\n      Metadata:\n        handler_name    : VideoHandler\n        vendor_id       : [0][0][0][0]\n  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)\n      Metadata:\n        handler_name    : SoundHandler\n        vendor_id       : [0][0][0][0]\nAt least one output file must be specified\n",
+  "frames_extract_error": "",
+  "frames": 78
+}
