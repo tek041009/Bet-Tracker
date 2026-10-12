@@ -1,0 +1,431 @@
+{
+  "nocookie": {
+    "code": 200,
+    "len": 144346,
+    "login_req": false,
+    "INNERTUBE_API_KEY": {
+      "n": 1,
+      "example": [
+        "tps://apis.google.com\",\"GAPI_LOCALE\":\"en_US\",\"GL\":\"US\",\"HL\":\"en\",\"HTML_DIR\":\"ltr\",\"HTML_LANG\":\"en\",\"INNERTUBE_API_KEY\":\"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8\",\"INNERTUBE_API_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_EMBEDDED_PLAYER\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"dev"
+      ]
+    },
+    "INNERTUBE_CONTEXT": {
+      "n": 7,
+      "example": [
+        "\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_EMBEDDED_PLAYER\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\"\",\"deviceModel\":\"\",\"visitorData\":\"CgtUelF3eUlSRl9Wcyj4q7PWBjIKCgJVUxIEGgAgQGKjAgqgAkN0VUJDQVVTaHdFQjhRWnVadkFFTTRJblNXWkt1cXZlUHpUZ2RDbkFvb3g2SmU4RU4wWnlENlZXMEhKdWVIR1U4SWw",
+        "eRbuyreMT_trq-W0wqMSPGoOwzTe0BIWhlem2lLWv47At0hqrSzF8NeVtLkEc\",\"ancestorOriginsSupported\":false}}},\"INNERTUBE_CONTEXT_CLIENT_NAME\":56,\"INNERTUBE_CONTEXT_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT_GL\":\"US\",\"INNERTUBE_CONTEXT_HL\":\"en\",\"LATEST_ECATCHER_SERVICE_TRACKING_PARAMS\":{\"client.name\":\"WEB_EMBEDDED_PLAYER\",\"client.jsfeat\":\"2021\"},\"LOGGED_IN\":false,\"P"
+      ]
+    },
+    "ytInitialPlayerResponse": {
+      "n": 0,
+      "example": []
+    },
+    "streamingData": {
+      "n": 0,
+      "example": []
+    },
+    "storyboards": {
+      "n": 0,
+      "example": []
+    },
+    "playerStoryboardSpecRenderer": {
+      "n": 0,
+      "example": []
+    },
+    "playabilityStatus": {
+      "n": 1,
+      "example": [
+        "u003d\\u003d\\\",\\\"permissions\\\":{\\\"allowImaMonetization\\\":false,\\\"allowPfpUnbranded\\\":false},\\\"previewPlayabilityStatus\\\":{\\\"status\\\":\\\"ERROR\\\",\\\"reason\\\":\\\"Video player configuration error\\\",\\\"errorScreen\\\":{\\\"playerInterstitialRenderer\\\":{\\\"content\\\":{\\\"interstitialViewModel\\\":{\\\"title\\\":{\\\"content\\\":\\\"Video player configuration error\\\"},\\\"description\\\":{\\\"content\\"
+      ]
+    },
+    "playbackTracking": {
+      "n": 0,
+      "example": []
+    },
+    "videoDetails": {
+      "n": 0,
+      "example": []
+    },
+    "storyboard3_L": {
+      "n": 0,
+      "example": []
+    },
+    "VISITOR_DATA": {
+      "n": 2,
+      "example": [
+        "\"PAGE_BUILD_LABEL\":\"youtube.embeds.web_20261007_01_RC00\",\"PAGE_CL\":994852314,\"SERVER_NAME\":\"WebFE\",\"VISITOR_DATA\":\"CgtUelF3eUlSRl9Wcyj4q7PWBjIKCgJVUxIEGgAgQGKjAgqgAkN0VUJDQVVTaHdFQjhRWnVadkFFTTRJblNXWkt1cXZlUHpUZ2RDbkFvb3g2SmU4RU4wWnlENlZXMEhKdWVIR1U4SWw2VThEUlJlYTBzSkpxMi0zRXFTWUtFTXB2aUdCUlhpdTBrX2hfajlMS1R3dFdQN01zVE9ycE1BMkQ1MTQ5c1k0bE5QUXJqY3NKMTZTQTYyM21",
+        "urceUrlWrappedValue\":\"/s/embeds/d2db0668/lottie-light.vflset/lottie-light.js\"},\"IDENTITY_MEMENTO\":{\"visitor_data\":\"CgtUelF3eUlSRl9Wcyj4q7PWBjIKCgJVUxIEGgAgQGKjAgqgAkN0VUJDQVVTaHdFQjhRWnVadkFFTTRJblNXWkt1cXZlUHpUZ2RDbkFvb3g2SmU4RU4wWnlENlZXMEhKdWVIR1U4SWw2VThEUlJlYTBzSkpxMi0zRXFTWUtFTXB2aUdCUlhpdTBrX2hfajlMS1R3dFdQN01zVE9ycE1BMkQ1MTQ5c1k0bE5QUXJqY3NKMTZTQTYyM21"
+      ]
+    },
+    "apiUrl": {
+      "n": 0,
+      "example": []
+    },
+    "ytcfg.set": {
+      "n": 1,
+      "example": [
+        "ar a=arguments;if(a.length>1)ytcfg.d()[a[0]]=a[1];else{var k;for(k in a[0])ytcfg.d()[k]=a[0][k]}}};\nytcfg.set({\"CLIENT_CANARY_STATE\":\"none\",\"DEVICE\":\"cbr\\u003dChrome\\u0026cbrver\\u003d120.0.0.0\\u0026ceng\\u003dWebKit\\u0026cengver\\u003d537.36\\u0026cos\\u003dX11\\u0026cplatform\\u003dDESKTOP\",\"EVENT_ID\":\"-NXMatO5GJDMyM0Pku7W8Q0\",\"EXPERIMENT_FLAGS\":{\"ab_det_apb_b\":"
+      ]
+    }
+  },
+  "embed": {
+    "code": 200,
+    "len": 143478,
+    "login_req": false,
+    "INNERTUBE_API_KEY": {
+      "n": 1,
+      "example": [
+        "tps://apis.google.com\",\"GAPI_LOCALE\":\"en_US\",\"GL\":\"US\",\"HL\":\"en\",\"HTML_DIR\":\"ltr\",\"HTML_LANG\":\"en\",\"INNERTUBE_API_KEY\":\"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8\",\"INNERTUBE_API_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_EMBEDDED_PLAYER\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"dev"
+      ]
+    },
+    "INNERTUBE_CONTEXT": {
+      "n": 7,
+      "example": [
+        "\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_EMBEDDED_PLAYER\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\"\",\"deviceModel\":\"\",\"visitorData\":\"CgsycGlQbVVJam5Ecyj4q7PWBjIKCgJVUxIEGgAgG2K1AgqyAkN1SUJDQVVTbEFFQjhRWnVadUE5VmJ4LWFBTjZEaWI1X0JOQktBaF81UlNldFBmUmN1YXRFV09mYmI2aTBPcVJUemR",
+        "xfp0OJ5LbYcowrDt6DvqPmF_ulyUWs_1kMZKXPdzBhFxoMq0v--ub7rxAhrYs\",\"ancestorOriginsSupported\":false}}},\"INNERTUBE_CONTEXT_CLIENT_NAME\":56,\"INNERTUBE_CONTEXT_CLIENT_VERSION\":\"2.20261007.01.00\",\"INNERTUBE_CONTEXT_GL\":\"US\",\"INNERTUBE_CONTEXT_HL\":\"en\",\"LATEST_ECATCHER_SERVICE_TRACKING_PARAMS\":{\"client.name\":\"WEB_EMBEDDED_PLAYER\",\"client.jsfeat\":\"2021\"},\"LOGGED_IN\":false,\"P"
+      ]
+    },
+    "ytInitialPlayerResponse": {
+      "n": 0,
+      "example": []
+    },
+    "streamingData": {
+      "n": 0,
+      "example": []
+    },
+    "storyboards": {
+      "n": 0,
+      "example": []
+    },
+    "playerStoryboardSpecRenderer": {
+      "n": 0,
+      "example": []
+    },
+    "playabilityStatus": {
+      "n": 1,
+      "example": [
+        "u003d\\u003d\\\",\\\"permissions\\\":{\\\"allowImaMonetization\\\":false,\\\"allowPfpUnbranded\\\":false},\\\"previewPlayabilityStatus\\\":{\\\"status\\\":\\\"ERROR\\\",\\\"reason\\\":\\\"Video player configuration error\\\",\\\"errorScreen\\\":{\\\"playerInterstitialRenderer\\\":{\\\"content\\\":{\\\"interstitialViewModel\\\":{\\\"title\\\":{\\\"content\\\":\\\"Video player configuration error\\\"},\\\"description\\\":{\\\"content\\"
+      ]
+    },
+    "playbackTracking": {
+      "n": 0,
+      "example": []
+    },
+    "videoDetails": {
+      "n": 0,
+      "example": []
+    },
+    "storyboard3_L": {
+      "n": 0,
+      "example": []
+    },
+    "VISITOR_DATA": {
+      "n": 2,
+      "example": [
+        "mbeds.web_20261007_01_RC00\",\"PAGE_CL\":994852314,\"scheduler\":{\"useRaf\":false},\"SERVER_NAME\":\"WebFE\",\"VISITOR_DATA\":\"CgsycGlQbVVJam5Ecyj4q7PWBjIKCgJVUxIEGgAgG2K1AgqyAkN1SUJDQVVTbEFFQjhRWnVadUE5VmJ4LWFBTjZEaWI1X0JOQktBaF81UlNldFBmUmN1YXRFV09mYmI2aTBPcVJUemRxT055X3haRmNSYzRDaFZMTmFSS0laSmVpYUppTks0TmxvU0kzNUM2ZzJuZkVzMHkwRGdvZmcwcTBPQXQ2b3JWZ1NmWWlseVZSU3lhY3dFajl",
+        "urceUrlWrappedValue\":\"/s/embeds/d2db0668/lottie-light.vflset/lottie-light.js\"},\"IDENTITY_MEMENTO\":{\"visitor_data\":\"CgsycGlQbVVJam5Ecyj4q7PWBjIKCgJVUxIEGgAgG2K1AgqyAkN1SUJDQVVTbEFFQjhRWnVadUE5VmJ4LWFBTjZEaWI1X0JOQktBaF81UlNldFBmUmN1YXRFV09mYmI2aTBPcVJUemRxT055X3haRmNSYzRDaFZMTmFSS0laSmVpYUppTks0TmxvU0kzNUM2ZzJuZkVzMHkwRGdvZmcwcTBPQXQ2b3JWZ1NmWWlseVZSU3lhY3dFajl"
+      ]
+    },
+    "apiUrl": {
+      "n": 0,
+      "example": []
+    },
+    "ytcfg.set": {
+      "n": 1,
+      "example": [
+        "ar a=arguments;if(a.length>1)ytcfg.d()[a[0]]=a[1];else{var k;for(k in a[0])ytcfg.d()[k]=a[0][k]}}};\nytcfg.set({\"CLIENT_CANARY_STATE\":\"none\",\"DEVICE\":\"cbr\\u003dChrome\\u0026cbrver\\u003d120.0.0.0\\u0026ceng\\u003dWebKit\\u0026cengver\\u003d537.36\\u0026cos\\u003dX11\\u0026cplatform\\u003dDESKTOP\",\"EVENT_ID\":\"-NXMarr-JLyzsbQP1-u0uAg\",\"EXPERIMENT_FLAGS\":{\"ab_det_apm\":tr"
+      ]
+    }
+  },
+  "watch": {
+    "code": 200,
+    "len": 1300160,
+    "login_req": true,
+    "INNERTUBE_API_KEY": {
+      "n": 1,
+      "example": [
+        "er\":\"active\",\"polymer2\":\"active\",\"accept_language\":\"\"},\"HL\":\"en\",\"HTML_DIR\":\"ltr\",\"HTML_LANG\":\"en\",\"INNERTUBE_API_KEY\":\"AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8\",\"INNERTUBE_API_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261009.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\"\",\"dev"
+      ]
+    },
+    "INNERTUBE_CONTEXT": {
+      "n": 5,
+      "example": [
+        "TUBE_API_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB\",\"INNERTUBE_CLIENT_VERSION\":\"2.20261009.01.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\"\",\"deviceModel\":\"\",\"visitorData\":\"CgtvVUFxUHBsbEdQWSj4q7PWBjIKCgJVUxIEGgAgT2K7Agq4AkN1Y0JDQVVTbVFFQjhRWnVadUhmc1h1dDRveFdfQVFSQ1BHUDIyLXFfNzRJNDN1QnUyQ1F2SkZVWGxNeGtLdnlRUEl",
+        ",\"request\":{\"useSsl\":true},\"clickTracking\":{\"clickTrackingParams\":\"IhMIgdLL38C0lwMV67rKAB2emTrP\"}},\"INNERTUBE_CONTEXT_CLIENT_NAME\":1,\"INNERTUBE_CONTEXT_CLIENT_VERSION\":\"2.20261009.01.00\",\"INNERTUBE_CONTEXT_GL\":\"US\",\"INNERTUBE_CONTEXT_HL\":\"en\",\"LATEST_ECATCHER_SERVICE_TRACKING_PARAMS\":{\"client.name\":\"WEB\",\"client.jsfeat\":\"es5\"},\"LOGGED_IN\":false,\"PAGE_BUILD_LABEL\":\""
+      ]
+    },
+    "ytInitialPlayerResponse": {
+      "n": 3,
+      "example": [
+        "atch?v=ILZR4ngvWfE\"></head><body dir=\"ltr\" no-y-overflow><script nonce=\"bjmV7BWBRgYQORQOxPbS6g\">var ytInitialPlayerResponse = {\"responseContext\":{\"serviceTrackingParams\":[{\"service\":\"GFEEDBACK\",\"params\":[{\"key\":\"is_viewed_live\",\"value\":\"False\"},{\"key\":\"ipcc\",\"value\":\"0\"},{\"key\":\"is_alc_surface\",\"value\":\"false\"},{\"key\":\"logged_in\",\"value\":\"0\"},{\"key\":\"visitor_data\",\"value",
+        "IGS['WEB_PLAYER_CONTEXT_CONFIG_ID_KEVLAR_WATCH']; window.ytplayer.bootstrapPlayerResponse = window['ytInitialPlayerResponse'];(function playerBootstrap(){if(window.ytplayer.bootstrapPlayerContainer&&window.ytplayer.bootstrapWebPlayerContextConfig){var createPlayer=window.yt&&window.yt.player&&window.yt.player.Application&&(window.yt.player.Application.createAlternate||wi"
+      ]
+    },
+    "streamingData": {
+      "n": 0,
+      "example": []
+    },
+    "storyboards": {
+      "n": 0,
+      "example": []
+    },
+    "playerStoryboardSpecRenderer": {
+      "n": 0,
+      "example": []
+    },
+    "playabilityStatus": {
+      "n": 1,
+      "example": [
+        "titialViewModel\",\"buttonViewModel\",\"mealbarPromoRenderer\",\"buttonRenderer\"]},\"hasDecorated\":true}},\"playabilityStatus\":{\"status\":\"LOGIN_REQUIRED\",\"reason\":\"Sign in to confirm you\u2019re not a bot\",\"errorScreen\":{\"playerInterstitialRenderer\":{\"content\":{\"interstitialViewModel\":{\"title\":{\"content\":\"Sign in to confirm you\u2019re not a bot\"},\"description\":{\"content\":\"This help"
+      ]
+    },
+    "playbackTracking": {
+      "n": 0,
+      "example": []
+    },
+    "videoDetails": {
+      "n": 4,
+      "example": [
+        "eStatusRenderer\",\"thumbnailOverlayNowPlayingRenderer\",\"playerOverlayAutoplayRenderer\",\"playerOverlayVideoDetailsRenderer\",\"autoplaySwitchButtonRenderer\",\"quickActionsViewModel\",\"tooltipViewModel\",\"decoratedPlayerBarRenderer\",\"multiMarkersPlayerBarRenderer\",\"chapterRenderer\",\"notificationActionRenderer\",\"speedmasterEduViewModel\",\"engagementPanelSectionListRende",
+        "EwiZss7fwLSXAxWcv_8EHdvTLb4=\"}}],\"trackingParams\":\"CAAQg2ciEwiZss7fwLSXAxWcv_8EHdvTLb7KAQTGDm75\"}},\"videoDetails\":{\"playerOverlayVideoDetailsRenderer\":{\"title\":{\"simpleText\":\"RECORD CROWD! | West Ham United v Portsmouth extended highlights\"},\"subtitle\":{\"runs\":[{\"text\":\"EFL\"},{\"text\":\"   \"},{\"text\":\"394,787 views\"},{\"text\":\"   \"},{\"text\":\"2 months ago\"}]},\"onT"
+      ]
+    },
+    "storyboard3_L": {
+      "n": 0,
+      "example": []
+    },
+    "VISITOR_DATA": {
+      "n": 6,
+      "example": [
+        "%252F%252Fwww.youtube.com%252Fwatch%253Fv%253DILZR4ngvWfE%26feature%3D__FEATURE__\\u0026hl\\u003den\",\"VISITOR_DATA\":\"CgtvVUFxUHBsbEdQWSj4q7PWBjIKCgJVUxIEGgAgT2K7Agq4AkN1Y0JDQVVTbVFFQjhRWnVadUhmc1h1dDRveFdfQVFSQ1BHUDIyLXFfNzRJNDN1QnUyQ1F2SkZVWGxNeGtLdnlRUElfb3JNdmRid1AyWjVMSnJhSHZMcVRQTE9nSERTOUI5amRtVTNQWDBkaDFSZ3JJY0xqSTJtUjZnb3ZmT0gxSEUzeXBzOW5hRDhLeG5aM1M3cHg",
+        "OARD\":false,\"IS_FUSION\":false,\"IS_POLYMER\":true,\"REQUEST_DOMAIN\":\"us\",\"REQUEST_LANGUAGE\":\"en\",\"SEND_VISITOR_DATA\":true,\"SEARCHBOX_BEHAVIOR_EXPERIMENT\":\"zero-prefix\",\"SEARCHBOX_ENABLE_REFINEMENT_SUGGEST\":false,\"SEARCHBOX_TAP_TARGET_EXPERIMENT\":0,\"SEARCHBOX_ZERO_TYPING_SUGGEST_USE_REGULAR_SUGGEST\":\"always\",\"VISITOR_DATA\":\"CgtvVUFxUHBsbEdQWSj4q7PWBjIKCgJVUxIEGgAg"
+      ]
+    },
+    "apiUrl": {
+      "n": 116,
+      "example": [
+        "EZDoaCAYYASoUChJkbWVhLWFjcS1jLWVnc29WRGQ%253D\",\"webPageType\":\"WEB_PAGE_TYPE_BROWSE\",\"rootVe\":93498,\"apiUrl\":\"/youtubei/v1/browse\"}},\"browseEndpoint\":{\"browseId\":\"SPunlimited\",\"params\":\"kgNBEg9GRXdoYXRfdG9fd2F0Y2gqEmRtZWEtYWNxLWMtZWdzb1ZEZDoaCAYYASoUChJkbWVhLWFjcS1jLWVnc29WRGQ%3D\"}},{\"commandMetadata\":{\"webCommandMetadata\":{\"sendPost\":true,\"apiUrl\":\"/yout",
+        "AYYASoUChJkbWVhLWFjcS1jLWVnc29WRGQ%3D\"}},{\"commandMetadata\":{\"webCommandMetadata\":{\"sendPost\":true,\"apiUrl\":\"/youtubei/v1/feedback\"}},\"feedbackEndpoint\":{\"feedbackToken\":\"AB9zfpImIdJwd218-N9z5jU3t7L1GYf-VHNLz1gMIh62lYI2EKUHYBZ5Jdz4gsU11Oh8Do3GrRoMSwzBVDG2KSMAnRg17oQ3bESXlRYCeeV-6wN0TDJsrDS3f98IwsM5Ikk9qUevYe0FNcH79VZOe5PjUbu7cCI5YvLUV1byg1omEOUCi3qB02I\","
+      ]
+    },
+    "ytcfg.set": {
+      "n": 6,
+      "example": [
+        "guments;if(a.length>1)ytcfg.d()[a[0]]=a[1];else{var k;for(k in a[0])ytcfg.d()[k]=a[0][k]}}};\nwindow.ytcfg.set('EMERGENCY_BASE_URL', '\\/error_204?t\\x3djserror\\x26level\\x3dERROR\\x26client.name\\x3d1\\x26client.version\\x3d2.20261009.01.00');</script><script nonce=\"bjmV7BWBRgYQORQOxPbS6g\">(function(){window.yterr=window.yterr||true;window.unhandledErrorMessages={",
+        "}</script><script nonce=\"bjmV7BWBRgYQORQOxPbS6g\">(function ytBootstrapConfig() {window.ytplayer={};\nytcfg.set({\"CLIENT_CANARY_STATE\":\"none\",\"DEVICE\":\"cbr\\u003dChrome\\u0026cbrver\\u003d120.0.0.0\\u0026ceng\\u003dWebKit\\u0026cengver\\u003d537.36\\u0026cos\\u003dX11\\u0026cplatform\\u003dDESKTOP\",\"DISABLE_YT_IMG_DELAY_LOADING\":false,\"ELEMENT_POOL_DEFAULT_CAP\":75,\"EVEN"
+      ]
+    },
+    "PLAYER": {
+      "status": {
+        "status": "LOGIN_REQUIRED",
+        "reason": "Sign in to confirm you\u2019re not a bot",
+        "errorScreen": {
+          "playerInterstitialRenderer": {
+            "content": {
+              "interstitialViewModel": {
+                "title": {
+                  "content": "Sign in to confirm you\u2019re not a bot"
+                },
+                "description": {
+                  "content": "This helps protect our community"
+                },
+                "primaryButton": {
+                  "buttonViewModel": {
+                    "onTap": {
+                      "innertubeCommand": {
+                        "clickTrackingParams": "CAYQtOoKIhMI-qXO38C0lwMVJUAGBR1PHDFjygEExg5u-Q==",
+                        "commandMetadata": {
+                          "webCommandMetadata": {
+                            "url": "https://accounts.google.com/ServiceLogin?service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Den%26next%3D%252Fwatch%253Fv%253DILZR4ngvWfE&hl=en",
+                            "webPageType": "WEB_PAGE_TYPE_UNKNOWN",
+                            "rootVe": 83769
+                          }
+                        },
+                        "signInEndpoint": {
+                          "nextEndpoint": {
+                            "clickTrackingParams": "CAYQtOoKIhMI-qXO38C0lwMVJUAGBR1PHDFjygEExg5u-Q==",
+                            "commandMetadata": {
+                              "webCommandMetadata": {
+                                "url": "/watch?v=ILZR4ngvWfE",
+                                "webPageType": "WEB_PAGE_TYPE_UNKNOWN",
+                                "rootVe": 83769
+                              }
+                            },
+                            "urlEndpoint": {
+                              "url": "/watch?v=ILZR4ngvWfE"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "style": "BUTTON_VIEW_MODEL_STYLE_OVERLAY",
+                    "trackingParams": "CAYQtOoKIhMI-qXO38C0lwMVJUAGBR1PHDFj",
+                    "isFullWidth": false,
+                    "type": "BUTTON_VIEW_MODEL_TYPE_FILLED",
+                    "buttonSize": "BUTTON_VIEW_MODEL_SIZE_LARGE",
+                    "accessibilityId": "id.interstitial_sign_in_button",
+                    "titleFormatted": {
+                      "content": "Sign in"
+                    },
+                    "useYoutubeLoggingDirectives": true,
+                    "shouldLogGestures": true,
+                    "loggingDirectives": {
+                      "trackingParams": "CAYQtOoKIhMI-qXO38C0lwMVJUAGBR1PHDFj",
+                      "visibility": {
+                        "types": "12"
+                      }
+                    }
+                  }
+                },
+                "secondaryButton": {
+                  "buttonViewModel": {
+                    "onTap": {
+                      "innertubeCommand": {
+                        "clickTrackingParams": "CAUQs-oKIhMI-qXO38C0lwMVJUAGBR1PHDFjygEExg5u-Q==",
+                        "commandMetadata": {
+                          "webCommandMetadata": {
+                            "url": "https://support.google.com/youtube/answer/3037019#zippy=%2Ccheck-that-youre-signed-into-youtube",
+                            "webPageType": "WEB_PAGE_TYPE_UNKNOWN",
+                            "rootVe": 83769
+                          }
+                        },
+                        "urlEndpoint": {
+                          "url": "https://support.google.com/youtube/answer/3037019#zippy=%2Ccheck-that-youre-signed-into-youtube"
+                        }
+                      }
+                    },
+                    "style": "BUTTON_VIEW_MODEL_STYLE_OVERLAY",
+                    "trackingParams": "CAUQs-oKIhMI-qXO38C0lwMVJUAGBR1PHDFj",
+                    "isFullWidth": false,
+                    "type": "BUTTON_VIEW_MODEL_TYPE_TONAL",
+                    "buttonSize": "BUTTON_VIEW_MODEL_SIZE_LARGE",
+                    "accessibilityId": "id.interstitial_learn_more_button",
+                    "titleFormatted": {
+                      "content": "Learn more"
+                    },
+                    "useYoutubeLoggingDirectives": true,
+                    "shouldLogGestures": true,
+                    "loggingDirectives": {
+                      "trackingParams": "CAUQs-oKIhMI-qXO38C0lwMVJUAGBR1PHDFj",
+                      "visibility": {
+                        "types": "12"
+                      }
+                    }
+                  }
+                },
+                "loggingDirectives": {
+                  "trackingParams": "CAQQ4NYUIhMI-qXO38C0lwMVJUAGBR1PHDFj",
+                  "visibility": {
+                    "types": "12"
+                  }
+                }
+              }
+            },
+            "stateEntityStoreKey": ""
+          }
+        },
+        "skip": {
+          "playabilityErrorSkipConfig": {
+            "skipOnPlayabilityError": false
+          }
+        },
+        "contextParams": "Q0FFU0FnZ0M="
+      },
+      "videoTitle": null,
+      "streamingKeys": [],
+      "streamFormats": [],
+      "storyboards": null
+    }
+  },
+  "music": {
+    "code": 200,
+    "len": 93620,
+    "login_req": false,
+    "INNERTUBE_API_KEY": {
+      "n": 1,
+      "example": [
+        "tps://apis.google.com\",\"GAPI_LOCALE\":\"en_US\",\"GL\":\"US\",\"HL\":\"en\",\"HTML_DIR\":\"ltr\",\"HTML_LANG\":\"en\",\"INNERTUBE_API_KEY\":\"AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30\",\"INNERTUBE_API_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_REMIX\",\"INNERTUBE_CLIENT_VERSION\":\"1.20261006.10.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\""
+      ]
+    },
+    "INNERTUBE_CONTEXT": {
+      "n": 5,
+      "example": [
+        "PI_VERSION\":\"v1\",\"INNERTUBE_CLIENT_NAME\":\"WEB_REMIX\",\"INNERTUBE_CLIENT_VERSION\":\"1.20261006.10.00\",\"INNERTUBE_CONTEXT\":{\"client\":{\"hl\":\"en\",\"gl\":\"US\",\"remoteHost\":\"172.212.167.87\",\"deviceMake\":\"\",\"deviceModel\":\"\",\"visitorData\":\"CgtSZVRVMXF1UXMtcyj5q7PWBjIKCgJVUxIEGgAgY2K1AgqyAkN1SUJDQVVTbEFFQjhRWnVaaVI2OWZpeTEzTXRYQWstSTJkTmZQQk1jRHJjWDJfZnlUQmNUN29WZTN0bkJRaVlJUm1",
+        ",\"request\":{\"useSsl\":true},\"clickTracking\":{\"clickTrackingParams\":\"IhMItJ2T4MC0lwMVWaNqAh0CFwLd\"}},\"INNERTUBE_CONTEXT_CLIENT_NAME\":67,\"INNERTUBE_CONTEXT_CLIENT_VERSION\":\"1.20261006.10.00\",\"INNERTUBE_CONTEXT_GL\":\"US\",\"INNERTUBE_CONTEXT_HL\":\"en\",\"LATEST_ECATCHER_SERVICE_TRACKING_PARAMS\":{\"client.name\":\"WEB_REMIX\"},\"LOGGED_IN\":false,\"PAGE_BUILD_LABEL\":\"youtube.music.w"
+      ]
+    },
+    "ytInitialPlayerResponse": {
+      "n": 0,
+      "example": []
+    },
+    "streamingData": {
+      "n": 0,
+      "example": []
+    },
+    "storyboards": {
+      "n": 0,
+      "example": []
+    },
+    "playerStoryboardSpecRenderer": {
+      "n": 0,
+      "example": []
+    },
+    "playabilityStatus": {
+      "n": 0,
+      "example": []
+    },
+    "playbackTracking": {
+      "n": 0,
+      "example": []
+    },
+    "videoDetails": {
+      "n": 0,
+      "example": []
+    },
+    "storyboard3_L": {
+      "n": 0,
+      "example": []
+    },
+    "VISITOR_DATA": {
+      "n": 1,
+      "example": [
+        "52F%252Fmusic.youtube.com%252Fwatch%253Fv%253DILZR4ngvWfE%26feature%3D__FEATURE__\\u0026hl\\u003den\",\"VISITOR_DATA\":\"CgtSZVRVMXF1UXMtcyj5q7PWBjIKCgJVUxIEGgAgY2K1AgqyAkN1SUJDQVVTbEFFQjhRWnVaaVI2OWZpeTEzTXRYQWstSTJkTmZQQk1jRHJjWDJfZnlUQmNUN29WZTN0bkJRaVlJUm1vVVFpT2xmUnVPTFFmTTZ4UzRiTUVYMFZxbWhoRWtBbkNCXzFhck52N0ptUEFBSjZVeHJqLW1xWG4wTU9yUTdaQkVzaUVjb1laWDBQMTE3NHl"
+      ]
+    },
+    "apiUrl": {
+      "n": 0,
+      "example": []
+    },
+    "ytcfg.set": {
+      "n": 3,
+      "example": [
+        "ar a=arguments;if(a.length>1)ytcfg.d()[a[0]]=a[1];else{var k;for(k in a[0])ytcfg.d()[k]=a[0][k]}}};\nytcfg.set({\"CLIENT_CANARY_STATE\":\"none\",\"DEVICE\":\"cbr\\u003dChrome\\u0026cbrver\\u003d120.0.0.0\\u0026ceng\\u003dWebKit\\u0026cengver\\u003d537.36\\u0026cos\\u003dX11\\u0026cplatform\\u003dDESKTOP\",\"ELEMENT_POOL_DEFAULT_CAP\":0,\"EVENT_ID\":\"-dXMavS8ONnGqsMPgq6I6A0\",\"EXPER",
+        "e,youtube music,music streaming\"><script nonce=\"wSN2ERR0p3dWAlVmh0xEUw\">try {const initialData = [];ytcfg.set({'YTMUSIC_INITIAL_DATA': initialData});} catch (e) {}</script></head><body dir=\"ltr\"><noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-NQNFS9\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript><scri"
+      ]
+    }
+  },
+  "ytdlp_web_embedded": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading web embedded client config\n[youtube] ILZR4ngvWfE: Downloading player 5203c085-main\n[youtube] ILZR4ngvWfE: Downloading web embedded player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "ytdlp_android_vr": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading android vr player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "ytdlp_mweb": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading mweb client config\n[youtube] ILZR4ngvWfE: Downloading mweb player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "ytdlp_tv_embedded": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading visionos player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "ytdlp_web_safari": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading web safari client config\n[youtube] ILZR4ngvWfE: Downloading web safari player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  "ytdlp_ios": {
+    "return": 1,
+    "tail": "[youtube] Extracting URL: https://www.youtube.com/watch?v=ILZR4ngvWfE\n[youtube] ILZR4ngvWfE: Downloading webpage\n[youtube] ILZR4ngvWfE: Downloading ios player API JSON\n\nERROR: [youtube] ILZR4ngvWfE: Sign in to confirm you\u2019re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  }
+}
