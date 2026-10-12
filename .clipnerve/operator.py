@@ -96,16 +96,25 @@ def main(path):
         source = Path("original_voice_" + cid + ".mp3")
         run(["curl", "-fL", "--retry", "2", "--connect-timeout", "30",
              "--max-time", "180", url, "-o", str(source)])
-        run(["python3", "-m", "pip", "install", "-q", "--user", "faster-whisper==1.2.0"])
-        from faster_whisper import WhisperModel
-        model = WhisperModel("tiny.en", device="cpu", compute_type="int8")
-        segments, info = model.transcribe(str(source), language="en", beam_size=5,
-                                          vad_filter=False, word_timestamps=True)
-        data = [{"start":round(z.start,2), "end":round(z.end,2), "text":z.text,
-                 "words":[{"start":round(w.start,2), "end":round(w.end,2),
-                           "word":w.word} for w in (z.words or [])]} for z in segments]
-        Path("qa_asr_" + cid + ".json").write_text(json.dumps(data, indent=2))
-        print("QA_ASR_SEGMENTS=" + json.dumps(data))
+        # Use a dedicated venv: github ubuntu Python sometimes installs --user
+        # packages outside the script interpreter's import path.
+        venv = Path("/tmp/clipnerve_whisper_venv")
+        run(["python3", "-m", "venv", str(venv)])
+        run([str(venv/"bin/python"), "-m", "pip", "install", "-q", "faster-whisper==1.2.0"])
+        pycode = """import json,sys
+from faster_whisper import WhisperModel
+model=WhisperModel('tiny.en',device='cpu',compute_type='int8')
+segments,info=model.transcribe(sys.argv[1],language='en',beam_size=5,vad_filter=False,word_timestamps=True)
+data=[{'start':round(z.start,2),'end':round(z.end,2),'text':z.text,
+       'words':[{'start':round(w.start,2),'end':round(w.end,2),'word':w.word}
+                for w in (z.words or [])]} for z in segments]
+open(sys.argv[2],'w').write(json.dumps(data,indent=2))
+print('QA_ASR_SEGMENTS='+json.dumps(data))
+"""
+        script = Path("qa_asr_once.py")
+        script.write_text(pycode)
+        run([str(venv/"bin/python"), str(script), str(source),
+             "qa_asr_" + cid + ".json"])
         print("QA_ASR_ONLY_NO_PUBLICATION=true")
         return
     # QA-only licensed-stock photograph bridge; no posting or API publishing.
