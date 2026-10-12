@@ -59,4 +59,5 @@ jobs:
           path: |
             output_*.mp4
             audio_*.mp3
+            asset_*.jpg
             qa_*.jpg
