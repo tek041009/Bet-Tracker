@@ -20,8 +20,8 @@ for tool in [['ffmpeg','-hide_banner','-loglevel','warning','-y','-i',base+'HLSP
 files=[p for prefix in ('RED_HLS','RED_YTDLP','RED_DASH') for p in pathlib.Path('/tmp').glob(prefix+'.*') if p.stat().st_size>100000]
 for p in files:
  vid=pathlib.Path('/tmp')/'red_frames';vid.mkdir(exist_ok=True)
- probe=subprocess.run(['ffprobe','-hide_banner','-loglevel','error','-show_entries','format=duration,size:stream=width,height','-of','json',str(p)],capture_output=True,text=True)
- rep['metadata_'+p.name]=probe.stdout
+ probe=subprocess.run(['ffmpeg','-hide_banner','-i',str(p)],capture_output=True,text=True)
+ rep['metadata_'+p.name]=probe.stderr[-2500:]
  subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(p),'-t','70','-vf','fps=2,scale=560:-2','-q:v','4',str(vid/'f_%03d.jpg'),'-y'],capture_output=True,text=True,timeout=90)
  pics=sorted(vid.glob('f_*.jpg'))
  rep['frames_'+p.name]=len(pics)
