@@ -1,0 +1,55 @@
+{
+  "HLSPlaylist.m3u8": {
+    "code": 200,
+    "type": "application/x-mpegurl",
+    "body": "#EXTM3U\n#EXT-X-VERSION:4\n#EXT-X-MEDIA:URI=\"CMAF_AUDIO_128.m3u8\",TYPE=AUDIO,GROUP-ID=\"5\",NAME=\"audio 0\",DEFAULT=YES,AUTOSELECT=YES\n#EXT-X-MEDIA:URI=\"CMAF_AUDIO_64.m3u8\",TYPE=AUDIO,GROUP-ID=\"6\",NAME=\"audio 0\",DEFAULT=YES,AUTOSELECT=YES\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=391214,AVERAGE-BANDWIDTH=367828,RESOLUTION=391x220,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"5\"\nCMAF_220.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=599140,AVERAGE-BANDWIDTH=548774,RESOLUTION=480x270,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"5\"\nCMAF_270.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=955121,AVERAGE-BANDWIDTH=873851,RESOLUTION=640x360,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"5\"\nCMAF_360.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=1397436,AVERAGE-BANDWIDTH=1260082,RESOLUTION=853x480,FRAME-RATE=30,CODECS=\"avc1.4d401f,mp4a.40.2\",AUDIO=\"5\"\nCMAF_480.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=2579914,AVERAGE-BANDWIDTH=2304826,RESOLUTION=1280x720,FRAME-RATE=30,CODECS=\"avc1.4d401f,mp4a.40.2\",AUDIO=\"5\"\nCMAF_720.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=327072,AVERAGE-BANDWIDTH=303866,RESOLUTION=391x220,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"6\"\nCMAF_220.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=534998,AVERAGE-BANDWIDTH=484812,RESOLUTION=480x270,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"6\"\nCMAF_270.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=890979,AVERAGE-BANDWIDTH=809889,RESOLUTION=640x360,FRAME-RATE=30,CODECS=\"avc1.4d401e,mp4a.40.2\",AUDIO=\"6\"\nCMAF_360.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=1333294,AVERAGE-BANDWIDTH=1196120,RESOLUTION=853x480,FRAME-RATE=30,CODECS=\"avc1.4d401f,mp4a.40.2\",AUDIO=\"6\"\nCMAF_480.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=0,CLOSED-CAPTIONS=NONE,BANDWIDTH=2515772,AVERAGE-BANDWIDTH=2240864,RESOLUTION=1280x720,FRAME-RATE=30,CODECS=\"avc1.4d401f,mp4a.40.2\",AUDIO=\"6\"\nCMAF_720.m3u8\n",
+    "length": 2064
+  },
+  "DASHPlaylist.mpd": {
+    "code": 200,
+    "type": "application/dash+xml",
+    "body": "<MPD xmlns=\"urn:mpeg:dash:schema:mpd:2011\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" mediaPresentationDuration=\"PT52S\" minBufferTime=\"PT4S\" profiles=\"urn:mpeg:dash:profile:isoff-on-demand:2011\" type=\"static\" xsi:schemaLocation=\"urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd\">\n  <Period duration=\"PT52S\" id=\"0\">\n    <AdaptationSet contentType=\"video\" id=\"1\" maxFrameRate=\"15360/512\" maxHeight=\"720\" maxWidth=\"1280\" par=\"16:9\" sar=\"1:1\" segmentAlignment=\"true\" startWithSAP=\"1\" subsegmentAlignment=\"true\" subsegmentStartsWithSAP=\"1\">\n      <Representation bandwidth=\"260116\" codecs=\"avc1.4d401e\" frameRate=\"15360/512\" height=\"220\" id=\"5\" mimeType=\"video/mp4\" width=\"392\">\n        <BaseURL>CMAF_220.mp4</BaseURL>\n        <SegmentBase indexRange=\"892-1079\" timescale=\"15360\">\n          <Initialization range=\"0-891\" />\n        </SegmentBase>\n      </Representation>\n      <Representation bandwidth=\"468042\" codecs=\"avc1.4d401e\" frameRate=\"15360/512\" height=\"270\" id=\"6\" mimeType=\"video/mp4\" width=\"480\">\n        <BaseURL>CMAF_270.mp4</BaseURL>\n        <SegmentBase indexRange=\"872-1059\" timescale=\"15360\">\n          <Initialization range=\"0-871\" />\n        </SegmentBase>\n      </Representation>\n      <Representation bandwidth=\"824023\" codecs=\"avc1.4d401e\" frameRate=\"15360/512\" height=\"360\" id=\"7\" mimeType=\"video/mp4\" width=\"640\">\n        <BaseURL>CMAF_360.mp4</BaseURL>\n        <SegmentBase indexRange=\"871-1058\" timescale=\"15360\">\n          <Initialization range=\"0-870\" />\n        </SegmentBase>\n      </Representation>\n      <Representation bandwidth=\"1266338\" codecs=\"avc1.4d401f\" frameRate=\"15360/512\" height=\"480\" id=\"8\" mimeType=\"video/mp4\" width=\"854\">\n        <BaseURL>CMAF_480.mp4</BaseURL>\n        <SegmentBase indexRange=\"891-1078\" timescale=\"15360\">\n          <Initialization range=\"0-890\" />\n        </SegmentBase>\n      </Representation>\n      <Representation bandwidth=\"2448816\" codecs=\"avc1.4d401f\" frameRate=\"15360/512\" height=\"720\" id=\"9\" mimeType=\"video/mp4\" width=\"1280\">\n        <BaseURL>CMAF_720.mp4</BaseURL>\n        <SegmentBase indexRange=\"872-1059\" timescale=\"15360\">\n          <Initialization range=\"0-871\" />\n        </SegmentBase>\n      </Representation>\n    </AdaptationSet>\n    <AdaptationSet contentType=\"audio\" id=\"2\" segmentAlignment=\"true\" startWithSAP=\"1\" subsegmentAlignment=\"true\" subsegmentStartsWithSAP=\"1\">\n      <Representation audioSamplingRate=\"48000\" bandwidth=\"66956\" codecs=\"mp4a.40.2\" id=\"10\" mimeType=\"audio/mp4\">\n        <AudioChannelConfiguration schemeIdUri=\"urn:mpeg:dash:23003:3:audio_channel_configuration:2011\" value=\"2\" />\n        <BaseURL>CMAF_AUDIO_64.mp4</BaseURL>\n        <SegmentBase indexRange=\"833-1020\" timescale=\"48000\">\n          <Initialization range=\"0-832\" />\n        </SegmentBase>\n      </Representation>\n      <Representation audioSamplingRate=\"48000\" bandwidth=\"131098\" codecs=\"mp4a.40.2\" id=\"11\" mimeType=\"audio/mp4\">\n        <AudioChannelConfiguration schemeIdUri=\"urn:mpeg:dash:23003:3:audio_channel_configuration:2011\" value=\"2\" />\n        <BaseURL>CMAF_AUDIO_128.mp4</BaseURL>\n        <SegmentBase indexRange=\"833-1020\" timescale=\"48000\">\n          <Initialization range=\"0-832\" />\n        </SegmentBase>\n      </Representation>\n    </AdaptationSet>\n    </Period>\n</MPD>",
+    "length": 3259
+  },
+  "DASH_720.mp4": {
+    "code": 403,
+    "type": "application/xml",
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>94NP9YDE5JDJGFKC</RequestId><HostId>mwjx1+lF7qmWMNbJfzYSofwl3Al/vJ/SGJ9k0iqoDi3yzZ3SkmEet6kpAIT3wQKqhg6gm17uS/M=</HostId></Error>",
+    "length": 243
+  },
+  "HLS_720.m3u8": {
+    "code": 403,
+    "type": "application/x-mpegurl",
+    "body": "Access denied",
+    "length": 13
+  },
+  "HLS_360.m3u8": {
+    "code": 403,
+    "type": "application/x-mpegurl",
+    "body": "Access denied",
+    "length": 13
+  },
+  "DASH_1080.mp4": {
+    "code": 403,
+    "type": "application/xml",
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>94NMAYQ93T4GGTCA</RequestId><HostId>WEweAgp46X7HZ7LcbAYyqz0bL+T9NJXsZt6oqtcfgeUhjVgHdyscOytIEJwUZaoqsGGP3K1A1cgnZRxLQ9KplFio4DQieshE</HostId></Error>",
+    "length": 263
+  },
+  "tool_ffmpeg_/tmp/RED_H": {
+    "exit": -11,
+    "stdout": "",
+    "stderr": ""
+  },
+  "tool_yt-dlp_https://v.": {
+    "exit": 0,
+    "stdout": "[generic] Extracting URL: https://v.redd.it/2dg62yo806ih1/HLSPlaylist.m3u8\n[generic] HLSPlaylist: Downloading webpage\n[generic] HLSPlaylist: Downloading m3u8 information\n[generic] HLSPlaylist: Checking m3u8 live status\n[info] HLSPlaylist: Downloading 1 format(s): 2304+5-audio_0\n[hlsnative] Downloading m3u8 manifest\n[hlsnative] Total fragments: 13\n[download] Destination: /tmp/RED_YTDLP.f2304.mp4\n[download] Download completed\n[hlsnative] Downloading m3u8 manifest\n[hlsnative] Total fragments: 13\n[download] Destination: /tmp/RED_YTDLP.f5-audio_0.mp4\n[download] Download completed\n[Merger] Merging formats into \"/tmp/RED_YTDLP.mp4\"\nDeleting original file /tmp/RED_YTDLP.f2304.mp4 (pass -k to keep)\nDeleting original file /tmp/RED_YTDLP.f5-audio_0.mp4 (pass -k to keep)\n",
+    "stderr": ""
+  },
+  "tool_ffmpeg_/tmp/RED_D": {
+    "exit": -11,
+    "stdout": "",
+    "stderr": ""
+  },
+  "metadata_RED_YTDLP.mp4": "Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/tmp/RED_YTDLP.mp4':\n  Metadata:\n    major_brand     : isom\n    minor_version   : 512\n    compatible_brands: isomiso2avc1mp41\n    encoder         : Lavf61.1.100\n  Duration: 00:00:51.88, start: 0.000000, bitrate: 2306 kb/s\n  Stream #0:0[0x1](und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p(progressive), 1280x720 [SAR 1:1 DAR 16:9], 2171 kb/s, 30 fps, 30 tbr, 15360 tbn (default)\n      Metadata:\n        handler_name    : VideoHandler\n        vendor_id       : [0][0][0][0]\n        encoder         : AVC Coding\n  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 128 kb/s (default)\n      Metadata:\n        handler_name    : SoundHandler\n        vendor_id       : [0][0][0][0]\nAt least one output file must be specified\n",
+  "frames_RED_YTDLP.mp4": 104
+}
