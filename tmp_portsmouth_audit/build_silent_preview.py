@@ -5,7 +5,7 @@ import subprocess, json, shutil
 from PIL import Image,ImageDraw
 
 ROOT=Path("tmp_portsmouth_audit")
-OUTPUT=ROOT/"PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4"
+OUTPUT=ROOT/"PORTSMOUTH_ONLY_WIDE_HANDLES_NO_AUDIO_V2.mp4"
 TEMP=Path("/tmp/portsmouth_video_source")
 TEMP.mkdir(exist_ok=True)
 url_w="https://open.http.mp.streamamg.com/p/3000379/sp/300037900/playManifest/entryId/0_iplk1pvk/format/applehttp/protocol/https"
@@ -27,12 +27,12 @@ assert sky.stat().st_size>5_000_000,(sky.stat().st_size)
 print("SOURCE_BYTES",whu.stat().st_size,sky.stat().st_size,flush=True)
 
 SHOTS=[
-    ("01_Build_up_live_wide",whu,154.30,157.80,"West Ham 1080p match broadcast"),
-    ("02_Bowen_technique_tight_sideline",whu,180.10,181.60,"West Ham 1080p sideline replay"),
-    ("03_Ball_flight_goal",whu,158.45,160.65,"West Ham 1080p match broadcast"),
-    ("04_Bowen_first_celebration",whu,163.50,166.70,"West Ham 1080p close celebration"),
-    ("05_Team_huddle",sky,19.60,21.40,"Sky Sports 720p broadcast"),
-    ("06_Bowen_smiles",sky,30.00,31.50,"Sky Sports 720p broadcast")
+    ("01_Build_up_live_wide_extended_past_strike",whu,154.30,159.05,"West Ham 1080p match broadcast"),
+    ("02_Bowen_technique_tight_sideline_approach_through_strike",whu,178.80,182.60,"West Ham 1080p sideline replay"),
+    ("03_Original_goal_begin_before_strike",whu,156.85,161.05,"West Ham 1080p match broadcast"),
+    ("04_Bowen_first_celebration_extended",whu,164.05,168.05,"West Ham 1080p close celebration"),
+    ("05_Team_huddle_extended",sky,19.60,21.45,"Sky Sports 720p broadcast"),
+    ("06_Bowen_smiles_extended",sky,30.35,32.20,"Sky Sports 720p broadcast")
 ]
 
 manifest=[]
@@ -53,8 +53,19 @@ cmd(["ffmpeg","-hide_banner","-loglevel","warning","-y","-f","concat","-safe","0
 assert OUTPUT.stat().st_size>1_000_000,OUTPUT.stat().st_size
 print("PREVIEW_CREATED",OUTPUT,str(OUTPUT.stat().st_size),flush=True)
 
+# Preserve full action/replay original source (including source audio for later editing)
+# plus the complete Sky excerpt. Preview alone is ALWAYS silent.
+CLIP_BANK=ROOT/"SOURCE_HANDLES_V2"
+CLIP_BANK.mkdir(exist_ok=True)
+full_goal=CLIP_BANK/"WEST_HAM_1080_ALL_PORTSMOUTH_GOAL_AND_REPLAYS_02m25s_to_03m12s.mp4"
+full_sky=CLIP_BANK/"SKY_720_FULL_BOWEN_GOAL_REACTIONS_52sec.mp4"
+cmd(["ffmpeg","-hide_banner","-loglevel","warning","-y","-ss","145","-i",whu,"-t","47.0","-map","0:v:0","-map","0:a?","-c","copy","-movflags","+faststart",full_goal],timeout=110)
+shutil.copyfile(sky,full_sky)
+print("CONTINUOUS_SOURCE_BANK_READY",full_goal.stat().st_size,full_sky.stat().st_size,flush=True)
+
+
 # Inspect actual rendered video, not just source: 2Hz contact sheets.
-QA=ROOT/"PORTSMOUTH_SILENT_QA"
+QA=ROOT/"PORTSMOUTH_WIDE_HANDLES_QA"
 QA.mkdir(exist_ok=True)
 for x in QA.glob("*.jpg"):x.unlink()
 frames=TEMP/"finished_frames";frames.mkdir(exist_ok=True)
@@ -70,11 +81,12 @@ for chunkidx in range(0,len(pics),12):
         t=(chunkidx+index)/2
         draw.text((x+10,y+5),f"SILENT FINAL RENDER   {t:05.1f}s",fill="white")
     sheet.save(QA/f"QA_{chunkidx//12+1:02d}.jpg",quality=77,optimize=True)
-(ROOT/"PORTSMOUTH_SILENT_SHOT_LEDGER.json").write_text(json.dumps({
+(ROOT/"PORTSMOUTH_WIDE_HANDLES_SHOT_LEDGER.json").write_text(json.dumps({
     "output":str(OUTPUT),"output_bytes":OUTPUT.stat().st_size,
     "video_only":True,"audio_tracks":0,"music":False,"no_effects":True,
     "source_whu_bytes":whu.stat().st_size,"source_sky_bytes":sky.stat().st_size,
     "shots":manifest,"total_nominal_duration":round(sum(s["duration"] for s in manifest),3),
+    "note":"Source overlaps are INTENTIONAL editing handles, not an attempt to present continuous real-time football. Future cuts/transitions may be placed anywhere within these source windows. Original source clips are archived separately.",
     "qa_frames":len(pics)
 },indent=2))
 print("RENDER_QA_READY",len(pics),"QA sheets",len(list(QA.glob("*.jpg"))),flush=True)
