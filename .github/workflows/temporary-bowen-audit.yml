@@ -23,7 +23,7 @@ jobs:
           ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$HOME/.local/bin/ffmpeg"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Retrieve and sample source broadcasts
-        run: python tmp_portsmouth_audit/reddit_hls.py
+        run: python tmp_portsmouth_audit/youtube_efl_probe.py
       - name: Preserve source audit contact sheets on isolated research branch
         if: always()
         run: |
