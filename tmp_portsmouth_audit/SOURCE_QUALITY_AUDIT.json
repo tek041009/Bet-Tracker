@@ -1,0 +1,62 @@
+{
+  "WEST_HAM_EXTENDED": {
+    "http": 200,
+    "ct": "application/x-mpegurl",
+    "variants": [
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=480256,RESOLUTION=480x272",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_2ut8km59_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=685056,RESOLUTION=640x360",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_3cklkjtv_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=987136,RESOLUTION=640x360",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_xuylszgj_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1584128,RESOLUTION=1024x576",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_40o73epv_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2691072,RESOLUTION=1280x720",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_v6k6hjfk_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=4227072,RESOLUTION=1920x1080",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_iplk1pvk_0_ghq47f7l_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      }
+    ]
+  },
+  "WEST_HAM_GOALS": {
+    "http": 200,
+    "ct": "application/x-mpegurl",
+    "variants": [
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=482304,RESOLUTION=480x272",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_pbwwephb_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=688128,RESOLUTION=640x360",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_4sb72a7l_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=987136,RESOLUTION=640x360",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_elgbxbwn_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1576960,RESOLUTION=1024x576",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_fmqqzpqt_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2691072,RESOLUTION=1280x720",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_byf72ebn_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      },
+      {
+        "descriptor": "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=4227072,RESOLUTION=1920x1080",
+        "uri": "https://cf.vod.mp.streamamg.com/vod/_definst_/s3/3000379/20260808/3000/0_4nzutk25_0_e0of09c7_2.mp4/chunklist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZ"
+      }
+    ]
+  }
+}
