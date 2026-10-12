@@ -61,3 +61,4 @@ jobs:
             audio_*.mp3
             asset_*.jpg
             qa_*.jpg
+            qa_asr_*.json
