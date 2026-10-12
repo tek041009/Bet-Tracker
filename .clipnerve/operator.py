@@ -87,6 +87,28 @@ def gql_post(job, url):
 
 def main(path):
     job = json.loads(Path(path).read_text())
+    # One-off original-audio recovery into the existing GitHub Actions artifact store.
+    # This mode cannot publish and does not touch the approved-source pipeline.
+    if job.get("mode") == "audio_bridge":
+        cid = job["clip_id"]
+        need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid audio bridge id")
+        url = job["audio_url"]
+        need(url.startswith("https://"), "HTTPS audio URL required")
+        media = Path("audio_" + cid + ".mp3")
+        run(["curl", "-fL", "--retry", "2", "--connect-timeout", "30",
+             "--max-time", "180", url, "-o", str(media)])
+        result = json.loads(subprocess.check_output([
+            "ffprobe", "-v", "error", "-show_entries",
+            "stream=codec_name,codec_type:format=duration", "-of", "json", str(media)
+        ], text=True))
+        need(any(s.get("codec_type") == "audio" for s in result.get("streams", [])),
+             "Recovered URL is not audio")
+        need(10 <= float(result["format"]["duration"]) <= 120, "Unexpected audio duration")
+        print("AUDIO_BRIDGE_BYTES=" + str(media.stat().st_size))
+        print("AUDIO_BRIDGE_SHA256=" + digest(media))
+        print("AUDIO_BRIDGE_DURATION=" + result["format"]["duration"])
+        print("AUDIO_BRIDGE_QA_HOLD_NO_PUBLICATION=true")
+        return
     cid = job["clip_id"]
     need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid clip ID")
     platform = job["platform"]
