@@ -100,7 +100,7 @@ def main(path):
         # packages outside the script interpreter's import path.
         venv = Path("/tmp/clipnerve_whisper_venv")
         run(["python3", "-m", "venv", str(venv)])
-        run([str(venv/"bin/python"), "-m", "pip", "install", "-q", "faster-whisper==1.2.0"])
+        run([str(venv/"bin/python"), "-m", "pip", "install", "-q", "faster-whisper==1.2.0", "requests>=2.31", "huggingface-hub>=0.20"])
         pycode = """import json,sys
 from faster_whisper import WhisperModel
 model=WhisperModel('tiny.en',device='cpu',compute_type='int8')
