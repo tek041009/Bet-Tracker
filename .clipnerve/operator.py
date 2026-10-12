@@ -87,6 +87,30 @@ def gql_post(job, url):
 
 def main(path):
     job = json.loads(Path(path).read_text())
+    # QA-only licensed-stock photograph bridge; no posting or API publishing.
+    if job.get("mode") == "photo_bridge":
+        cid = job["clip_id"]
+        need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid photo bridge id")
+        srcs = job.get("photos") or {}
+        need(1 <= len(srcs) <= 24, "Expected 1-24 photos")
+        for key, url in srcs.items():
+            need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{1,35}", key)), "Unsafe photo label")
+            need(url.startswith("https://images.pexels.com/photos/"), "Only official Pexels CDN URL accepted")
+            dest = Path("asset_" + cid + "_" + key + ".jpg")
+            run(["curl", "-fL", "--retry", "2", "--connect-timeout", "30",
+                 "--max-time", "120", "-A", "Mozilla/5.0", url, "-o", str(dest)])
+            need(dest.stat().st_size > 10000, "Downloaded file too small")
+            pmeta = json.loads(subprocess.check_output([
+                "ffprobe", "-v", "error", "-show_entries",
+                "stream=codec_name,width,height", "-of", "json", str(dest)
+            ], text=True))
+            pics = [p for p in pmeta.get("streams", []) if p.get("width")]
+            need(pics and pics[0]["width"] >= 400 and pics[0]["height"] >= 300,
+                 "Downloaded asset is not a usable photo")
+            print("PHOTO_BRIDGE=" + key + " BYTES=" + str(dest.stat().st_size) +
+                  " SHA256=" + digest(dest))
+        print("PHOTO_BRIDGE_QA_HOLD_NO_PUBLICATION=true")
+        return
     # One-off original-audio recovery into the existing GitHub Actions artifact store.
     # This mode cannot publish and does not touch the approved-source pipeline.
     if job.get("mode") == "audio_bridge":
