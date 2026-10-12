@@ -1,0 +1,68 @@
+{
+  "output": "tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4",
+  "output_bytes": 10407004,
+  "video_only": true,
+  "audio_tracks": 0,
+  "music": false,
+  "no_effects": true,
+  "source_whu_bytes": 242288934,
+  "source_sky_bytes": 14960351,
+  "shots": [
+    {
+      "shot": 1,
+      "label": "01_Build_up_live_wide",
+      "source": "West Ham 1080p match broadcast",
+      "source_in": 154.3,
+      "source_out": 157.8,
+      "duration": 3.5,
+      "segment_bytes": 2398299
+    },
+    {
+      "shot": 2,
+      "label": "02_Bowen_technique_tight_sideline",
+      "source": "West Ham 1080p sideline replay",
+      "source_in": 180.1,
+      "source_out": 181.6,
+      "duration": 1.5,
+      "segment_bytes": 1179402
+    },
+    {
+      "shot": 3,
+      "label": "03_Ball_flight_goal",
+      "source": "West Ham 1080p match broadcast",
+      "source_in": 158.45,
+      "source_out": 160.65,
+      "duration": 2.2,
+      "segment_bytes": 1491389
+    },
+    {
+      "shot": 4,
+      "label": "04_Bowen_first_celebration",
+      "source": "West Ham 1080p close celebration",
+      "source_in": 163.5,
+      "source_out": 166.7,
+      "duration": 3.2,
+      "segment_bytes": 2547234
+    },
+    {
+      "shot": 5,
+      "label": "05_Team_huddle",
+      "source": "Sky Sports 720p broadcast",
+      "source_in": 19.6,
+      "source_out": 21.4,
+      "duration": 1.8,
+      "segment_bytes": 1719807
+    },
+    {
+      "shot": 6,
+      "label": "06_Bowen_smiles",
+      "source": "Sky Sports 720p broadcast",
+      "source_in": 30.0,
+      "source_out": 31.5,
+      "duration": 1.5,
+      "segment_bytes": 1074995
+    }
+  ],
+  "total_nominal_duration": 13.7,
+  "qa_frames": 28
+}
