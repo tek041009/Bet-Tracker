@@ -58,4 +58,5 @@ jobs:
           retention-days: 30
           path: |
             output_*.mp4
+            audio_*.mp3
             qa_*.jpg
