@@ -87,6 +87,27 @@ def gql_post(job, url):
 
 def main(path):
     job = json.loads(Path(path).read_text())
+    # Offline ASR verification of the ORIGINAL voice, not publication or synthesis.
+    if job.get("mode") == "qa_asr":
+        cid = job["clip_id"]
+        need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid QA transcript id")
+        url = job["audio_url"]
+        need(url.startswith("https://dnznrvs05pmza.cloudfront.net/text_to_speech/"), "Unexpected audio source")
+        source = Path("original_voice_" + cid + ".mp3")
+        run(["curl", "-fL", "--retry", "2", "--connect-timeout", "30",
+             "--max-time", "180", url, "-o", str(source)])
+        run(["python3", "-m", "pip", "install", "-q", "--user", "faster-whisper==1.2.0"])
+        from faster_whisper import WhisperModel
+        model = WhisperModel("tiny.en", device="cpu", compute_type="int8")
+        segments, info = model.transcribe(str(source), language="en", beam_size=5,
+                                          vad_filter=False, word_timestamps=True)
+        data = [{"start":round(z.start,2), "end":round(z.end,2), "text":z.text,
+                 "words":[{"start":round(w.start,2), "end":round(w.end,2),
+                           "word":w.word} for w in (z.words or [])]} for z in segments]
+        Path("qa_asr_" + cid + ".json").write_text(json.dumps(data, indent=2))
+        print("QA_ASR_SEGMENTS=" + json.dumps(data))
+        print("QA_ASR_ONLY_NO_PUBLICATION=true")
+        return
     # QA-only licensed-stock photograph bridge; no posting or API publishing.
     if job.get("mode") == "photo_bridge":
         cid = job["clip_id"]
