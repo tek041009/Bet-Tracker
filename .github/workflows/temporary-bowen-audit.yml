@@ -1,4 +1,4 @@
-name: Temporary Bowen silent clip artifact export
+name: Portsmouth wide-handles silent preview and source bank
 on:
   push:
     branches:
@@ -6,22 +6,45 @@ on:
     paths:
       - .github/workflows/temporary-bowen-audit.yml
 permissions:
-  contents: read
+  contents: write
 jobs:
-  export:
+  render:
     runs-on: ubuntu-latest
+    timeout-minutes: 22
     steps:
       - uses: actions/checkout@v4
         with:
           ref: temporary/bowen-portsmouth-footage-audit-20261009
-      - name: Verify rendered footage exists
+          persist-credentials: true
+      - name: Install standard video editing tools (no credit-limited services)
         run: |
-          ls -lh tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
-          test -s tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
-      - uses: actions/upload-artifact@v4
+          python -m pip install --user --upgrade yt-dlp pillow imageio-ffmpeg
+          mkdir -p "$HOME/.local/bin"
+          ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$HOME/.local/bin/ffmpeg"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Build overlapping cut-only review video and preserve sources
+        run: python tmp_portsmouth_audit/build_silent_preview.py
+      - name: Upload review video
+        uses: actions/upload-artifact@v4
         with:
-          name: Portsmouth_Silent_Six_Shots
-          path: tmp_portsmouth_audit/PORTSMOUTH_ONLY_SIX_SHOTS_SILENT_PREVIEW.mp4
+          name: PORTSMOUTH_WIDE_HANDLES_NO_AUDIO_V2
+          path: tmp_portsmouth_audit/PORTSMOUTH_ONLY_WIDE_HANDLES_NO_AUDIO_V2.mp4
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
+      - name: Upload original source bank
+        uses: actions/upload-artifact@v4
+        with:
+          name: PORTSMOUTH_FULL_GOAL_AND_REPLAYS_SOURCE_BANK_V2
+          path: tmp_portsmouth_audit/SOURCE_HANDLES_V2/*.mp4
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Keep the visual QA sheets and source timing ledger
+        if: always()
+        run: |
+          git config user.name "Temporary footage research"
+          git config user.email "research@users.noreply.github.com"
+          git add tmp_portsmouth_audit/PORTSMOUTH_WIDE_HANDLES_QA tmp_portsmouth_audit/PORTSMOUTH_WIDE_HANDLES_SHOT_LEDGER.json
+          git diff --cached --quiet || git commit -m "QA and edit handles for silent Portsmouth V2 preview"
+          git push origin HEAD:temporary/bowen-portsmouth-footage-audit-20261009
