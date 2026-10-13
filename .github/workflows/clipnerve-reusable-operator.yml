@@ -59,6 +59,7 @@ jobs:
           path: |
             output_*.mp4
             audio_*.mp3
+            image_*.jpg
             asset_*.jpg
             qa_*.jpg
             qa_asr_*.json
