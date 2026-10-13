@@ -143,6 +143,27 @@ print('QA_ASR_SEGMENTS='+json.dumps(data))
         return
     # One-off original-audio recovery into the existing GitHub Actions artifact store.
     # This mode cannot publish and does not touch the approved-source pipeline.
+    if job.get("mode") == "image_bridge":
+        cid = job["clip_id"]
+        need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid image bridge id")
+        url = job["image_url"]
+        need(url.startswith("https://images.unsplash.com/"), "Image source must be HTTPS Unsplash media")
+        media = Path("image_" + cid + ".jpg")
+        run(["curl", "-fL", "--retry", "2", "--connect-timeout", "30",
+             "--max-time", "120", url, "-o", str(media)])
+        result = json.loads(subprocess.check_output([
+            "ffprobe", "-v", "error", "-show_entries",
+            "stream=codec_name,width,height", "-of", "json", str(media)
+        ], text=True))
+        images = [s for s in result.get("streams", []) if s.get("width")]
+        need(len(images) == 1 and images[0].get("codec_name") == "mjpeg", "Must be actual JPEG")
+        need(int(images[0]["width"]) >= 700 and int(images[0]["height"]) >= 700,
+             "Image resolution below source quality gate")
+        print("IMAGE_BRIDGE_BYTES=" + str(media.stat().st_size))
+        print("IMAGE_BRIDGE_SHA256=" + digest(media))
+        print("IMAGE_BRIDGE_DIMS=" + str(images[0]["width"]) + "x" + str(images[0]["height"]))
+        print("IMAGE_BRIDGE_QA_HOLD_NO_PUBLICATION=true")
+        return
     if job.get("mode") == "audio_bridge":
         cid = job["clip_id"]
         need(bool(re.fullmatch(r"[a-zA-Z0-9_-]{6,72}", cid)), "Invalid audio bridge id")
