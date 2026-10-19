@@ -151,6 +151,9 @@ jobs:
       - name: Connect isolated Bet Tracker V2 Supabase backend
         run: python deploy/v2-supabase-rewire.py
 
+      - name: Verify V2 signup, login and cloud save against live Supabase
+        run: python deploy/qa-v2-live-auth.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
