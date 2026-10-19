@@ -148,6 +148,9 @@ jobs:
       - name: Browser QA labeled and advanced tracker filters
         run: python deploy/qa-advanced-filters.py
 
+      - name: Connect isolated Bet Tracker V2 Supabase backend
+        run: python deploy/v2-supabase-rewire.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
