@@ -41,6 +41,17 @@ for key in keys:
 html=html.replace("tracker_data","bet_tracker_v2_state")
 html=html.replace("bet-tracker-auth","bet-tracker-v2-auth")
 html=html.replace("@users.bettracker.app","@users.bettrackerv2.app")
+# The September site explicitly uses the generic profile name and older synthetic-email domain.
+# V2 must use its own newly created table and username domain.
+html=html.replace('client.from("profiles")','client.from("bet_tracker_v2_profiles")')
+html=html.replace("@users.bet-tracker.invalid","@users.bettrackerv2.app")
+html=html.replace("bet-tracker-signup","bet-tracker-v2-auth")
+html=html.replace("JSON.stringify({ username, password })","JSON.stringify({ action: 'signup', username, password })")
+if 'client.from("profiles")' in html or '@users.bet-tracker.invalid' in html:
+    raise SystemExit("V2 rewire aborted: stale username/profile route remains")
+if html.count('client.from("bet_tracker_v2_profiles")') < 2:
+    raise SystemExit("V2 rewire aborted: V2 profile lookups missing")
+
 # Support plain username-to-email conversions in old SDK login requests.
 js=r"""
 <script id="bt-v2-account-compatibility">
