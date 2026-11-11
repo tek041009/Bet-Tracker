@@ -1,0 +1,28 @@
+name: PANNA data reader runtime (isolated)
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-reader-runtime.yml
+permissions:
+  contents: read
+jobs:
+  wheel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch offline Linux Python 3.13 DuckDB reader wheel
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python -m pip download --no-deps --only-binary=:all: --python-version 3.13 --implementation cp --abi cp313 --platform manylinux_2_17_x86_64 duckdb --dest out
+          ls -alh out
+      - name: Relay public Python wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-duckdb-reader-wheel
+          path: out/
+          retention-days: 2
+          compression-level: 0
