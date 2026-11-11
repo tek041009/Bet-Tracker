@@ -1,0 +1,37 @@
+name: PANNA seven additional leagues verified event recovery
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - PANNA_SEVEN_LEAGUES_EVENT_RELAY.py
+      - .github/workflows/panna-seven-leagues-events.yml
+permissions:
+  contents: read
+jobs:
+  recover-events:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: [netherlands_portugal, turkey_scotland, english_lower, wsl]
+    env:
+      PANNA_SEVEN_GROUP: ${{ matrix.group }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install DuckDB
+        run: python -m pip install -q duckdb
+      - name: Verify original public event sources and scope by fixture IDs
+        run: python PANNA_SEVEN_LEAGUES_EVENT_RELAY.py
+      - name: Upload verified original-column Parquet snapshots and SHA256 provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-seven-event-${{ matrix.group }}
+          path: panna_seven_event_sources/
+          retention-days: 3
+          compression-level: 0
