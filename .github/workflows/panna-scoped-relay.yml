@@ -5,6 +5,7 @@ on:
       - panna-datalayers-20261111
     paths:
       - .github/workflows/panna-scoped-relay.yml
+      - panna_bridge_script.py
 permissions:
   contents: read
 jobs:
