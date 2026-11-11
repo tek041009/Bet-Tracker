@@ -1,0 +1,35 @@
+name: PANNA Python Parquet reader wheel relay
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-dependencies-relay.yml
+permissions:
+  contents: read
+jobs:
+  wheel-relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download portable Linux Python 3.13 DuckDB wheel
+        run: |
+          mkdir wheelhouse
+          python -m pip download --only-binary=:all: --no-deps duckdb -d wheelhouse
+          python - <<'PY'
+          import json,pathlib,hashlib,sys
+          files=list(pathlib.Path('wheelhouse').glob('*.whl'))
+          assert len(files)==1,files
+          p=files[0]
+          print('DUCKDB_WHEEL',p.name,p.stat().st_size,hashlib.sha256(p.read_bytes()).hexdigest())
+          pathlib.Path('wheelhouse/MANIFEST.json').write_text(json.dumps({'python':sys.version,'filename':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: panna-duckdb-wheel-py313
+          path: wheelhouse/
+          retention-days: 2
+          compression-level: 0
