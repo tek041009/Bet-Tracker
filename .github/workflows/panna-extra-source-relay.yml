@@ -1,0 +1,37 @@
+name: PANNA remaining advanced sources and models
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-extra-source-relay.yml
+      - PANNA_MORE_SOURCE_RELAY.py
+permissions:
+  contents: read
+jobs:
+  recover-public-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: [advanced, profiles, weekly_epr, weekly_psr, career_asof, ratings_other, models_big, models_other]
+    env:
+      PANNA_EXTRA_GROUP: ${{ matrix.group }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install parquet reader
+        run: python -m pip install -q duckdb
+      - name: Obtain and verify source snapshots, retain only evidence-safe data
+        run: python PANNA_MORE_SOURCE_RELAY.py
+      - name: Upload provenance and filtered original-column files
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-extra-${{ matrix.group }}
+          path: panna_extra_data/
+          retention-days: 2
+          compression-level: 0
