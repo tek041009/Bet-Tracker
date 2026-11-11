@@ -1,0 +1,37 @@
+name: PANNA seven new leagues player dynamics and weekly histories
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - PANNA_NEW7_PLAYER_DYNAMICS_RELAY.py
+      - .github/workflows/panna-new7-dynamics.yml
+permissions:
+  contents: read
+jobs:
+  original-source-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: [skills,epr_2025h2,epr_2026h1,epr_2026h2,psr_2025h2,psr_2026h1,psr_2026h2]
+    env:
+      PANNA_NEW7_DYNAMIC_GROUP: ${{ matrix.group }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install Parquet reader
+        run: python -m pip install -q duckdb
+      - name: Recover SHA-verified Panna source for new-league player IDs
+        run: python PANNA_NEW7_PLAYER_DYNAMICS_RELAY.py
+      - name: Upload exact original columns and source SHA provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-new7-dynamics-${{ matrix.group }}
+          path: panna_new7_dynamics/
+          retention-days: 3
+          compression-level: 0
