@@ -1,0 +1,35 @@
+name: PANNA public data relay (isolated test)
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-public-data-relay.yml
+permissions:
+  contents: read
+jobs:
+  get-public-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download two public Panna release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public_panna
+          base='https://github.com/peteowen1/pannadata/releases/download/opta-latest'
+          for name in opta_fixtures.parquet opta_shots.parquet; do
+            echo "Downloading $name"
+            curl --fail --location --retry 4 --retry-delay 3 --connect-timeout 20 --max-time 300 \
+              --output "public_panna/$name" "$base/$name"
+            test "$(stat -c %s "public_panna/$name")" -gt 20000
+          done
+          (cd public_panna && sha256sum *.parquet > SHA256SUMS.txt)
+          du -h public_panna/*
+      - name: Upload Panna public files for audited import
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-public-fixtures-and-shots
+          path: public_panna/
+          retention-days: 2
+          compression-level: 0
