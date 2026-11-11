@@ -1,15 +1,14 @@
 name: PANNA seven leagues match supplemental sources
+# User explicitly rejected expansion to these seven leagues.
+# Do not execute until the user authorises a scope change.
 on:
-  push:
-    branches:
-      - panna-datalayers-20261111
-    paths:
-      - PANNA_NEW7_MATCH_LAYERS_RELAY.py
-      - .github/workflows/panna-new7-match-layers.yml
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  
   source:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 50
     strategy:
