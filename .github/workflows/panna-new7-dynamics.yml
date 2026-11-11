@@ -1,15 +1,14 @@
 name: PANNA seven new leagues player dynamics and weekly histories
+# User explicitly rejected expansion to these seven leagues.
+# Do not execute until the user authorises a scope change.
 on:
-  push:
-    branches:
-      - panna-datalayers-20261111
-    paths:
-      - PANNA_NEW7_PLAYER_DYNAMICS_RELAY.py
-      - .github/workflows/panna-new7-dynamics.yml
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  
   original-source-recovery:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 55
     strategy:
