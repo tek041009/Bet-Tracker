@@ -9,7 +9,7 @@ for name in ['opta_fixtures.parquet']+assets:
  subprocess.run(['curl','--fail','--location','--retry','4','--retry-delay','2','--connect-timeout','20','--max-time','900','--output',str(dest),base+'/'+name],check=True)
  if dest.stat().st_size<10000:raise RuntimeError('small file '+name)
  print('downloaded',name,dest.stat().st_size,flush=True)
-db=duckdb.connect(':memory:');db.execute('SET threads=2');db.execute('SET memory_limit=5GB')
+db=duckdb.connect(':memory:');db.execute('SET threads=2');db.execute("SET memory_limit='5GB'")
 db.execute('''CREATE TABLE wanted AS SELECT DISTINCT match_id FROM read_parquet(?) WHERE match_status='Played' AND ((competition in (SELECT UNNEST(?)) and season IN ('2025-2026','2026-2027')) OR (competition in (SELECT UNNEST(?)) and substr(match_date,1,10) >= '2024-06-14' and substr(match_date,1,10)<='2026-11-11'))''',[str(src/'opta_fixtures.parquet'),clubs,intl])
 print('scoped',db.execute('SELECT COUNT(*) FROM wanted').fetchone(),flush=True)
 report={'scoped_matches':db.execute('select count(*) from wanted').fetchone()[0],'asset_scope':'27 chosen competitions, two domestic seasons, international >= 2024-06-14','assets':{}}
