@@ -1,0 +1,32 @@
+name: PANNA full event coordinates 27 competitions
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-all-events-relay.yml
+permissions:
+  contents: read
+jobs:
+  public-events:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [english_uefa, european_leagues, internationals]
+    env:
+      PANNA_GROUP: ${{ matrix.group }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Parquet reader
+        run: python -m pip install -q duckdb
+      - name: Download and filter public event coordinate records
+        run: python panna_event_relay.py
+      - name: Upload filtered event coordinate sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-events-${{ matrix.group }}
+          path: filtered_event_layers/
+          retention-days: 2
+          compression-level: 0
