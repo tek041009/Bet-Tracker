@@ -1,0 +1,30 @@
+name: PANNA current player stats and 34-competition fixture audit
+on:
+  push:
+    branches:
+      - panna-datalayers-20261111
+    paths:
+      - .github/workflows/panna-latest-stats-audit.yml
+      - PANNA_LATEST_PLAYER_STATS_AND_FIXTURE_AUDIT.py
+permissions:
+  contents: read
+jobs:
+  inspect-current-asset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install parquet reader
+        run: python -m pip install -q duckdb
+      - name: Audit current Panna player stats vs chosen competition windows
+        run: python PANNA_LATEST_PLAYER_STATS_AND_FIXTURE_AUDIT.py
+      - name: Upload exact-column filtered source data and provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: panna-latest-stats-34-competition-audit
+          path: panna_latest_core/
+          retention-days: 2
+          compression-level: 0
