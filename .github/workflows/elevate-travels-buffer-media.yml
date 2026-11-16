@@ -1,0 +1,50 @@
+name: Elevate Travels Buffer MP4 release
+on:
+  push:
+    branches:
+      - elevate-travels-notify-assets-2026
+    paths:
+      - 'elevate-travels/upload-ready.trigger'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  assemble-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble verified muted videos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/elevate-exports"
+          python3 - <<'PY'
+          import os,glob,json,base64,hashlib,pathlib
+          out=pathlib.Path(os.environ["RUNNER_TEMP"])/"elevate-exports"
+          manifests=sorted(glob.glob("elevate-travels/parts/*/metadata.json"))
+          assert manifests,"No videos provided"
+          for path in manifests:
+              m=json.loads(pathlib.Path(path).read_text())
+              chunks=sorted(pathlib.Path(path).parent.glob("part-*.b64"))
+              assert len(chunks)==m["parts"],(path,len(chunks),m["parts"])
+              dst=out/m["filename"]
+              with dst.open("wb") as f:
+                  for p in chunks:
+                      f.write(base64.b64decode(p.read_text(),validate=True))
+              raw=dst.read_bytes()
+              actual=hashlib.sha256(raw).hexdigest()
+              assert actual==m["sha256"],(m["filename"],actual,m["sha256"])
+              assert len(raw)==m["bytes"],m["filename"]
+              print("VERIFIED",m["filename"],len(raw),actual)
+          PY
+      - name: Publish stable direct-download URLs for Buffer
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="elevate-travels-buffer-notify-2026-11"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+             gh release create "$tag" --target "${GITHUB_SHA}" --title "Elevate Travels Buffer notification media" --notes "Muted video files for owner-controlled TikTok notification publishing. TikTok sound must be selected in app."
+          fi
+          gh release upload "$tag" "$RUNNER_TEMP/elevate-exports/"*.mp4 --clobber
